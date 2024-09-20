@@ -1,0 +1,81 @@
+{
+  "$schema": "https://getcomposer.org/schema.json",
+  "name": "kleinweb/saml-auth",
+  "type": "library",
+  "license": "GPL-3.0-or-later",
+  "description": "The source code for Kleinweb SAML Auth",
+  "homepage": "https://github.com/kleinweb/saml-auth",
+  "authors": [
+    {
+      "name": "Chris Montgomery",
+      "email": "chrismont@temple.edu",
+      "homepage": "https://github.com/montchr"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/kleinweb/saml-auth/issues"
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git@github.com:kleinweb/lib.git"
+    }
+  ],
+  "require": {
+    "php": "^8.2",
+    "composer/installers": "^2.3",
+    "kleinweb/lib": "dev-main",
+    "symfony/http-foundation": "^7.1",
+    "webmozart/assert": "^1.11"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.59",
+    "kleinweb/php-coding-standards": "^0.5.0",
+    "onelogin/php-saml": "^4.2",
+    "pantheon-systems/wp-saml-auth": "^2.1",
+    "phpstan/extension-installer": "^1.3",
+    "phpstan/phpstan-deprecation-rules": "^1.2",
+    "phpstan/phpstan-webmozart-assert": "^1.2",
+    "ramsey/composer-repl": "^1.5",
+    "roave/security-advisories": "dev-latest",
+    "roots/acorn": "^5.0@beta",
+    "slevomat/coding-standard": "^8.15",
+    "squizlabs/php_codesniffer": "^3.7.1",
+    "szepeviktor/phpstan-wordpress": "^1.3"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "phpstan/extension-installer": true,
+      "alleyinteractive/composer-wordpress-autoloader": true,
+      "ramsey/composer-repl": true,
+      "composer/installers": true
+    },
+    "lock": false,
+    "preferred-install": {
+      "*": "dist"
+    },
+    "sort-packages": true,
+    "vendor-dir": "vendor"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "autoload": {
+    "psr-4": {
+      "Kleinweb\\SamlAuth\\": "src/"
+    }
+  },
+  "extra": {
+    "acorn": {
+      "providers": ["Kleinweb\\SamlAuth\\SamlAuthServiceProvider"]
+    }
+  },
+  "scripts": {
+    "php-cs-fixer": "php-cs-fixer",
+    "phpstan": "phpstan analyse --memory-limit 2G",
+    "phpcbf": "phpcbf --extensions=php --standard=$PRJ_ROOT/.phpcs.xml.dist",
+    "phpcs": "phpcs --extensions=php --standard=$PRJ_ROOT/.phpcs.xml.dist",
+    "lint": ["@phpcs", "@phpstan"],
+    "fix": ["@php-cs-fixer fix", "@phpcbf"]
+  }
+}
