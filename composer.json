@@ -27,7 +27,6 @@
     "composer/installers": "^2.3",
     "kleinweb/lib": "dev-main",
     "onelogin/php-saml": "^4.0",
-    "spatie/laravel-package-tools": "^1.16",
     "symfony/http-foundation": "^7.1",
     "webmozart/assert": "^1.11"
   },

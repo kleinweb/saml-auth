@@ -4,35 +4,20 @@ declare(strict_types=1);
 
 namespace Kleinweb\SamlAuth\Providers;
 
+use Illuminate\Support\ServiceProvider;
 use Kleinweb\SamlAuth\SamlAuth;
 use Kleinweb\SamlAuth\SamlToolkitSettings;
 use OneLogin\Saml2\Auth as OneLoginAuth;
-use Spatie\LaravelPackageTools\Exceptions\InvalidPackage;
-use Spatie\LaravelPackageTools\Package;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 /**
- * SAML Authentication service provider.
+ * Kleinweb SAML Auth service provider.
  */
-final class SamlAuthServiceProvider extends PackageServiceProvider
+final class SamlAuthServiceProvider extends ServiceProvider
 {
-    public function configurePackage(Package $package): void
-    {
-        /*
-         * This class is a Package Service Provider
-         *
-         * More info: https://github.com/spatie/laravel-package-tools
-         */
-        $package
-            ->name(SamlAuth::SHORT_NAME)
-            ->hasConfigFile()
-            ->hasRoute('/../routes/routes');
-    }
+    public const PRJ_ROOT = __DIR__ . '/../..';
 
     /**
      * Register any application services.
-     *
-     * @throws InvalidPackage
      */
     public function register(): void
     {
@@ -45,5 +30,16 @@ final class SamlAuthServiceProvider extends PackageServiceProvider
         $this->app->alias(SamlToolkitSettings::class, 'auth.saml.settings');
 
         $this->app->alias(OneLoginAuth::class, 'auth.saml.provider');
+    }
+
+    public function boot(): void
+    {
+        $this->publishes([
+            self::PRJ_ROOT . '/config/saml-auth.php' => $this->app->configPath('saml-auth.php'),
+        ], SamlAuth::SHORT_NAME);
+
+        $this->loadRoutesFrom(self::PRJ_ROOT . '/routes/routes.php');
+        $this->loadViewsFrom(self::PRJ_ROOT . '/resources/views', SamlAuth::SHORT_NAME);
+        $this->mergeConfigFrom(self::PRJ_ROOT . '/config/saml-auth.php', SamlAuth::SHORT_NAME);
     }
 }
