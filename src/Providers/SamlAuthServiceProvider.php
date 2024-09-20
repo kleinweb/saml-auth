@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Kleinweb\SamlAuth;
+namespace Kleinweb\SamlAuth\Providers;
 
-use Illuminate\Contracts\Foundation\Application;
+use Kleinweb\SamlAuth\SamlAuth;
+use Kleinweb\SamlAuth\SamlToolkitSettings;
 use OneLogin\Saml2\Auth as OneLoginAuth;
 use Spatie\LaravelPackageTools\Exceptions\InvalidPackage;
 use Spatie\LaravelPackageTools\Package;

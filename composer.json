@@ -65,7 +65,11 @@
       "Kleinweb\\SamlAuth\\": "src/"
     }
   },
-  "extra": {},
+  "extra": {
+    "acorn": {
+      "providers": ["Kleinweb\\SamlAuth\\Providers\\SamlAuthServiceProvider"]
+    }
+  },
   "scripts": {
     "php-cs-fixer": "php-cs-fixer",
     "phpstan": "phpstan analyse --memory-limit 2G",
