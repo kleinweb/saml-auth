@@ -1,0 +1,73 @@
+<?php
+
+/**
+ * Class WP_SAML_Auth
+ *
+ * @package WP_SAML_Auth
+ */
+/**
+ * Main controller class for WP SAML Auth
+ */
+class WP_SAML_Auth
+{
+    /**
+     * Get the controller instance
+     *
+     * @return self
+     */
+    public static function get_instance()
+    {
+    }
+    /**
+     * Get a configuration option for this implementation.
+     *
+     * @param string $option_name Configuration option to produce.
+     * @return mixed
+     */
+    public static function get_option($option_name)
+    {
+    }
+    /**
+     * Get the provider instance for WP_SAML_Auth
+     *
+     * @return \OneLogin\Saml2\Auth
+     */
+    public function get_provider()
+    {
+    }
+    /**
+     * Such a hack — use a filter to add the button to sign in with SAML provider
+     *
+     * @param string $message Existing message string.
+     * @return string
+     */
+    public function action_login_message($message)
+    {
+    }
+    /**
+     * Add body classes for our specific configuration attributes
+     *
+     * @param array $classes Body CSS classes.
+     * @return array
+     */
+    public function filter_login_body_class($classes)
+    {
+    }
+    /**
+     * Check if the user is authenticated against the SimpleSAMLphp instance
+     *
+     * @param mixed  $user     WordPress user reference.
+     * @param string $username Username.
+     * @param string $password Password supplied by the user.
+     * @return mixed
+     */
+    public function filter_authenticate($user, $username, $password)
+    {
+    }
+    /**
+     * Do the SAML authentication dance
+     */
+    public function do_saml_authentication()
+    {
+    }
+}
