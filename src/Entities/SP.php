@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Kleinweb\SamlAuth\Entities;
 
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Storage;
 use OneLogin\Saml2\Constants as Saml;
 use Kleinweb\SamlAuth\SamlAuth;
 use Kleinweb\Lib\Support\Environment;
