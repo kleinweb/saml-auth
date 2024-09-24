@@ -12,9 +12,10 @@
     }:
     let
       commonPkgs = [
+        inputs'.beams.packages.php-lint
+
         pkgs.php
         pkgs.php.packages.composer
-        config.packages.php-lint
 
         pkgs.biome
         pkgs.dotenv-linter
@@ -38,6 +39,7 @@
         '';
         nativeBuildInputs = commonPkgs ++ [
           config.pre-commit.settings.hooks.markdownlint.package
+          config.pre-commit.settings.hooks.reuse.package
           config.pre-commit.settings.hooks.yamllint.package
 
           pkgs.dos2unix

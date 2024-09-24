@@ -3,13 +3,14 @@
 {
   description = "Kleinweb SAML Auth";
   inputs = {
-    nixpkgs.follows = "nixos-unstable";
-    nixos-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-trunk.url = "github:NixOS/nixpkgs/master";
+    beams.url = "github:kleinweb/beams";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
+    pre-commit-hooks.follows = "beams/pre-commit-hooks";
 
-    pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
+    nixos-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-trunk.url = "github:NixOS/nixpkgs/master";
+    nixpkgs.follows = "nixos-unstable";
   };
 
   outputs =
@@ -23,9 +24,9 @@
 
       imports = [
         inputs.pre-commit-hooks.flakeModule
+
         ./nix/devshells.nix
         ./nix/git-hooks.nix
-        ./nix/php-lint.nix
       ];
 
       perSystem =
