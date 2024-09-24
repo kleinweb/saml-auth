@@ -6,6 +6,11 @@
 
 declare(strict_types=1);
 
-namespace Kleinweb\SamlAuth\PluginIntegration\Contracts;
+namespace Kleinweb\SamlAuth\Bridge\Contracts;
 
-interface Plugin {}
+interface Plugin
+{
+    public function plugin(): object;
+
+    public function registerHooks(): void;
+}

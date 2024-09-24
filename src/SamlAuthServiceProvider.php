@@ -6,11 +6,12 @@
 
 declare(strict_types=1);
 
-namespace Kleinweb\SamlAuth\Providers;
+namespace Kleinweb\SamlAuth;
 
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
-use Kleinweb\SamlAuth\SamlAuth;
-use Kleinweb\SamlAuth\SamlToolkitSettings;
+use Kleinweb\SamlAuth\Bridge\Contracts\Plugin as PluginBridgeContract;
+use Kleinweb\SamlAuth\Bridge\WPSamlAuth as Plugin;
 use OneLogin\Saml2\Auth as OneLoginAuth;
 
 /**
@@ -18,7 +19,7 @@ use OneLogin\Saml2\Auth as OneLoginAuth;
  */
 final class SamlAuthServiceProvider extends ServiceProvider
 {
-    public const PRJ_ROOT = __DIR__ . '/../..';
+    public const PRJ_ROOT = __DIR__ . '/..';
 
     /**
      * Register any application services.
@@ -28,12 +29,14 @@ final class SamlAuthServiceProvider extends ServiceProvider
         parent::register();
 
         $this->app->singleton(SamlAuth::class);
-        $this->app->alias(SamlAuth::class, 'auth.saml');
-
         $this->app->singleton(SamlToolkitSettings::class);
-        $this->app->alias(SamlToolkitSettings::class, 'auth.saml.settings');
 
-        $this->app->alias(OneLoginAuth::class, 'auth.saml.provider');
+        $this->app->singleton(PluginBridgeContract::class, Plugin::class);
+        $this->app->singleton(OneLoginAuth::class, static function (Application $app) {
+            $plugin = $app->make(PluginBridgeContract::class);
+
+            return $plugin->provider();
+        });
     }
 
     public function boot(): void

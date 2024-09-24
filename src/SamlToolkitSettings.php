@@ -62,7 +62,7 @@ final class SamlToolkitSettings
     }
 
     /**
-     * @return Collection<string, (bool|string)|array<bool|string>>
+     * @return collection<string, array<string, array<string, string>|bool|string>|bool|string>
      */
     public function collect(): Collection
     {
@@ -70,12 +70,12 @@ final class SamlToolkitSettings
             [
                 'strict' => true,
                 'debug' => SamlAuth::isDebugEnabled(),
-                'baseurl' => Site::url(),
+                'baseurl' => Site::url()->toString(),
                 'sp' => SP::config(),
                 'idp' => IdP::config(),
                 'contactPerson' => $this->contactPerson(),
                 'organization' => [
-                    'en-US' => SamlToolkitSettings::organization(),
+                    'en-US' => self::organization(),
                 ],
             ],
         );

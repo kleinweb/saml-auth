@@ -9,11 +9,14 @@ declare(strict_types=1);
 namespace Kleinweb\SamlAuth\Entities;
 
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
 use OneLogin\Saml2\Constants as Saml;
 use Kleinweb\SamlAuth\SamlAuth;
 use Kleinweb\Lib\Support\Environment;
 use Kleinweb\Lib\Tenancy\Site;
 use Webmozart\Assert\Assert;
+
+use function file_get_contents;
 
 final class SP extends SamlEntity
 {
@@ -21,19 +24,25 @@ final class SP extends SamlEntity
     {
         $path = '/' . (Environment::isProduction() ? 'sp' : 'np-sp');
         $id = 'https://edu.temple.klein.' . self::fqdn($siteId) . $path;
+        $key = SamlAuth::SHORT_NAME . '.sp.entityId';
 
-        return Config::string(SamlAuth::SHORT_NAME . '.sp.entityId', $id);
+        return Config::string($key, $id);
     }
 
     public static function fqdn(?int $siteId = null): string
     {
-        $fqdn = Site::host($siteId);
+        $host = Site::host($siteId);
+        Assert::notNull($host);
 
-        // Defaults back to the FQDN to ensure a valid return value.
-        $fallback = Config::string(SamlAuth::SHORT_NAME . '.sp.domainFallback', $fqdn);
+        if (Environment::isProduction()) {
+            return $host;
+        }
+
+        $key = SamlAuth::SHORT_NAME . '.sp.domainFallback';
+        $fallback = Config::string($key, $host);
         Assert::stringNotEmpty($fallback);
 
-        return Environment::isProduction() ? $fqdn : $fallback;
+        return $fallback;
     }
 
     public static function config(): array
@@ -67,12 +76,12 @@ final class SP extends SamlEntity
 
     protected static function readX509Certificate(): string
     {
-        return file_get_contents(ABSPATH . '/.config/sso/sp.crt');
+        return file_get_contents(ABSPATH . '/.config/sso/sp.crt') ?: '';
     }
 
     public static function readX509PrivateKey(): string
     {
-        return file_get_contents(ABSPATH . '/.config/sso/sp.key.pem');
+        return file_get_contents(ABSPATH . '/.config/sso/sp.key.pem') ?: '';
     }
 
     public static function name(): string

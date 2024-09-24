@@ -8,10 +8,14 @@ declare(strict_types=1);
 
 namespace Kleinweb\SamlAuth\Entities;
 
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Kleinweb\SamlAuth\SamlAuth;
 use OneLogin\Saml2\Constants as Saml;
 use Kleinweb\Lib\Support\Environment;
 use Illuminate\Support\Facades\Config;
+
+use function file_get_contents;
 
 final class IdP extends SamlEntity
 {
@@ -52,7 +56,7 @@ final class IdP extends SamlEntity
     protected static function readX509Certificate(): string
     {
         $certPath = self::$x509Path . self::fqdn() . '.crt';
-        self::$x509Certificate = file_get_contents($certPath);
+        self::$x509Certificate = file_get_contents($certPath) ?: '';
 
         return self::$x509Certificate;
     }
