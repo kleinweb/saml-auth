@@ -36,8 +36,6 @@ final class SamlAuthServiceProvider extends ServiceProvider
         $this->app->singleton(SamlAuth::class);
         $this->app->singleton(SamlToolkitSettings::class);
 
-        $this->app->singleton(PluginContract::class);
-
         $this->app->bind(
             Auth::class,
             static fn (Application $app) => $app->make(PluginContract::class)::get_provider(),
