@@ -9,14 +9,12 @@ declare(strict_types=1);
 namespace Kleinweb\SamlAuth;
 
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Kleinweb\Lib\Hooks\Attributes\Filter;
-use Kleinweb\SamlAuth\Bridge\Contracts\Plugin as PluginBridgeContract;
-use Kleinweb\SamlAuth\Bridge\WPSamlAuth as Plugin;
 use Kleinweb\Lib\Support\ServiceProvider;
 use Kleinweb\SamlAuth\Support\UserFields;
-use OneLogin\Saml2\Auth as OneLoginAuth;
 
 /**
  * Kleinweb SAML Auth service provider.
@@ -35,12 +33,8 @@ final class SamlAuthServiceProvider extends ServiceProvider
         $this->app->singleton(SamlAuth::class);
         $this->app->singleton(SamlToolkitSettings::class);
 
-        // $this->app->singleton(PluginBridgeContract::class, Plugin::class);
-        // $this->app->singleton(OneLoginAuth::class, static function (Application $app) {
-        //     $plugin = $app->make(PluginBridgeContract::class);
-        //
-        //     return $plugin->provider();
-        // });
+        $this->app->singleton('saml-auth.plugin');
+        $this->app->singleton('saml-auth.provider', static fn (\Illuminate\Foundation\Application $app) => $app->make('saml-auth.plugin')->get_provider());
     }
 
     public function boot(): void
@@ -58,9 +52,12 @@ final class SamlAuthServiceProvider extends ServiceProvider
 
     /**
      * @return Collection<string, (bool|string)|array<bool|string>>
+     *
+     * @throws BindingResolutionException
      */
     public function settings(): Collection
     {
+        // FIXME: creates new collection on every call!  use a property.
         return Collection::make(
             [
                 'connection_type' => 'internal',
@@ -85,6 +82,8 @@ final class SamlAuthServiceProvider extends ServiceProvider
      *  WP-SAML-Auth plugin for the purpose of declaring settings.
      *
      * @param string $key
+     *
+     * @throws BindingResolutionException
      */
     #[Filter('wp_saml_auth_option')]
     public function filterPluginOption(mixed $value, $key): mixed
