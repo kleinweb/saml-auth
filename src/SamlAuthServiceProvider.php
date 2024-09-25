@@ -11,11 +11,10 @@ namespace Kleinweb\SamlAuth;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\ServiceProvider;
 use Kleinweb\Lib\Hooks\Attributes\Filter;
-use Kleinweb\Lib\Hooks\Traits\Hookable;
 use Kleinweb\SamlAuth\Bridge\Contracts\Plugin as PluginBridgeContract;
 use Kleinweb\SamlAuth\Bridge\WPSamlAuth as Plugin;
+use Kleinweb\Lib\Support\ServiceProvider;
 use Kleinweb\SamlAuth\Support\UserFields;
 use OneLogin\Saml2\Auth as OneLoginAuth;
 
@@ -24,8 +23,6 @@ use OneLogin\Saml2\Auth as OneLoginAuth;
  */
 final class SamlAuthServiceProvider extends ServiceProvider
 {
-    use Hookable;
-
     public const PRJ_ROOT = __DIR__ . '/..';
 
     /**
@@ -48,7 +45,7 @@ final class SamlAuthServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        // $this->app->make(PluginBridgeContract::class);
+        parent::boot();
 
         $this->publishes([
             self::PRJ_ROOT . '/config/saml-auth.php' => $this->app->configPath('saml-auth.php'),
