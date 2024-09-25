@@ -8,9 +8,7 @@ declare(strict_types=1);
 
 namespace Kleinweb\SamlAuth\Bridge\Contracts;
 
-interface Plugin
+interface AuthProvider
 {
-    public function plugin(): object;
-
-    public function registerHooks(): void;
+    public function getSettings(): object;
 }

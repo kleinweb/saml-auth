@@ -11,8 +11,7 @@ namespace Kleinweb\SamlAuth;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Config;
 use Kleinweb\Lib\Hooks\Traits\Hookable;
-use Kleinweb\SamlAuth\Bridge\Contracts\Plugin as PluginContract;
-use OneLogin\Saml2\Auth;
+use Kleinweb\SamlAuth\Bridge\Contracts\WPSamlAuthPlugin as PluginContract;
 use OneLogin\Saml2\Auth as OneLoginAuth;
 use OneLogin\Saml2\Error as OneLoginError;
 
@@ -27,7 +26,7 @@ final class SamlAuth
     public function __construct(
         protected Application $app,
         protected PluginContract $plugin,
-        protected Auth $provider,
+        protected OneLoginAuth $provider,
     ) {}
 
     public function provider(): OneLoginAuth
