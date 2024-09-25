@@ -29,11 +29,6 @@ final class SamlAuth
         protected OneLoginAuth $provider,
     ) {}
 
-    public function provider(): OneLoginAuth
-    {
-        return $this->provider;
-    }
-
     public static function isDangerouslyInsecure(): bool
     {
         return Config::boolean(self::SHORT_NAME . 'dangerouslyInsecure', false);
@@ -49,7 +44,7 @@ final class SamlAuth
      */
     public function metadata(): string
     {
-        $settings = $this->provider()->getSettings();
+        $settings = $this->provider->getSettings();
         $metadata = $settings->getSPMetadata();
         $errors = $settings->validateMetadata($metadata);
 
