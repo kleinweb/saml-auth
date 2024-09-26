@@ -2,7 +2,6 @@
   "$schema": "https://getcomposer.org/schema.json",
   "name": "kleinweb/saml-auth",
   "type": "library",
-  "version": "0.1.0",
   "license": "GPL-3.0-or-later",
   "description": "The source code for Kleinweb SAML Auth",
   "homepage": "https://github.com/kleinweb/saml-auth",
