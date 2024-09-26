@@ -35,16 +35,10 @@ final readonly class SamlAuthPlugin
         $this->registerHooks();
     }
 
-    public function registerHooks(): void
-    {
-        // TODO: why?
-        add_action('init', $this->registerHooksOnInit(...));
-    }
-
     /**
      * Initialize the controller logic on the 'init' hook.
      */
-    public function registerHooksOnInit(): void
+    public function registerHooks(): void
     {
         add_action('login_head', self::actionLoginHead(...));
         add_action('wp_logout', $this->actionWpLogout(...));
@@ -172,6 +166,7 @@ final readonly class SamlAuthPlugin
         if (! SamlAuth::isLocalLoginPermitted()) {
             $classes[] = 'wp-saml-auth-deny-wp-login';
         }
+        dd($classes);
 
         return $classes;
     }
