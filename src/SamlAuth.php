@@ -11,7 +11,6 @@ namespace Kleinweb\SamlAuth;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Config;
 use Kleinweb\Lib\Hooks\Traits\Hookable;
-use Kleinweb\SamlAuth\Bridge\Contracts\WPSamlAuthPlugin as PluginContract;
 use OneLogin\Saml2\Auth as OneLoginAuth;
 use OneLogin\Saml2\Error as OneLoginError;
 
@@ -23,20 +22,35 @@ final class SamlAuth
 
     final public const SHORT_NAME = 'saml-auth';
 
+    final public const CONFIG_PREFIX = self::SHORT_NAME . '.';
+
     public function __construct(
         protected Application $app,
-        protected PluginContract $plugin,
         protected OneLoginAuth $provider,
     ) {}
 
     public static function isDangerouslyInsecure(): bool
     {
-        return Config::boolean(self::SHORT_NAME . 'dangerouslyInsecure', false);
+        return Config::boolean(
+            self::CONFIG_PREFIX . 'dangerouslyInsecure',
+            false,
+        );
     }
 
     public static function isDebugEnabled(): bool
     {
-        return Config::boolean(SamlAuth::SHORT_NAME . '.debug', Config::boolean('app.debug'));
+        return Config::boolean(
+            SamlAuth::CONFIG_PREFIX . 'debug',
+            Config::boolean('app.debug'),
+        );
+    }
+
+    public static function isLocalLoginPermitted(): bool
+    {
+        return Config::boolean(
+            self::CONFIG_PREFIX . 'permit_wp_login',
+            true,
+        );
     }
 
     /**
