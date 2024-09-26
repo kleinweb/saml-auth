@@ -53,5 +53,8 @@ final class SamlAuthServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(self::PRJ_ROOT . '/routes/routes.php');
         $this->loadViewsFrom(self::PRJ_ROOT . '/resources/views', SamlAuth::SHORT_NAME);
         $this->mergeConfigFrom(self::PRJ_ROOT . '/config/saml-auth.php', SamlAuth::SHORT_NAME);
+
+        // TODO: remove?
+        $this->app->make(SamlAuthPlugin::class);
     }
 }
