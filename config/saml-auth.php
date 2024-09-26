@@ -8,16 +8,16 @@ declare(strict_types=1);
 
 return [
     // WARNING: Disabling local login will likely result in user lockouts!
-    // 'allow_local_login' => true,
+    'allow_local_login' => true,
 
     // Whether to automatically create a user account for arbitrary IdP
     // subjects requesting access.  This should remain disabled.
-    // 'auto_provision' => false,
+    'auto_provision' => false,
 
     'debug' => WP_DEBUG && WP_DEBUG_DISPLAY,
 
     // Provisioned users will receive this role.
-    // 'default_role' => \get_option('default_role'),
+    'default_role' => \get_option('default_role'),
 
     'sp' => [
         // Recommended for testing on lower environments.

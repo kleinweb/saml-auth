@@ -14,4 +14,8 @@ parameters:
     inferPrivatePropertyTypeFromConstructor: true
     paths:
         - src/
+    # <https://github.com/pantheon-systems/wp-saml-auth/blob/f1e8ba5c2c511296364b8e9d3b5559ec6c057a8d/phpstan.neon.dist#L13-L15>
+    earlyTerminatingMethodCalls:
+        OneLogin\Saml2\Auth:
+            - login
     tmpDir: .cache/phpstan/
