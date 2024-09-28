@@ -32,7 +32,7 @@ final class SamlAuth
     public static function isDangerouslyInsecure(): bool
     {
         return Config::boolean(
-            self::CONFIG_PREFIX . 'dangerouslyInsecure',
+            self::CONFIG_PREFIX . 'dangerously_insecure',
             false,
         );
     }
@@ -40,15 +40,15 @@ final class SamlAuth
     public static function isDebugEnabled(): bool
     {
         return Config::boolean(
-            SamlAuth::CONFIG_PREFIX . 'debug',
+            self::CONFIG_PREFIX . 'debug',
             Config::boolean('app.debug'),
         );
     }
 
-    public static function isLocalLoginPermitted(): bool
+    public static function isLocalLoginAllowed(): bool
     {
         return Config::boolean(
-            self::CONFIG_PREFIX . 'permit_wp_login',
+            self::CONFIG_PREFIX . 'allow_local_login',
             true,
         );
     }

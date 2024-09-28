@@ -23,9 +23,8 @@ final class SP extends SamlEntity
     {
         $path = '/' . (Environment::isProduction() ? 'sp' : 'np-sp');
         $id = 'https://edu.temple.klein.' . self::fqdn($siteId) . $path;
-        $key = SamlAuth::SHORT_NAME . '.sp.entityId';
 
-        return Config::string($key, $id);
+        return Config::string(SamlAuth::CONFIG_PREFIX . 'sp.entityId', $id);
     }
 
     public static function fqdn(?int $siteId = null): string
@@ -37,7 +36,7 @@ final class SP extends SamlEntity
             return $host;
         }
 
-        $key = SamlAuth::SHORT_NAME . '.sp.domainFallback';
+        $key = SamlAuth::CONFIG_PREFIX . 'sp.domain_fallback';
         $fallback = Config::string($key, $host);
         Assert::stringNotEmpty($fallback);
 
