@@ -22,25 +22,26 @@ return [
     'sp' => [
         // Recommended for testing on lower environments.
         // NOTE: The `constant()` function is used to appease PHPStan.
-        // 'domainFallback' => constant('KLEINWEB_PROJECT_DOMAIN'),
+        // 'domain_fallback' => constant('KLEINWEB_PROJECT_DOMAIN'),
 
         // Manual override for the entity ID.
-        // 'entityId' => 'https://iknowwhatiamdoing.edu'
+        // 'entity_id' => 'https://iknowwhatiamdoing.edu'
     ],
 
     'idp' => [
         // Manual override for the entity ID.
-        // 'entityId' => 'https://iknowwhatiamdoing.edu'
+        // 'entity_id' => 'https://iknowwhatiamdoing.edu'
     ],
 
     'contact' => [
-        // "default" may be specified as a placeholder in other contact entries.
-        'default' =>  [
+        'support' =>  [
             'givenName' => 'Klein College Digital Initiatives',
             'emailAddress' => 'kleinweb@temple.edu',
         ],
-        'support' => 'default',
-        'technical' => 'default',
+        'technical' =>  [
+            'givenName' => 'Klein College Digital Initiatives',
+            'emailAddress' => 'kleinweb@temple.edu',
+        ],
     ],
 
     // Leave this as is, unless you know you need to change it.

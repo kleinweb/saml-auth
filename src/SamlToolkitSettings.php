@@ -92,7 +92,7 @@ final class SamlToolkitSettings
      */
     public function contactPerson(): array
     {
-        $contact = Config::array(SamlAuth::SHORT_NAME . '.contact');
+        $contact = Config::array(SamlAuth::CONFIG_PREFIX . 'contact');
         $mapDefaultContact = static fn ($v): array => ($v === 'default')
             ? $contact['default']
             : $v;
@@ -108,6 +108,6 @@ final class SamlToolkitSettings
      */
     public static function organization(): array
     {
-        return Config::array('organization', self::ORGANIZATION_DEFAULT);
+        return Config::array(SamlAuth::CONFIG_PREFIX . 'organization', self::ORGANIZATION_DEFAULT);
     }
 }
