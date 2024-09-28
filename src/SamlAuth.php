@@ -9,8 +9,9 @@ declare(strict_types=1);
 namespace Kleinweb\SamlAuth;
 
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\App;
 use Kleinweb\Lib\Hooks\Traits\Hookable;
+use Kleinweb\SamlAuth\Config\PackageConfig;
 use OneLogin\Saml2\Auth as OneLoginAuth;
 use OneLogin\Saml2\Error as OneLoginError;
 
@@ -29,28 +30,24 @@ final class SamlAuth
         protected OneLoginAuth $provider,
     ) {}
 
+    public static function config(): PackageConfig
+    {
+        return App::make(PackageConfig::class);
+    }
+
     public static function isDangerouslyInsecure(): bool
     {
-        return Config::boolean(
-            self::CONFIG_PREFIX . 'dangerouslyInsecure',
-            false,
-        );
+        return self::config()->dangerouslyInsecure;
     }
 
     public static function isDebugEnabled(): bool
     {
-        return Config::boolean(
-            SamlAuth::CONFIG_PREFIX . 'debug',
-            Config::boolean('app.debug'),
-        );
+        return self::config()->debug;
     }
 
-    public static function isLocalLoginPermitted(): bool
+    public static function isLocalLoginAllowed(): bool
     {
-        return Config::boolean(
-            self::CONFIG_PREFIX . 'permit_wp_login',
-            true,
-        );
+        return self::config()->allowlocalLogin;
     }
 
     /**

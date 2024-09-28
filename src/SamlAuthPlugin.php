@@ -84,7 +84,7 @@ final readonly class SamlAuthPlugin
     public static function filterLoginMessage($message): string
     {
 
-        if (! SamlAuth::isLocalLoginPermitted() || ! did_action('login_form_login')) {
+        if (! SamlAuth::isLocalLoginAllowed() || ! did_action('login_form_login')) {
             return $message;
         }
 
@@ -163,10 +163,9 @@ final readonly class SamlAuthPlugin
      */
     public static function filterLoginBodyClass($classes): array
     {
-        if (! SamlAuth::isLocalLoginPermitted()) {
+        if (! SamlAuth::isLocalLoginAllowed()) {
             $classes[] = 'wp-saml-auth-deny-wp-login';
         }
-        dd($classes);
 
         return $classes;
     }
@@ -182,7 +181,7 @@ final readonly class SamlAuthPlugin
      */
     public function filterAuthenticate($user): mixed
     {
-        $isLocalLoginPermitted = SamlAuth::isLocalLoginPermitted();
+        $isLocalLoginPermitted = SamlAuth::isLocalLoginAllowed();
 
         if (($isLocalLoginPermitted && Request::has('SAMLResponse'))
             || ($isLocalLoginPermitted && (Request::query('action') === 'wp-saml-auth'))
@@ -221,7 +220,7 @@ final readonly class SamlAuthPlugin
 
             $attributes = $this->provider->getAttributes();
             $redirectTo = filter_input(INPUT_POST, 'RelayState', FILTER_SANITIZE_URL);
-            $permitWpLogin = SamlAuth::isLocalLoginPermitted();
+            $permitWpLogin = SamlAuth::isLocalLoginAllowed();
             if ($redirectTo) {
                 // When $permit_wp_login=true, we only care about accidentally triggering the redirect
                 // to the IdP.  However, when $permit_wp_login=false, hitting wp-login will always

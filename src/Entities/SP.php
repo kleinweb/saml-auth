@@ -37,7 +37,7 @@ final class SP extends SamlEntity
             return $host;
         }
 
-        $key = SamlAuth::SHORT_NAME . '.sp.domainFallback';
+        $key = SamlAuth::SHORT_NAME . '.sp.domain_fallback';
         $fallback = Config::string($key, $host);
         Assert::stringNotEmpty($fallback);
 

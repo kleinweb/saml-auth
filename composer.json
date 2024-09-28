@@ -27,6 +27,7 @@
     "johnbillion/args": "^1.4 || ^2.0",
     "kleinweb/lib": "dev-main",
     "onelogin/php-saml": "^4.2",
+    "spatie/laravel-data": "^4.9",
     "symfony/http-foundation": "^7.1",
     "webmozart/assert": "^1.11"
   },

@@ -10,7 +10,9 @@ namespace Kleinweb\SamlAuth;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
 use Kleinweb\Lib\Support\ServiceProvider;
+use Kleinweb\SamlAuth\Config\PackageConfig;
 use OneLogin\Saml2\Auth as OneLoginAuth;
 
 /**
@@ -27,6 +29,12 @@ final class SamlAuthServiceProvider extends ServiceProvider
     public function register(): void
     {
         parent::register();
+
+        $this->app->singleton(PackageConfig::class, static function () {
+            $config = Config::get(SamlAuth::SHORT_NAME);
+
+            return PackageConfig::from($config);
+        });
 
         $this->app->singleton(SamlAuth::class);
         $this->app->singleton(SamlToolkitSettings::class);
@@ -53,6 +61,8 @@ final class SamlAuthServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(self::PRJ_ROOT . '/routes/routes.php');
         $this->loadViewsFrom(self::PRJ_ROOT . '/resources/views', SamlAuth::SHORT_NAME);
         $this->mergeConfigFrom(self::PRJ_ROOT . '/config/saml-auth.php', SamlAuth::SHORT_NAME);
+
+
 
         // TODO: remove?
         $this->app->make(SamlAuthPlugin::class);
