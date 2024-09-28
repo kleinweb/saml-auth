@@ -38,7 +38,7 @@ final class IdP extends SamlEntity
     {
         $default = self::urlBase() . '/shibboleth';
 
-        return Config::string(SamlAuth::SHORT_NAME . '.idp.entityId', $default);
+        return Config::string(SamlAuth::CONFIG_PREFIX . 'idp.entityId', $default);
     }
 
     public static function loginUrl(): string
