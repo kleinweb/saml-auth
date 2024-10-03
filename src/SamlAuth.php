@@ -11,8 +11,12 @@ namespace Kleinweb\SamlAuth;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Config;
 use Kleinweb\Lib\Hooks\Traits\Hookable;
+use League\Uri\Components\Query;
+use League\Uri\Uri;
 use OneLogin\Saml2\Auth as OneLoginAuth;
 use OneLogin\Saml2\Error as OneLoginError;
+
+use const FILTER_SANITIZE_URL;
 
 final class SamlAuth
 {
@@ -23,6 +27,8 @@ final class SamlAuth
     final public const SHORT_NAME = 'saml-auth';
 
     final public const CONFIG_PREFIX = self::SHORT_NAME . '.';
+
+    final public const VIEW_PREFIX = self::SHORT_NAME . '::';
 
     public function __construct(
         protected Application $app,
@@ -51,6 +57,18 @@ final class SamlAuth
             self::CONFIG_PREFIX . 'allow_local_login',
             true,
         );
+    }
+
+    public static function loginUrl(): string
+    {
+        $url = Uri::new(wp_login_url());
+        $redirectTo = (string) filter_input(INPUT_GET, 'redirect_to', FILTER_SANITIZE_URL);
+        $queryArgs = Query::fromUri($url)
+            ->withPair('action', 'kleinweb-saml-auth')
+            ->withPair('redirect_to', $redirectTo);
+        $url = $url->withQuery($queryArgs);
+
+        return $url->toString();
     }
 
     /**
