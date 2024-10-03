@@ -25,6 +25,10 @@ use OneLogin\Saml2\ValidationError;
 use WP_Error;
 use WP_User;
 
+use function add_action;
+use function add_filter;
+use function wp_login_url;
+
 /**
  * Main controller class for WP SAML Auth.
  */
@@ -41,10 +45,10 @@ final readonly class SamlAuthPlugin
     public function registerHooks(): void
     {
         add_action('login_head', self::actionLoginHead(...));
+        add_filter('login_body_class', $this->filterLoginBodyClass(...));
+        add_action('login_form', self::renderLoginFormAdditions(...));
         add_action('wp_logout', $this->actionWpLogout(...));
 
-        add_filter('login_message', self::filterLoginMessage(...));
-        add_filter('login_body_class', $this->filterLoginBodyClass(...));
         // Priority after wp_authenticate_username_password runs.
         add_filter('authenticate', $this->filterAuthenticate(...), 21);
     }
@@ -60,7 +64,7 @@ final readonly class SamlAuthPlugin
 
         ?>
         <style>
-            #wp-saml-auth-cta {
+            #kleinweb-saml-auth-cta {
                 background: #fff;
                 -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.13);
                 box-shadow: 0 1px 3px rgba(0,0,0,.13);
@@ -68,52 +72,18 @@ final readonly class SamlAuthPlugin
                 margin-top: 24px;
                 margin-bottom: 24px;
             }
-            .wp-saml-auth-deny-wp-login #loginform,
-            .wp-saml-auth-deny-wp-login #nav {
+            .kleinweb-saml-auth-deny-wp-login #loginform,
+            .kleinweb-saml-auth-deny-wp-login #nav {
                 display: none;
             }
         </style>
         <?php
     }
 
-    /**
-     * HACK: Add the button to sign in with SAML provider.
-     *
-     * @param string $message existing message string
-     */
-    public static function filterLoginMessage($message): string
+    public function renderLoginFormAdditions(): void
     {
-
-        if (! SamlAuth::isLocalLoginAllowed() || ! did_action('login_form_login')) {
-            return $message;
-        }
-
-        $strings = [
-            'title'     => __('Use one-click authentication:', 'wp-saml-auth'),
-            'button'    => __('Sign In', 'wp-saml-auth'),
-            'alt_title' => __('Or, sign in with WordPress:', 'wp-saml-auth'),
-        ];
-
-        $queryArgs  = [
-            'action' => 'wp-saml-auth',
-        ];
-
-        $redirectTo = filter_input(INPUT_GET, 'redirect_to', FILTER_SANITIZE_URL);
-        if ($redirectTo) {
-            $queryArgs['redirect_to'] = rawurlencode($redirectTo);
-        }
-
-        /**
-         * Permit login screen text strings to be easily customized.
-         *
-         * @param array $strings existing text strings
-         */
-        $strings = apply_filters('wp_saml_auth_login_strings', $strings);
-        echo '<h3><em>' . esc_html($strings['title']) . '</em></h3>';
-        echo '<div id="wp-saml-auth-cta"><p><a class="button" href="' . esc_url(add_query_arg($queryArgs, wp_login_url())) . '">' . esc_html($strings['button']) . '</a></p></div>';
-        echo '<h3><em>' . esc_html($strings['alt_title']) . '</em></h3>';
-
-        return $message;
+        // phpcs:disable WordPress.Security.EscapeOutput -- False positive.
+        echo \view('saml-auth::partials.login.form-extensions');
     }
 
     /**
@@ -126,7 +96,7 @@ final readonly class SamlAuthPlugin
         /*
          * Fires before the user is logged out.
          */
-        do_action('wp_saml_auth_pre_logout');
+        do_action('kleinweb_saml_auth_pre_logout');
 
         if (! Config::get(SamlAuth::CONFIG_PREFIX . 'idp.singleLogoutService.url')) {
             return;
@@ -143,7 +113,7 @@ final readonly class SamlAuthPlugin
          *
          * @param array $args existing arguments to be passed
          */
-        $args = apply_filters('wp_saml_auth_internal_logout_args', $args);
+        $args = apply_filters('kleinweb_saml_auth_internal_logout_args', $args);
 
         $this->provider->logout(
             add_query_arg('loggedout', true, wp_login_url()),
@@ -164,7 +134,7 @@ final readonly class SamlAuthPlugin
     public static function filterLoginBodyClass($classes): array
     {
         if (! SamlAuth::isLocalLoginAllowed()) {
-            $classes[] = 'wp-saml-auth-deny-wp-login';
+            $classes[] = 'kleinweb-saml-auth-deny-wp-login';
         }
 
         return $classes;
@@ -184,7 +154,7 @@ final readonly class SamlAuthPlugin
         $isLocalLoginPermitted = SamlAuth::isLocalLoginAllowed();
 
         if (($isLocalLoginPermitted && Request::has('SAMLResponse'))
-            || ($isLocalLoginPermitted && (Request::query('action') === 'wp-saml-auth'))
+            || ($isLocalLoginPermitted && (Request::query('action') === 'kleinweb-saml-auth'))
             || (!$isLocalLoginPermitted && !Request::has('loggedout'))
             || (!$isLocalLoginPermitted && ($user instanceof WP_User))
         ) {
@@ -199,7 +169,7 @@ final readonly class SamlAuthPlugin
      *
      * @throws Error
      */
-    public function doSamlAuthentication()
+    public function doSamlAuthentication(): WP_Error|WP_User|null
     {
         if (Request::has('SAMLResponse')) {
             // FIXME: verify this try-catch is what we want -- prevents "unreachable statement" screaming in IDE
@@ -207,15 +177,15 @@ final readonly class SamlAuthPlugin
                 $this->provider->processResponse();
             } catch (Error $e) {
                 Log::notice($e->getMessage());
-                // return new WP_Error('wp_saml_auth_response_error', $e->getMessage());
+                // return new WP_Error('kleinweb_saml_auth_response_error', $e->getMessage());
             } catch (ValidationError $e) {
                 Log::info($e->getMessage());
-                // return new WP_Error('wp_saml_auth_validation_error', $e->getMessage());
+                // return new WP_Error('kleinweb_saml_auth_validation_error', $e->getMessage());
             }
 
             if (!$this->provider->isAuthenticated()) {
                 // Translators: Includes error reason from OneLogin.
-                return new WP_Error('wp_saml_auth_unauthenticated', sprintf(__('User is not authenticated with SAML IdP. Reason: %s', 'wp-saml-auth'), $this->provider->getLastErrorReason()));
+                return new WP_Error('kleinweb_saml_auth_unauthenticated', sprintf(__('User is not authenticated with SAML IdP. Reason: %s', 'kleinweb-saml-auth'), $this->provider->getLastErrorReason()));
             }
 
             $attributes = $this->provider->getAttributes();
@@ -226,7 +196,7 @@ final readonly class SamlAuthPlugin
                 // to the IdP.  However, when $permit_wp_login=false, hitting wp-login will always
                 // trigger the IdP redirect.
                 // FIXME: use Uri lib for sane parsing?
-                if (($permitWpLogin && (stripos($redirectTo, 'action=wp-saml-auth') === false))
+                if (($permitWpLogin && (stripos($redirectTo, 'action=kleinweb-saml-auth') === false))
                     || (!$permitWpLogin && (stripos($redirectTo, parse_url(wp_login_url(), PHP_URL_PATH)) === false))) {
                     add_filter('login_redirect', static fn () => $redirectTo, priority: 1);
                 }
@@ -245,19 +215,19 @@ final readonly class SamlAuthPlugin
         $attributes = Collection::make($attributes);
         if ($attributes->isEmpty()) {
             return new WP_Error(
-                'wp_saml_auth_no_attributes',
-                esc_html__('No attributes were present in SAML response. Attributes are used to create and fetch users. Please contact your administrator', 'wp-saml-auth'),
+                'kleinweb_saml_auth_no_attributes',
+                esc_html__('No attributes were present in SAML response. Attributes are used to create and fetch users. Please contact your administrator', 'kleinweb-saml-auth'),
             );
         }
 
         $uidAttributeName = UserField::LOGIN->samlAttribute();
-        $uidAttribute = $attributes->get($uidAttributeName, []);
+        $uidAttribute = (array) $attributes->get($uidAttributeName, []);
         $uid = Arr::first($uidAttribute);
         if (!$uid) {
             // Translators: Communicates how the user is fetched based on the SAML response.
             return new WP_Error(
-                'wp_saml_auth_missing_attribute',
-                sprintf(esc_html__('"%1$s" attribute is expected, but missing, in SAML response. Attribute is used to fetch existing user by AccessNet username. Please contact your administrator.', 'wp-saml-auth'), $uidAttributeName),
+                'kleinweb_saml_auth_missing_attribute',
+                sprintf(esc_html__('"%1$s" attribute is expected, but missing, in SAML response. Attribute is used to fetch existing user by AccessNet username. Please contact your administrator.', 'kleinweb-saml-auth'), $uidAttributeName),
             );
         }
 
@@ -269,15 +239,15 @@ final readonly class SamlAuthPlugin
              * @param WP_User $existing_user  The existing user object.
              * @param array   $attributes     All attributes received from the SAML Response
              */
-            do_action('wp_saml_auth_existing_user_authenticated', $existingUser, $attributes);
+            do_action('kleinweb_saml_auth_existing_user_authenticated', $existingUser, $attributes);
 
             return $existingUser;
         }
 
         if (! Config::boolean(SamlAuth::CONFIG_PREFIX . 'auto_provision')) {
             return new WP_Error(
-                'wp_saml_auth_auto_provision_disabled',
-                esc_html__('No WordPress user exists for your account. Please contact your administrator.', 'wp-saml-auth'),
+                'kleinweb_saml_auth_auto_provision_disabled',
+                esc_html__('No WordPress user exists for your account. Please contact your administrator.', 'kleinweb-saml-auth'),
             );
         }
 
@@ -297,7 +267,7 @@ final readonly class SamlAuthPlugin
          * @param array $attributes attributes from the SAML response
          */
         $userArgs = apply_filters(
-            'wp_saml_auth_insert_user',
+            'kleinweb_saml_auth_insert_user',
             $userArgs->toArray(),
             $attributes->toArray(),
         );
@@ -315,7 +285,7 @@ final readonly class SamlAuthPlugin
          * @param WP_User $user       The new user object.
          * @param array   $attributes All attributes received from the SAML Response
          */
-        do_action('wp_saml_auth_new_user_authenticated', $user, $attributes);
+        do_action('kleinweb_saml_auth_new_user_authenticated', $user, $attributes);
 
         return $user;
     }

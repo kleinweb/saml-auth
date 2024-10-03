@@ -45,25 +45,20 @@ final class SP extends SamlEntity
 
     public static function config(): array
     {
-        /* @phpstan-ignore-next-line */
         return [
             'entityId' => self::entityId(),
             'x509cert' => self::x509Certificate(),
             'privateKey' => self::readX509PrivateKey(),
             'assertionConsumerService' => [
                 'binding' => Saml::BINDING_HTTP_POST,
-                'url'  => self::acsUrl(),
+                'url'  => self::loginUrl(),
             ],
         ];
     }
 
-    public static function acsUrl(): string
-    {
-        return self::loginUrl();
-    }
-
     public static function loginUrl(): string
     {
+        // FIXME: this might be incorrect logic!?!
         return Site::isPrimaryHost() ? network_home_url('wp-login.php') : wp_login_url();
     }
 
