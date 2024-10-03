@@ -64,7 +64,7 @@ final class SP extends SamlEntity
 
     public static function loginUrl(): string
     {
-        return Site::isPrimaryFqdn() ? network_home_url('wp-login.php') : wp_login_url();
+        return Site::isPrimaryHost() ? network_home_url('wp-login.php') : wp_login_url();
     }
 
     public static function logoutUrl(): string
