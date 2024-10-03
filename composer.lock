@@ -2546,19 +2546,20 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:kleinweb/lib.git",
-                "reference": "b783cbbc4bc69b8e326df94d8ecf48569f2a0387"
+                "reference": "69773e39b102c15127c7ed630c5e03167109f2a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kleinweb/lib/zipball/b783cbbc4bc69b8e326df94d8ecf48569f2a0387",
-                "reference": "b783cbbc4bc69b8e326df94d8ecf48569f2a0387",
+                "url": "https://api.github.com/repos/kleinweb/lib/zipball/69773e39b102c15127c7ed630c5e03167109f2a3",
+                "reference": "69773e39b102c15127c7ed630c5e03167109f2a3",
                 "shasum": ""
             },
             "require": {
                 "composer/installers": "^2.2",
                 "league/uri": "^7.0",
+                "league/uri-components": "^7.0",
                 "php": "^8.2",
-                "roots/acorn": "^5.0@beta",
+                "roots/acorn": "^5.0",
                 "symfony/http-foundation": "^7.1",
                 "webmozart/assert": "^1.11"
             },
@@ -2624,7 +2625,7 @@
                 "issues": "https://github.com/kleinweb/lib/issues",
                 "source": "https://github.com/kleinweb/lib/tree/main"
             },
-            "time": "2024-09-24T00:08:06+00:00"
+            "time": "2024-10-03T18:11:33+00:00"
         },
         {
             "name": "laravel/prompts",
