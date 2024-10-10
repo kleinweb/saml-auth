@@ -44,40 +44,12 @@ final readonly class SamlAuthPlugin
      */
     public function registerHooks(): void
     {
-        add_action('login_head', self::actionLoginHead(...));
         add_filter('login_body_class', $this->filterLoginBodyClass(...));
         add_action('login_form', self::renderLoginFormAdditions(...));
         add_action('wp_logout', $this->actionWpLogout(...));
 
         // Priority after wp_authenticate_username_password runs.
         add_filter('authenticate', $this->filterAuthenticate(...), 21);
-    }
-
-    /**
-     * Render CSS on the login screen.
-     */
-    public static function actionLoginHead(): void
-    {
-        if (! did_action('login_form_login')) {
-            return;
-        }
-
-        ?>
-        <style>
-            #kleinweb-saml-auth-cta {
-                background: #fff;
-                -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.13);
-                box-shadow: 0 1px 3px rgba(0,0,0,.13);
-                padding: 26px 24px 26px;
-                margin-top: 24px;
-                margin-bottom: 24px;
-            }
-            .kleinweb-saml-auth-deny-wp-login #loginform,
-            .kleinweb-saml-auth-deny-wp-login #nav {
-                display: none;
-            }
-        </style>
-        <?php
     }
 
     public function renderLoginFormAdditions(): void
@@ -133,9 +105,10 @@ final readonly class SamlAuthPlugin
      */
     public static function filterLoginBodyClass($classes): array
     {
-        if (! SamlAuth::isLocalLoginAllowed()) {
-            $classes[] = 'kleinweb-saml-auth-deny-wp-login';
-        }
+        $classes[] = 'is-saml-auth-enabled';
+        $classes[] = SamlAuth::isLocalLoginAllowed()
+            ? 'is-local-login-allowed'
+            : 'is-local-login-disallowed';
 
         return $classes;
     }
