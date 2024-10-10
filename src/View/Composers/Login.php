@@ -16,7 +16,7 @@ final class Login extends Composer
     /** @var string[] */
     // phpcs:ignore SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint -- Would result in error.
     protected static $views = [
-        SamlAuth::VIEW_PREFIX . 'partials.login.form-extensions',
+        SamlAuth::VIEW_PREFIX . 'partials.login-form.cta',
     ];
 
     /**
@@ -25,14 +25,14 @@ final class Login extends Composer
     protected function with(): array
     {
         return [
-            'buttonText' => $this->buttonText,
-            'buttonUrl' => $this->buttonUrl(),
+            'ctaText' => $this->ctaText,
+            'ctaUrl' => $this->ctaUrl(),
         ];
     }
 
-    public string $buttonText = 'Log in with TU AccessNet';
+    public string $ctaText = 'Log in with TU AccessNet';
 
-    public function buttonUrl(): string
+    public function ctaUrl(): string
     {
         return SamlAuth::loginUrl();
     }
