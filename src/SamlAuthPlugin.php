@@ -46,16 +46,22 @@ final readonly class SamlAuthPlugin
     {
         add_filter('login_body_class', $this->filterLoginBodyClass(...));
         add_action('login_form', self::renderLoginFormAdditions(...));
+        add_action('login_footer', self::renderLoginFooterAdditions(...));
         add_action('wp_logout', $this->actionWpLogout(...));
 
         // Priority after wp_authenticate_username_password runs.
         add_filter('authenticate', $this->filterAuthenticate(...), 21);
     }
 
-    public function renderLoginFormAdditions(): void
+    public static function renderLoginFormAdditions(): void
     {
         // phpcs:disable WordPress.Security.EscapeOutput -- False positive.
-        echo \view('saml-auth::partials.login.form-extensions');
+        echo \view('saml-auth::partials.login-form.cta');
+    }
+
+    public static function renderLoginFooterAdditions(): void
+    {
+        echo \view('saml-auth::partials.login-form.select-idp');
     }
 
     /**
