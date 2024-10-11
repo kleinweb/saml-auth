@@ -2,6 +2,6 @@
     <a href="#"
        class="kleinweb-auth-idp-toggle__button js-kleinweb-auth-idp-toggle-button"
     >
-        {{ $idpToggleDefaultText }}
+        Use local account
     </a>
 </div>
