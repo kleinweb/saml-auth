@@ -61,7 +61,7 @@ final readonly class SamlAuthPlugin
 
     public static function renderLoginFooterAdditions(): void
     {
-        echo \view('saml-auth::partials.login-form.select-idp');
+        echo \view('saml-auth::partials.login-form.idp-toggle');
     }
 
     /**

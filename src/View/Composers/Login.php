@@ -17,6 +17,7 @@ final class Login extends Composer
     // phpcs:ignore SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint -- Would result in error.
     protected static $views = [
         SamlAuth::VIEW_PREFIX . 'partials.login-form.cta',
+        SamlAuth::VIEW_PREFIX . 'partials.login-form.idp-toggle',
     ];
 
     /**
@@ -27,8 +28,11 @@ final class Login extends Composer
         return [
             'ctaText' => $this->ctaText,
             'ctaUrl' => $this->ctaUrl(),
+            'idpToggleDefaultText' => $this->idpToggleDefaultText,
         ];
     }
+
+    public string $idpToggleDefaultText = 'Use local account';
 
     public string $ctaText = 'Log in with TU AccessNet';
 
