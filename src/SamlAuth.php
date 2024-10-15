@@ -22,9 +22,9 @@ final class SamlAuth
 {
     use Hookable;
 
-    final public const NAME = 'kleinweb-saml-auth';
+    final public const NAME = 'kleinweb-auth';
 
-    final public const SHORT_NAME = 'saml-auth';
+    final public const SHORT_NAME = 'kleinweb-auth';
 
     final public const CONFIG_PREFIX = self::SHORT_NAME . '.';
 
@@ -64,7 +64,7 @@ final class SamlAuth
         $url = Uri::new(wp_login_url());
         $redirectTo = (string) filter_input(INPUT_GET, 'redirect_to', FILTER_SANITIZE_URL);
         $queryArgs = Query::fromUri($url)
-            ->withPair('action', 'kleinweb-saml-auth')
+            ->withPair('action', 'kleinweb-auth')
             ->withPair('redirect_to', $redirectTo);
         $url = $url->withQuery($queryArgs);
 
