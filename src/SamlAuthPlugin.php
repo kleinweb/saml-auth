@@ -112,7 +112,7 @@ final readonly class SamlAuthPlugin
     public static function filterLoginBodyClass($classes): array
     {
         $classes[] = 'is-kleinweb-auth-enabled';
-        $classes[] = 'kleinweb-auth--saml';
+        $classes[] = 'is-saml-authn';
         $classes[] = SamlAuth::isLocalLoginAllowed()
             ? 'is-local-login-allowed'
             : 'is-local-login-disallowed';
