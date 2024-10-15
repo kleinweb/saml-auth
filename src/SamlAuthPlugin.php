@@ -56,12 +56,12 @@ final readonly class SamlAuthPlugin
     public static function renderLoginFormAdditions(): void
     {
         // phpcs:disable WordPress.Security.EscapeOutput -- False positive.
-        echo \view('saml-auth::partials.login-form.cta');
+        echo \view('kleinweb-auth::partials.login-form.cta');
     }
 
     public static function renderLoginFooterAdditions(): void
     {
-        echo \view('saml-auth::partials.login-form.idp-toggle');
+        echo \view('kleinweb-auth::partials.login-form.idp-toggle');
     }
 
     /**
@@ -111,7 +111,8 @@ final readonly class SamlAuthPlugin
      */
     public static function filterLoginBodyClass($classes): array
     {
-        $classes[] = 'is-saml-auth-enabled';
+        $classes[] = 'is-kleinweb-auth-enabled';
+        $classes[] = 'kleinweb-auth--saml';
         $classes[] = SamlAuth::isLocalLoginAllowed()
             ? 'is-local-login-allowed'
             : 'is-local-login-disallowed';
@@ -133,7 +134,7 @@ final readonly class SamlAuthPlugin
         $isLocalLoginPermitted = SamlAuth::isLocalLoginAllowed();
 
         if (($isLocalLoginPermitted && Request::has('SAMLResponse'))
-            || ($isLocalLoginPermitted && (Request::query('action') === 'kleinweb-saml-auth'))
+            || ($isLocalLoginPermitted && (Request::query('action') === 'kleinweb-auth'))
             || (!$isLocalLoginPermitted && !Request::has('loggedout'))
             || (!$isLocalLoginPermitted && ($user instanceof WP_User))
         ) {
@@ -164,7 +165,7 @@ final readonly class SamlAuthPlugin
 
             if (!$this->provider->isAuthenticated()) {
                 // Translators: Includes error reason from OneLogin.
-                return new WP_Error('kleinweb_saml_auth_unauthenticated', sprintf(__('User is not authenticated with SAML IdP. Reason: %s', 'kleinweb-saml-auth'), $this->provider->getLastErrorReason()));
+                return new WP_Error('kleinweb_saml_auth_unauthenticated', sprintf(__('User is not authenticated with SAML IdP. Reason: %s', 'kleinweb-auth'), $this->provider->getLastErrorReason()));
             }
 
             $attributes = $this->provider->getAttributes();
@@ -175,7 +176,7 @@ final readonly class SamlAuthPlugin
                 // to the IdP.  However, when $permit_wp_login=false, hitting wp-login will always
                 // trigger the IdP redirect.
                 // FIXME: use Uri lib for sane parsing?
-                if (($permitWpLogin && (stripos($redirectTo, 'action=kleinweb-saml-auth') === false))
+                if (($permitWpLogin && (stripos($redirectTo, 'action=kleinweb-auth') === false))
                     || (!$permitWpLogin && (stripos($redirectTo, parse_url(wp_login_url(), PHP_URL_PATH)) === false))) {
                     add_filter('login_redirect', static fn () => $redirectTo, priority: 1);
                 }
@@ -195,7 +196,7 @@ final readonly class SamlAuthPlugin
         if ($attributes->isEmpty()) {
             return new WP_Error(
                 'kleinweb_saml_auth_no_attributes',
-                esc_html__('No attributes were present in SAML response. Attributes are used to create and fetch users. Please contact your administrator', 'kleinweb-saml-auth'),
+                esc_html__('No attributes were present in SAML response. Attributes are used to create and fetch users. Please contact your administrator', 'kleinweb-auth'),
             );
         }
 
@@ -206,7 +207,7 @@ final readonly class SamlAuthPlugin
             // Translators: Communicates how the user is fetched based on the SAML response.
             return new WP_Error(
                 'kleinweb_saml_auth_missing_attribute',
-                sprintf(esc_html__('"%1$s" attribute is expected, but missing, in SAML response. Attribute is used to fetch existing user by AccessNet username. Please contact your administrator.', 'kleinweb-saml-auth'), $uidAttributeName),
+                sprintf(esc_html__('"%1$s" attribute is expected, but missing, in SAML response. Attribute is used to fetch existing user by AccessNet username. Please contact your administrator.', 'kleinweb-auth'), $uidAttributeName),
             );
         }
 
@@ -226,7 +227,7 @@ final readonly class SamlAuthPlugin
         if (! Config::boolean(SamlAuth::CONFIG_PREFIX . 'auto_provision')) {
             return new WP_Error(
                 'kleinweb_saml_auth_auto_provision_disabled',
-                esc_html__('No WordPress user exists for your account. Please contact your administrator.', 'kleinweb-saml-auth'),
+                esc_html__('No WordPress user exists for your account. Please contact your administrator.', 'kleinweb-auth'),
             );
         }
 

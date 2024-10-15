@@ -50,13 +50,13 @@ final class SamlAuthServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                self::PRJ_ROOT . '/config/saml-auth.php' => $this->app->configPath('saml-auth.php'),
+                self::PRJ_ROOT . '/config/kleinweb-auth.php' => $this->app->configPath('kleinweb-auth.php'),
             ], SamlAuth::SHORT_NAME);
         }
 
         $this->loadRoutesFrom(self::PRJ_ROOT . '/routes/routes.php');
         $this->loadViewsFrom(self::PRJ_ROOT . '/resources/views', SamlAuth::SHORT_NAME);
-        $this->mergeConfigFrom(self::PRJ_ROOT . '/config/saml-auth.php', SamlAuth::SHORT_NAME);
+        $this->mergeConfigFrom(self::PRJ_ROOT . '/config/kleinweb-auth.php', SamlAuth::SHORT_NAME);
 
         // TODO: remove?
         $this->app->make(SamlAuthPlugin::class);
