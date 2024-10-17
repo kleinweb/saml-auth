@@ -1,7 +1,12 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.8.1/schema.json",
   "files": {
-    "ignore": ["**/composer.lock", "**/*.min.*", "CHANGELOG.md"]
+    "ignore": [
+      "**/composer.lock",
+      "**/*.min.*",
+      "resources/dist/**",
+      "CHANGELOG.md"
+    ]
   },
   "formatter": {
     "enabled": true,
