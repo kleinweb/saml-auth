@@ -24,6 +24,8 @@
   "require": {
     "php": "^8.2",
     "composer/installers": "^2.3",
+    "archtechx/enums": "^1.1",
+    "idleberg/vite-manifest": "^1.1",
     "johnbillion/args": "^2.0",
     "kleinweb/lib": "dev-main",
     "league/uri-components": "^7.0",

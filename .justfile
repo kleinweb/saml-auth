@@ -20,6 +20,12 @@ php-lint-project-cmd := "nix run 'github:kleinweb/beams#php-lint-project'"
 default:
   @just --choose
 
+build:
+  npm run build
+
+dev:
+  npm run watch
+
 [group: "qa"]
 [doc: "Check for any lint or formatting issues on project files"]
 check:

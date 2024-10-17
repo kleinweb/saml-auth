@@ -8,27 +8,49 @@ declare(strict_types=1);
 
 namespace Kleinweb\SamlAuth;
 
+use Idleberg\ViteManifest\Manifest as ViteManifest;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\View;
-use Kleinweb\Lib\Support\ServiceProvider;
+use Kleinweb\Lib\Hooks\Attributes\Action;
+use Kleinweb\Lib\Package\Exceptions\InvalidPackage;
+use Kleinweb\Lib\Package\Package;
+use Kleinweb\Lib\Package\PackageServiceProvider;
+use Kleinweb\Lib\Tenancy\Site;
 use Kleinweb\SamlAuth\View\Composers\Login;
 use OneLogin\Saml2\Auth as OneLoginAuth;
+use ReflectionException;
+use Webmozart\Assert\Assert;
 
 /**
  * Kleinweb SAML Auth service provider.
  */
-final class SamlAuthServiceProvider extends ServiceProvider
+final class SamlAuthServiceProvider extends PackageServiceProvider
 {
-    public const PRJ_ROOT = __DIR__ . '/..';
-
     /**
      * @var Collection<string, mixed>|null
      */
     protected ?Collection $settings;
 
+    public function configurePackage(Package $package): void
+    {
+        $package
+            ->name('kleinweb-auth')
+            ->hasConfigFile()
+            ->hasViews()
+            ->hasRoute('routes')
+            ->hasAssets()
+            // FIXME: reimplement viewcomposer as component
+            // ->hasViewComponent('kleinweb-auth', 'TODO')
+            ->hasViewComposer(Login::views(), Login::class);
+    }
+
     /**
      * Register any application services.
+     *
+     * @throws InvalidPackage
+     * @throws ReflectionException
      */
     public function register(): void
     {
@@ -46,25 +68,40 @@ final class SamlAuthServiceProvider extends ServiceProvider
                 return new OneLoginAuth($providerSettings->make());
             },
         );
+
+        $this->app->singleton(
+            'assets.kleinweb-auth',
+            fn (): ViteManifest => new ViteManifest(
+                $this->package->basePath('../resources/dist/manifest.json'),
+                // FIXME: make this less fussy
+                Site::url(path: '/vendor/kleinweb/saml-auth/resources/dist/')->toString(),
+            ),
+        );
     }
 
     public function boot(): void
     {
         parent::boot();
 
-        if ($this->app->runningInConsole()) {
-            $this->publishes([
-                self::PRJ_ROOT . '/config/kleinweb-auth.php' => $this->app->configPath('kleinweb-auth.php'),
-            ], SamlAuth::SHORT_NAME);
-        }
-
-        $this->loadRoutesFrom(self::PRJ_ROOT . '/routes/routes.php');
-        $this->loadViewsFrom(self::PRJ_ROOT . '/resources/views', SamlAuth::SHORT_NAME);
-        $this->mergeConfigFrom(self::PRJ_ROOT . '/config/kleinweb-auth.php', SamlAuth::SHORT_NAME);
-
         // TODO: remove?
         $this->app->make(SamlAuthPlugin::class);
 
         View::composer(Login::views(), Login::class);
+    }
+
+    #[Action('login_enqueue_scripts')]
+    public static function enqueueLoginStyles(): void
+    {
+        $manifest = App::make('assets.kleinweb-auth');
+        Assert::isInstanceOf($manifest, ViteManifest::class);
+
+        wp_enqueue_style(
+            'kleinweb-auth',
+            $manifest->getEntrypoint('resources/css/kleinweb-auth-login.css')['url'],
+        );
+        wp_enqueue_script(
+            'kleinweb-auth',
+            $manifest->getEntrypoint('resources/js/kleinweb-auth-login.ts')['url'],
+        );
     }
 }
