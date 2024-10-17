@@ -21,6 +21,10 @@ use OneLogin\Saml2\Auth as OneLoginAuth;
 final class SamlAuthServiceProvider extends ServiceProvider
 {
     public const PRJ_ROOT = __DIR__ . '/..';
+
+    /**
+     * @var Collection<string, mixed>|null
+     */
     protected ?Collection $settings;
 
     /**
