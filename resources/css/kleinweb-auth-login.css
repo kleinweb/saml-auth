@@ -1,0 +1,81 @@
+/*!
+ * SPDX-FileCopyrightText: (C) 2024 Temple University <kleinweb@temple.edu>
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+/* ==========================================================================
+   Global
+   ========================================================================== */
+
+#backtoblog {
+  display: none;
+}
+
+/* ==========================================================================
+   Authentication Provider Selection
+   ========================================================================== */
+
+/* SAML / Shibboleth [default]
+   ================================================================== */
+
+#loginform {
+  & > p,
+  & > .user-pass-wrap {
+    display: none;
+  }
+}
+
+/* Local
+   ================================================================== */
+
+[data-kleinweb-auth-idp='local'] {
+  & .kleinweb-auth-saml-cta {
+    display: none;
+  }
+
+  #loginform {
+    & > p,
+    & > .user-pass-wrap {
+      display: block;
+    }
+  }
+}
+
+/* Password reset
+   ================================================================== */
+
+#nav {
+  display: none;
+}
+
+body.has-saml-password-reset-url,
+[data-kleinweb-auth-idp='local'] {
+  & #nav {
+    display: block;
+  }
+}
+
+/* ==========================================================================
+   Appearance
+   ========================================================================== */
+
+.kleinweb-auth-saml-cta {
+  margin-top: 0;
+  text-align: center;
+
+  /* Specificity to override core styles (`.wp-core-ui .button`). */
+  & .button {
+    background-color: #9e1b34;
+    border-color: #9e1b34;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+    color: white;
+    /* Overrides `.login .button-primary` */
+    float: none;
+    text-shadow: none;
+  }
+}
+
+.kleinweb-auth-idp-toggle {
+  padding-bottom: 1rem;
+  text-align: center;
+}
