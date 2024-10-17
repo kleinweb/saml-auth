@@ -62,7 +62,7 @@ final class SamlToolkitSettings
     }
 
     /**
-     * @return collection<string, array<string, array<string, string>|bool|string>|bool|string>
+     * @return Collection<string, mixed>
      */
     public function collect(): Collection
     {
