@@ -19,7 +19,6 @@ final class IdP extends SamlEntity
 {
     public static function config(): array
     {
-        /* @phpstan-ignore-next-line */
         return [
             'entityId' => self::entityId(),
             'x509cert' => self::x509Certificate(),

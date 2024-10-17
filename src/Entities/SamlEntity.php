@@ -17,7 +17,7 @@ abstract class SamlEntity implements SamlEntityMetadata
     public static string $x509Certificate = '';
 
     /**
-     * @return array<string, bool|string>
+     * @return array<string, mixed>
      */
     abstract public static function config(): array;
 

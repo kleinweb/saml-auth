@@ -176,8 +176,9 @@ final readonly class SamlAuthPlugin
                 // to the IdP.  However, when $permit_wp_login=false, hitting wp-login will always
                 // trigger the IdP redirect.
                 // FIXME: use Uri lib for sane parsing?
+                $loginUrlPath = parse_url(wp_login_url(), PHP_URL_PATH) ?: '';
                 if (($permitWpLogin && (stripos($redirectTo, 'action=kleinweb-auth') === false))
-                    || (!$permitWpLogin && (stripos($redirectTo, parse_url(wp_login_url(), PHP_URL_PATH)) === false))) {
+                    || (!$permitWpLogin && (stripos($redirectTo, $loginUrlPath) === false))) {
                     add_filter('login_redirect', static fn () => $redirectTo, priority: 1);
                 }
             }
