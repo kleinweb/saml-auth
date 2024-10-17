@@ -15,7 +15,12 @@
   "organizeImports": { "enabled": true },
   "linter": {
     "enabled": true,
-    "rules": { "recommended": true }
+    "rules": {
+      "recommended": true,
+      "complexity": {
+        "useLiteralKeys": "off"
+      }
+    }
   },
   "javascript": {
     "formatter": {
