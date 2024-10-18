@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace Kleinweb\SamlAuth\Entities\Contracts;
+namespace Kleinweb\Auth\Entities\Contracts;
 
 interface SamlEntityMetadata
 {

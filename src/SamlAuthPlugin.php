@@ -8,7 +8,7 @@
 
 declare(strict_types=1);
 
-namespace Kleinweb\SamlAuth;
+namespace Kleinweb\Auth;
 
 use Args\wp_insert_user as InsertUserArgs;
 use Illuminate\Support\Arr;
@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 use Kleinweb\Lib\Support\CoreObjects;
-use Kleinweb\SamlAuth\Support\UserField;
+use Kleinweb\Auth\Support\UserField;
 use League\Uri\Uri;
 use OneLogin\Saml2\Auth as OneLoginAuth;
 use OneLogin\Saml2\Error;

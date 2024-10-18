@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace Kleinweb\SamlAuth;
+namespace Kleinweb\Auth;
 
 use Idleberg\ViteManifest\Manifest as ViteManifest;
 use Illuminate\Contracts\Foundation\Application;
@@ -17,7 +17,7 @@ use Kleinweb\Lib\Hooks\Attributes\Action;
 use Kleinweb\Lib\Package\Exceptions\InvalidPackage;
 use Kleinweb\Lib\Package\Package;
 use Kleinweb\Lib\Package\PackageServiceProvider;
-use Kleinweb\SamlAuth\View\Composers\Login;
+use Kleinweb\Auth\View\Composers\Login;
 use OneLogin\Saml2\Auth as OneLoginAuth;
 use Webmozart\Assert\Assert;
 
