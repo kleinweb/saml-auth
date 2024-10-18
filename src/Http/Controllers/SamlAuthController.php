@@ -6,12 +6,12 @@
 
 declare(strict_types=1);
 
-namespace Kleinweb\SamlAuth\Http\Controllers;
+namespace Kleinweb\Auth\Http\Controllers;
 
 use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Response;
-use Kleinweb\SamlAuth\SamlAuth;
+use Kleinweb\Auth\SamlAuth;
 use OneLogin\Saml2\Error;
 
 final class SamlAuthController extends Controller

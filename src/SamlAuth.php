@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace Kleinweb\SamlAuth;
+namespace Kleinweb\Auth;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Config;

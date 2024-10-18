@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace Kleinweb\SamlAuth\Entities;
+namespace Kleinweb\Auth\Entities;
 
-use Kleinweb\SamlAuth\Entities\Contracts\SamlEntityMetadata;
+use Kleinweb\Auth\Entities\Contracts\SamlEntityMetadata;
 
 abstract class SamlEntity implements SamlEntityMetadata
 {

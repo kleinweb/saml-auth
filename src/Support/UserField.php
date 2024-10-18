@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace Kleinweb\SamlAuth\Support;
+namespace Kleinweb\Auth\Support;
 
 enum UserField: string
 {

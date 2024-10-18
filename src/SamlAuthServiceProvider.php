@@ -6,19 +6,19 @@
 
 declare(strict_types=1);
 
-namespace Kleinweb\SamlAuth;
+namespace Kleinweb\Auth;
 
 use Idleberg\ViteManifest\Manifest as ViteManifest;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\View;
+use Kleinweb\Auth\View\Composers\Login;
 use Kleinweb\Lib\Hooks\Attributes\Action;
 use Kleinweb\Lib\Package\Exceptions\InvalidPackage;
 use Kleinweb\Lib\Package\Package;
 use Kleinweb\Lib\Package\PackageServiceProvider;
 use Kleinweb\Lib\Tenancy\Site;
-use Kleinweb\SamlAuth\View\Composers\Login;
 use OneLogin\Saml2\Auth as OneLoginAuth;
 use ReflectionException;
 use Webmozart\Assert\Assert;
