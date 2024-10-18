@@ -64,12 +64,12 @@
   "prefer-stable": true,
   "autoload": {
     "psr-4": {
-      "Kleinweb\\SamlAuth\\": "src/"
+      "Kleinweb\\Auth\\": "src/"
     }
   },
   "extra": {
     "acorn": {
-      "providers": ["Kleinweb\\SamlAuth\\SamlAuthServiceProvider"]
+      "providers": ["Kleinweb\\Auth\\SamlAuthServiceProvider"]
     }
   },
   "scripts": {

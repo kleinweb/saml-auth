@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace Kleinweb\SamlAuth\View\Composers;
+namespace Kleinweb\Auth\View\Composers;
 
-use Kleinweb\SamlAuth\SamlAuth;
+use Kleinweb\Auth\SamlAuth;
 use Roots\Acorn\View\Composer;
 
 final class Login extends Composer

@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace Kleinweb\SamlAuth\Bridge\Contracts;
+namespace Kleinweb\Auth\Bridge\Contracts;
 
 interface AuthProvider
 {

@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace Kleinweb\SamlAuth\Entities;
+namespace Kleinweb\Auth\Entities;
 
 use Illuminate\Support\Facades\Config;
 use OneLogin\Saml2\Constants as Saml;
-use Kleinweb\SamlAuth\SamlAuth;
+use Kleinweb\Auth\SamlAuth;
 use Kleinweb\Lib\Support\Environment;
 use Kleinweb\Lib\Tenancy\Site;
 use Webmozart\Assert\Assert;

@@ -6,12 +6,12 @@
 
 declare(strict_types=1);
 
-namespace Kleinweb\SamlAuth;
+namespace Kleinweb\Auth;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
-use Kleinweb\SamlAuth\Entities\IdP;
-use Kleinweb\SamlAuth\Entities\SP;
+use Kleinweb\Auth\Entities\IdP;
+use Kleinweb\Auth\Entities\SP;
 use Kleinweb\Lib\Tenancy\Site;
 
 final class SamlToolkitSettings

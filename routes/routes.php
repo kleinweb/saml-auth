@@ -7,7 +7,7 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
-use Kleinweb\SamlAuth\Http\Controllers\SamlAuthController;
+use Kleinweb\Auth\Http\Controllers\SamlAuthController;
 
 Route::group([
     'middleware' => 'web',
