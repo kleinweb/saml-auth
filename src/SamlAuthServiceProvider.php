@@ -18,7 +18,9 @@ use Kleinweb\Lib\Package\Exceptions\InvalidPackage;
 use Kleinweb\Lib\Package\Package;
 use Kleinweb\Lib\Package\PackageServiceProvider;
 use Kleinweb\Auth\View\Composers\Login;
+use Kleinweb\Lib\Tenancy\Site;
 use OneLogin\Saml2\Auth as OneLoginAuth;
+use ReflectionException;
 use Webmozart\Assert\Assert;
 
 /**
@@ -38,7 +40,6 @@ final class SamlAuthServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasViews()
             ->hasRoute('routes')
-            // FIXME: wrong path? expects resources/dist/
             ->hasAssets()
             // FIXME: reimplement viewcomposer as component
             // ->hasViewComponent('kleinweb-auth', 'TODO')
@@ -49,6 +50,7 @@ final class SamlAuthServiceProvider extends PackageServiceProvider
      * Register any application services.
      *
      * @throws InvalidPackage
+     * @throws ReflectionException
      */
     public function register(): void
     {
@@ -70,9 +72,9 @@ final class SamlAuthServiceProvider extends PackageServiceProvider
         $this->app->singleton(
             'assets.kleinweb-auth',
             fn (): ViteManifest => new ViteManifest(
-                $this->package->basePath('../public/build/manifest.json'),
-                \url($this->package->basePath('public/build/')),
-                // \url('public/vendor/'.$this->package->shortName().'/public/')
+                $this->package->basePath('../resources/dist/manifest.json'),
+                // FIXME: make this less fussy
+                Site::url(path: '/vendor/kleinweb/saml-auth/resources/dist/')->toString(),
             ),
         );
     }
