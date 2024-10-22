@@ -7,10 +7,6 @@
    Global
    ========================================================================== */
 
-#backtoblog {
-  display: none;
-}
-
 /* ==========================================================================
    Visibility
    ========================================================================== */
@@ -62,16 +58,21 @@ body.has-saml-password-reset-url,
 .kleinweb-auth-saml-cta {
   margin-top: 0;
   text-align: center;
+  width: 100%;
 
-  /* Specificity to override core styles (`.wp-core-ui .button`). */
+  /**
+   * High-specificity to override core styles (`.wp-core-ui .button`), including
+   * hover state.
+   */
   & .button {
     background-color: #9e1b34;
     border-color: #9e1b34;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
     color: white;
+    text-shadow: none;
+
     /* Overrides `.login .button-primary` */
     float: none;
-    text-shadow: none;
   }
 }
 
