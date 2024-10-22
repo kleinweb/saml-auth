@@ -1,9 +1,9 @@
 {
   "resources/css/kleinweb-auth-login.css": {
-    "file": "kleinweb-auth-login-BLJu40aN.css",
+    "file": "kleinweb-auth-login-DD0nJt6s.css",
     "src": "resources/css/kleinweb-auth-login.css",
     "isEntry": true,
-    "integrity": "sha384-B0rNDlQYuhwZfQRE4nb0ioOHKr/KOcDIBcmco0LhETAi37Htn02F3uShXtdOBAZ8"
+    "integrity": "sha384-dlrrH6nOgcn3yfYXnTCuD55LN0F6s3HmggIKPoGhN/vkgorM79g1Q8O6uXbBMhUm"
   },
   "resources/js/kleinweb-auth-login.ts": {
     "file": "kleinweb-auth-login-COsR3FxH.js",
