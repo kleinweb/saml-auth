@@ -14,6 +14,7 @@ options = [
   "--files-ignore-unknown=true",
 ]
 includes = [
+  "*.css",
   "*.js",
   "*.ts",
   "*.mjs",
@@ -65,7 +66,7 @@ excludes = []
 [formatter.prettier]
 command = "prettier"
 options = ["--write"]
-includes = ["*.css", "*.md", "*.mdx", "*.scss", "*.yaml", "*.yml"]
+includes = ["*.md", "*.mdx", "*.scss", "*.yaml", "*.yml"]
 excludes = ["CHANGELOG.md"]
 
 [formatter.taplo]
