@@ -27,6 +27,11 @@
       }
     }
   },
+  "css": {
+    "formatter": {
+      "quoteStyle": "double"
+    }
+  },
   "javascript": {
     "formatter": {
       "jsxQuoteStyle": "double",
@@ -38,11 +43,6 @@
       "bracketSameLine": false,
       "quoteStyle": "single",
       "attributePosition": "auto"
-    }
-  },
-  "css": {
-    "formatter": {
-      "enabled": false
     }
   },
   "vcs": {
