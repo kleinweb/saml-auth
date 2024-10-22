@@ -1,4 +1,0 @@
-/*!
- * SPDX-FileCopyrightText: (C) 2024 Temple University <kleinweb@temple.edu>
- * SPDX-License-Identifier: GPL-3.0-or-later
- */#backtoblog{display:none}#loginform>p,#loginform>.user-pass-wrap{display:none}[data-kleinweb-auth-idp=local] .kleinweb-auth-saml-cta{display:none}[data-kleinweb-auth-idp=local] #loginform>p,[data-kleinweb-auth-idp=local] #loginform>.user-pass-wrap{display:block}#nav{display:none}body.has-saml-password-reset-url #nav,[data-kleinweb-auth-idp=local] #nav{display:block}.kleinweb-auth-saml-cta{margin-top:0;text-align:center}.kleinweb-auth-saml-cta .button{background-color:#9e1b34;border-color:#9e1b34;box-shadow:0 1px 3px #00000021;color:#fff;float:none;text-shadow:none}.kleinweb-auth-idp-toggle{padding-bottom:1rem;text-align:center}

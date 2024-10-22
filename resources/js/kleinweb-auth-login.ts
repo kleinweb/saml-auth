@@ -1,5 +1,7 @@
-// SPDX-FileCopyrightText: (C) 2024 Temple University <kleinweb@temple.edu>
-// SPDX-License-Identifier: GPL-3.0-or-later
+/*!
+ * SPDX-FileCopyrightText: (C) 2024 Temple University <kleinweb@temple.edu>
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 import {assign, createActor, createMachine, setup} from 'xstate'
 

@@ -1,15 +1,15 @@
 {
   "resources/css/kleinweb-auth-login.css": {
-    "file": "kleinweb-auth-login-iO3tY5ME.css",
+    "file": "kleinweb-auth-login-CwnE-WEw.css",
     "src": "resources/css/kleinweb-auth-login.css",
     "isEntry": true,
-    "integrity": "sha384-4pPompw1ci4Z6LQ7F4TGZFlRllIocb5fZ2Ic4+VRiS/61642xo8LmEvU03GTcdvt"
+    "integrity": "sha384-tr/X4McdkFNiB0GOkiBi4YXv+VjgtW6Nlk8HopW6laZRykieDtWIjgzOSJRWzjja"
   },
   "resources/js/kleinweb-auth-login.ts": {
-    "file": "kleinweb-auth-login-BBi5ukQ4.js",
+    "file": "kleinweb-auth-login-COsR3FxH.js",
     "name": "kleinweb-auth-login",
     "src": "resources/js/kleinweb-auth-login.ts",
     "isEntry": true,
-    "integrity": "sha384-MGGjnSYoMHKFPg/AxJNIeXGrKg7MQExb/IOTAOVkvn1fOwNbqMr1++G4Zt1YeHHv"
+    "integrity": "sha384-ovo/yJVfsXLlQs1qJb9C1WIIZRK/exo89a9kAJS7MGroc4dZBwhydBUvCq73T13H"
   }
 }
