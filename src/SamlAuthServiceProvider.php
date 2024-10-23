@@ -13,6 +13,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Str;
 use Kleinweb\Lib\Hooks\Attributes\Action;
 use Kleinweb\Lib\Package\Exceptions\InvalidPackage;
 use Kleinweb\Lib\Package\Package;
@@ -22,6 +23,12 @@ use Kleinweb\Lib\Tenancy\Site;
 use OneLogin\Saml2\Auth as OneLoginAuth;
 use ReflectionException;
 use Webmozart\Assert\Assert;
+
+use function file_get_contents;
+use function printf;
+use function wp_enqueue_script;
+
+use const ABSPATH;
 
 /**
  * Kleinweb SAML Auth service provider.
@@ -69,12 +76,15 @@ final class SamlAuthServiceProvider extends PackageServiceProvider
             },
         );
 
+        // FIXME: make this less fussy, probably needs custom implementation...
+        $distBase = $this->package->basePath('../resources/dist');
+        $distBaseRelative = Str::chopStart($distBase, ABSPATH);
+        $distBaseUri = Site::url(path: $distBaseRelative . '/')->toString();
         $this->app->singleton(
             'assets.kleinweb-auth',
-            fn (): ViteManifest => new ViteManifest(
-                $this->package->basePath('../resources/dist/manifest.json'),
-                // FIXME: make this less fussy
-                Site::url(path: '/vendor/kleinweb/saml-auth/resources/dist/')->toString(),
+            static fn (): ViteManifest => new ViteManifest(
+                $distBase . '/manifest.json',
+                $distBaseUri,
             ),
         );
     }
@@ -90,18 +100,31 @@ final class SamlAuthServiceProvider extends PackageServiceProvider
     }
 
     #[Action('login_enqueue_scripts')]
-    public static function enqueueLoginStyles(): void
+    public static function enqueueLoginScripts(): void
     {
         $manifest = App::make('assets.kleinweb-auth');
         Assert::isInstanceOf($manifest, ViteManifest::class);
 
-        wp_enqueue_style(
-            'kleinweb-auth',
-            $manifest->getEntrypoint('resources/css/kleinweb-auth-login.css')['url'],
-        );
         wp_enqueue_script(
-            'kleinweb-auth',
+            'kleinweb-auth-login',
             $manifest->getEntrypoint('resources/js/kleinweb-auth-login.ts')['url'],
+        );
+    }
+
+    #[Action('login_form')]
+    public function printLoginStyles(): void
+    {
+        $manifest = App::make('assets.kleinweb-auth');
+        Assert::isInstanceOf($manifest, ViteManifest::class);
+
+        $handle = 'kleinweb-auth-login';
+        $distBase = $this->package->basePath('../resources/dist');
+        $styleFile = $manifest->getManifest()["resources/css/{$handle}.css"]['file'];
+
+        printf(
+            '<style id="%s-inline-css">%s</style>',
+            $handle,
+            file_get_contents("{$distBase}/{$styleFile}"),
         );
     }
 }
