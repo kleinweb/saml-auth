@@ -18,7 +18,7 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://github.com/kleinweb/lib.git"
+      "url": "git@github.com:kleinweb/lib.git"
     }
   ],
   "require": {
