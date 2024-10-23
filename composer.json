@@ -54,6 +54,7 @@
       "ramsey/composer-repl": true,
       "composer/installers": true
     },
+    "lock": false,
     "preferred-install": {
       "*": "dist"
     },
