@@ -17,9 +17,16 @@ document.addEventListener('DOMContentLoaded', () => {
     '.js-kleinweb-auth-idp-toggle-button',
   )
 
-  if (!($toggleBtn instanceof HTMLElement)) {
-    console.error('[kleinweb-auth]: Toggle button not found!', {
-      value: $toggleBtn,
+  // https://github.com/WordPress/wordpress-develop/blob/b42f5f95417413ee6b05ef389e21b3a0d61d3370/src/wp-login.php#L1513
+  const $passwordInput = document.body.querySelector('#user_pass')
+
+  if (
+    !($toggleBtn instanceof HTMLElement) ||
+    !($passwordInput instanceof HTMLInputElement)
+  ) {
+    console.error('[kleinweb-auth]: Something is very wrong...', {
+      $toggleBtn,
+      $passwordInput,
     })
     return
   }
@@ -54,9 +61,20 @@ document.addEventListener('DOMContentLoaded', () => {
           },
         },
 
-        exit: assign({
-          buttonText: 'Use local account',
-        }),
+        entry: [
+          () => {
+            $passwordInput.disabled = false
+          },
+        ],
+
+        exit: [
+          () => {
+            $passwordInput.disabled = true
+          },
+          assign({
+            buttonText: 'Use local account',
+          }),
+        ],
       },
     },
   })
