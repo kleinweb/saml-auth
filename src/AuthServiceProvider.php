@@ -26,7 +26,7 @@ use Webmozart\Assert\Assert;
 /**
  * Kleinweb SAML Auth service provider.
  */
-final class SamlAuthServiceProvider extends PackageServiceProvider
+final class AuthServiceProvider extends PackageServiceProvider
 {
     /**
      * @var Collection<string, mixed>|null
@@ -56,14 +56,15 @@ final class SamlAuthServiceProvider extends PackageServiceProvider
     {
         parent::register();
 
-        $this->app->singleton(SamlAuth::class);
-        $this->app->singleton(SamlToolkitSettings::class);
+        $this->app->singleton(Auth::class);
+        $this->app->singleton(Settings::class);
 
-        $this->app->singleton(SamlAuthPlugin::class);
+        $this->app->singleton(Login::class);
+        $this->app->singleton(Logout::class);
         $this->app->singleton(
             OneLoginAuth::class,
             static function (Application $app) {
-                $providerSettings = $app->make(SamlToolkitSettings::class);
+                $providerSettings = $app->make(Settings::class);
 
                 return new OneLoginAuth($providerSettings->make());
             },
@@ -84,7 +85,7 @@ final class SamlAuthServiceProvider extends PackageServiceProvider
         parent::boot();
 
         // TODO: remove?
-        $this->app->make(SamlAuthPlugin::class);
+        $this->app->make(Login::class);
 
         View::composer(Login::views(), Login::class);
     }

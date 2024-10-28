@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Kleinweb\Auth\Entities\Contracts;
 
-interface SamlEntityMetadata
+interface Metadata
 {
     public static function entityId(): string;
 

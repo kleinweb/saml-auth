@@ -71,7 +71,7 @@
   },
   "extra": {
     "acorn": {
-      "providers": ["Kleinweb\\Auth\\SamlAuthServiceProvider"]
+      "providers": ["Kleinweb\\Auth\\AuthServiceProvider"]
     }
   },
   "scripts": {

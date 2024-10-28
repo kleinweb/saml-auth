@@ -8,9 +8,9 @@ declare(strict_types=1);
 
 namespace Kleinweb\Auth\Entities;
 
-use Kleinweb\Auth\Entities\Contracts\SamlEntityMetadata;
+use Kleinweb\Auth\Entities\Contracts\Metadata;
 
-abstract class SamlEntity implements SamlEntityMetadata
+abstract class Entity implements Metadata
 {
     protected static string $x509Path = ABSPATH . '/.config/sso/';
 

@@ -33,7 +33,7 @@ use function wp_login_url;
 /**
  * Main controller class for WP SAML Auth.
  */
-final readonly class SamlAuthPlugin
+final readonly class Login
 {
     public function __construct(private OneLoginAuth $provider) {}
 
@@ -51,45 +51,6 @@ final readonly class SamlAuthPlugin
     }
 
     /**
-     * Log the user out of the SAML instance when they log out of WordPress.
-     *
-     * @throws Error
-     */
-    #[Action('wp_logout')]
-    public function actionWpLogout(): void
-    {
-        /*
-         * Fires before the user is logged out.
-         */
-        do_action('kleinweb_saml_auth_pre_logout');
-
-        if (! Config::get(SamlAuth::CONFIG_PREFIX . 'idp.singleLogoutService.url')) {
-            return;
-        }
-
-        $args = [
-            'parameters'   => [],
-            'nameId'       => null,
-            'sessionIndex' => null,
-        ];
-
-        /**
-         * Permit the arguments passed to the logout() method to be customized.
-         *
-         * @param array $args existing arguments to be passed
-         */
-        $args = apply_filters('kleinweb_saml_auth_internal_logout_args', $args);
-
-        $this->provider->logout(
-            add_query_arg('loggedout', true, wp_login_url()),
-            $args['parameters'],
-            $args['nameId'],
-            $args['sessionIndex'],
-        );
-
-    }
-
-    /**
      * Add body classes for our specific configuration attributes.
      *
      * @param string[] $classes body CSS classes
@@ -101,7 +62,7 @@ final readonly class SamlAuthPlugin
     {
         $classes[] = 'is-kleinweb-auth-enabled';
         $classes[] = 'is-saml-authn';
-        $classes[] = SamlAuth::isLocalLoginAllowed()
+        $classes[] = Auth::isLocalLoginAllowed()
             ? 'is-local-login-allowed'
             : 'is-local-login-disallowed';
 
@@ -123,7 +84,7 @@ final readonly class SamlAuthPlugin
     #[Filter('authenticate', priority: 21)]
     public function filterAuthenticate($user): mixed
     {
-        $isLocalLoginPermitted = SamlAuth::isLocalLoginAllowed();
+        $isLocalLoginPermitted = Auth::isLocalLoginAllowed();
 
         if (($isLocalLoginPermitted && Request::has('SAMLResponse'))
             || ($isLocalLoginPermitted && (Request::query('action') === 'kleinweb-auth'))
@@ -162,7 +123,7 @@ final readonly class SamlAuthPlugin
 
             $attributes = $this->provider->getAttributes();
             $redirectTo = filter_input(INPUT_POST, 'RelayState', FILTER_SANITIZE_URL);
-            $permitWpLogin = SamlAuth::isLocalLoginAllowed();
+            $permitWpLogin = Auth::isLocalLoginAllowed();
             if ($redirectTo) {
                 // When $permit_wp_login=true, we only care about accidentally triggering the redirect
                 // to the IdP.  However, when $permit_wp_login=false, hitting wp-login will always
@@ -217,7 +178,7 @@ final readonly class SamlAuthPlugin
             return $existingUser;
         }
 
-        if (! Config::boolean(SamlAuth::CONFIG_PREFIX . 'auto_provision')) {
+        if (! Config::boolean(Auth::CONFIG_PREFIX . 'auto_provision')) {
             return new WP_Error(
                 'kleinweb_saml_auth_auto_provision_disabled',
                 esc_html__('No WordPress user exists for your account. Please contact your administrator.', 'kleinweb-auth'),
@@ -230,7 +191,7 @@ final readonly class SamlAuthPlugin
             $userArgs->{$field->dbName()} = $attributes->get($field->samlAttribute());
         }
 
-        $userArgs->role      = Config::string(SamlAuth::CONFIG_PREFIX . 'default_role');
+        $userArgs->role      = Config::string(Auth::CONFIG_PREFIX . 'default_role');
         $userArgs->user_pass = wp_generate_password();
 
         /**

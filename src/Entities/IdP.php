@@ -8,14 +8,14 @@ declare(strict_types=1);
 
 namespace Kleinweb\Auth\Entities;
 
-use Kleinweb\Auth\SamlAuth;
+use Kleinweb\Auth\Auth;
 use OneLogin\Saml2\Constants as Saml;
 use Kleinweb\Lib\Support\Environment;
 use Illuminate\Support\Facades\Config;
 
 use function file_get_contents;
 
-final class IdP extends SamlEntity
+final class IdP extends Entity
 {
     public static function config(): array
     {
@@ -37,7 +37,7 @@ final class IdP extends SamlEntity
     {
         $default = self::urlBase() . '/shibboleth';
 
-        return Config::string(SamlAuth::CONFIG_PREFIX . 'idp.entityId', $default);
+        return Config::string(Auth::CONFIG_PREFIX . 'idp.entityId', $default);
     }
 
     public static function loginUrl(): string

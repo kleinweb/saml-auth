@@ -10,21 +10,21 @@ namespace Kleinweb\Auth\Entities;
 
 use Illuminate\Support\Facades\Config;
 use OneLogin\Saml2\Constants as Saml;
-use Kleinweb\Auth\SamlAuth;
+use Kleinweb\Auth\Auth;
 use Kleinweb\Lib\Support\Environment;
 use Kleinweb\Lib\Tenancy\Site;
 use Webmozart\Assert\Assert;
 
 use function file_get_contents;
 
-final class SP extends SamlEntity
+final class SP extends Entity
 {
     public static function entityId(?int $siteId = null): string
     {
         $path = '/' . (Environment::isProduction() ? 'sp' : 'np-sp');
         $id = 'https://edu.temple.klein.' . self::fqdn($siteId) . $path;
 
-        return Config::string(SamlAuth::CONFIG_PREFIX . 'sp.entityId', $id);
+        return Config::string(Auth::CONFIG_PREFIX . 'sp.entityId', $id);
     }
 
     public static function fqdn(?int $siteId = null): string
@@ -36,7 +36,7 @@ final class SP extends SamlEntity
             return $host;
         }
 
-        $key = SamlAuth::CONFIG_PREFIX . 'sp.domain_fallback';
+        $key = Auth::CONFIG_PREFIX . 'sp.domain_fallback';
         $fallback = Config::string($key, $host);
         Assert::stringNotEmpty($fallback);
 

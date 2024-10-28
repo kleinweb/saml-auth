@@ -11,7 +11,7 @@ namespace Kleinweb\Auth\Http\Controllers;
 use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Response;
-use Kleinweb\Auth\SamlAuth;
+use Kleinweb\Auth\Auth;
 use OneLogin\Saml2\Error;
 
 final class SamlAuthController extends Controller
@@ -19,7 +19,7 @@ final class SamlAuthController extends Controller
     /**
      * @throws Error
      */
-    public function metadata(SamlAuth $auth): HttpResponse
+    public function metadata(Auth $auth): HttpResponse
     {
         return Response::make($auth->metadata(), 200, ['Content-Type' => 'text/xml']);
     }

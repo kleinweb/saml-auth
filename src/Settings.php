@@ -14,7 +14,7 @@ use Kleinweb\Auth\Entities\IdP;
 use Kleinweb\Auth\Entities\SP;
 use Kleinweb\Lib\Tenancy\Site;
 
-final class SamlToolkitSettings
+final class Settings
 {
     final public const SECURITY_DEFAULTS = [
         'authnRequestsSigned' => false,
@@ -69,7 +69,7 @@ final class SamlToolkitSettings
         $settings = Collection::make(
             [
                 'strict' => true,
-                'debug' => SamlAuth::isDebugEnabled(),
+                'debug' => Auth::isDebugEnabled(),
                 'baseurl' => Site::url()->toString(),
                 'sp' => SP::config(),
                 'idp' => IdP::config(),
@@ -80,7 +80,7 @@ final class SamlToolkitSettings
             ],
         );
 
-        if (!SamlAuth::isDangerouslyInsecure()) {
+        if (!Auth::isDangerouslyInsecure()) {
             $settings->put('security', self::SECURITY_DEFAULTS);
         }
 
@@ -92,7 +92,7 @@ final class SamlToolkitSettings
      */
     public function contactPerson(): array
     {
-        $contact = Config::array(SamlAuth::CONFIG_PREFIX . 'contact');
+        $contact = Config::array(Auth::CONFIG_PREFIX . 'contact');
         $mapDefaultContact = static fn ($v): array => ($v === 'default')
             ? $contact['default']
             : $v;
@@ -108,6 +108,6 @@ final class SamlToolkitSettings
      */
     public static function organization(): array
     {
-        return Config::array(SamlAuth::CONFIG_PREFIX . 'organization', self::ORGANIZATION_DEFAULT);
+        return Config::array(Auth::CONFIG_PREFIX . 'organization', self::ORGANIZATION_DEFAULT);
     }
 }

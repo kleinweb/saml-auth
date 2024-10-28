@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Kleinweb\Auth\View\Composers;
 
-use Kleinweb\Auth\SamlAuth;
+use Kleinweb\Auth\Auth;
 use Roots\Acorn\View\Composer;
 
 final class Login extends Composer
@@ -16,8 +16,8 @@ final class Login extends Composer
     /** @var string[] */
     // phpcs:ignore SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint -- Would result in error.
     protected static $views = [
-        SamlAuth::VIEW_PREFIX . 'partials.login-form.cta',
-        SamlAuth::VIEW_PREFIX . 'partials.login-form.idp-toggle',
+        Auth::VIEW_PREFIX . 'partials.login-form.cta',
+        Auth::VIEW_PREFIX . 'partials.login-form.idp-toggle',
     ];
 
     /**
@@ -38,6 +38,6 @@ final class Login extends Composer
 
     public function ctaUrl(): string
     {
-        return SamlAuth::loginUrl();
+        return Auth::loginUrl();
     }
 }

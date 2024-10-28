@@ -18,7 +18,7 @@ use OneLogin\Saml2\Error as OneLoginError;
 
 use const FILTER_SANITIZE_URL;
 
-final class SamlAuth
+final class Auth
 {
     use Hookable;
 
