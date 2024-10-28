@@ -16,6 +16,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
+use Kleinweb\Lib\Hooks\Attributes\Action;
+use Kleinweb\Lib\Hooks\Attributes\Filter;
 use Kleinweb\Lib\Support\CoreObjects;
 use Kleinweb\Auth\Support\UserField;
 use League\Uri\Uri;
@@ -25,7 +27,6 @@ use OneLogin\Saml2\ValidationError;
 use WP_Error;
 use WP_User;
 
-use function add_action;
 use function add_filter;
 use function wp_login_url;
 
@@ -34,31 +35,16 @@ use function wp_login_url;
  */
 final readonly class SamlAuthPlugin
 {
-    public function __construct(private OneLoginAuth $provider)
-    {
-        $this->registerHooks();
-    }
+    public function __construct(private OneLoginAuth $provider) {}
 
-    /**
-     * Initialize the controller logic on the 'init' hook.
-     */
-    public function registerHooks(): void
-    {
-        add_filter('login_body_class', $this->filterLoginBodyClass(...));
-        add_action('login_form', self::renderLoginFormAdditions(...));
-        add_action('login_footer', self::renderLoginFooterAdditions(...));
-        add_action('wp_logout', $this->actionWpLogout(...));
-
-        // Priority after wp_authenticate_username_password runs.
-        add_filter('authenticate', $this->filterAuthenticate(...), 21);
-    }
-
+    #[Action('login_form')]
     public static function renderLoginFormAdditions(): void
     {
         // phpcs:disable WordPress.Security.EscapeOutput -- False positive.
         echo \view('kleinweb-auth::partials.login-form.cta');
     }
 
+    #[Action('login_footer')]
     public static function renderLoginFooterAdditions(): void
     {
         echo \view('kleinweb-auth::partials.login-form.idp-toggle');
@@ -69,6 +55,7 @@ final readonly class SamlAuthPlugin
      *
      * @throws Error
      */
+    #[Action('wp_logout')]
     public function actionWpLogout(): void
     {
         /*
@@ -109,6 +96,7 @@ final readonly class SamlAuthPlugin
      *
      * @return string[]
      */
+    #[Filter('login_body_class')]
     public static function filterLoginBodyClass($classes): array
     {
         $classes[] = 'is-kleinweb-auth-enabled';
@@ -123,12 +111,16 @@ final readonly class SamlAuthPlugin
     /**
      * Check if the user is authenticated against the SAML provider.
      *
+     * Priority value `21` ensures this filter runs after the
+     * `wp_authenticate_username_password` filter.
+     *
      * @param mixed $user wordPress user reference
      *
      * @return false|int|WP_Error|mixed|WP_User|null
      *
      * @throws Error
      */
+    #[Filter('authenticate', priority: 21)]
     public function filterAuthenticate($user): mixed
     {
         $isLocalLoginPermitted = SamlAuth::isLocalLoginAllowed();
