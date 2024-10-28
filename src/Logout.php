@@ -14,7 +14,7 @@ use Kleinweb\Lib\Hooks\Traits\Hookable;
 use OneLogin\Saml2\Error;
 use OneLogin\Saml2\Auth as OneLoginAuth;
 
-final class Logout
+final readonly class Logout
 {
     use Hookable;
 
