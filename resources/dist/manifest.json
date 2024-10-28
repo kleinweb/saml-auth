@@ -6,10 +6,10 @@
     "integrity": "sha384-ZiH0rpnS3vzyAI+KnRVusj3xn4Uzojg0gWl1zhE1yALf8cl1dN+IBSvVGFs5ZKJx"
   },
   "resources/js/kleinweb-auth-login.ts": {
-    "file": "kleinweb-auth-login-Cm3YstXK.js",
+    "file": "kleinweb-auth-login-DtBJl0NH.js",
     "name": "kleinweb-auth-login",
     "src": "resources/js/kleinweb-auth-login.ts",
     "isEntry": true,
-    "integrity": "sha384-spZ6AbS5nr3y5tz42GkHprEGT8Hy9V8QsbjrQOfwafT6hAwQlbYOzkdWnWlM/O+Q"
+    "integrity": "sha384-c6t59n5AIkkp12zhNCBYtHa2qmweaTIpyjRmItjiHovvtAsy+irE39wt08Txj2U/"
   }
 }

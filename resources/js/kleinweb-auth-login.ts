@@ -3,33 +3,20 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {assign, createActor, createMachine, setup} from 'xstate'
+import {assign, createActor, setup} from 'xstate'
 
 enum Idp {
   LOCAL = 'local',
   SAML = 'saml',
 }
 
-const initialState = Idp.SAML
+const defaultToggleButtonText = 'Log in with TU AccessNet'
 
 document.addEventListener('DOMContentLoaded', () => {
-  const $toggleBtn = document.body.querySelector(
+  const $password = document.querySelector('#user_pass') as HTMLInputElement
+  const $toggleBtn = document.querySelector(
     '.js-kleinweb-auth-idp-toggle-button',
-  )
-
-  // https://github.com/WordPress/wordpress-develop/blob/b42f5f95417413ee6b05ef389e21b3a0d61d3370/src/wp-login.php#L1513
-  const $passwordInput = document.body.querySelector('#user_pass')
-
-  if (
-    !($toggleBtn instanceof HTMLElement) ||
-    !($passwordInput instanceof HTMLInputElement)
-  ) {
-    console.error('[kleinweb-auth]: Something is very wrong...', {
-      $toggleBtn,
-      $passwordInput,
-    })
-    return
-  }
+  ) as HTMLAnchorElement
 
   const toggleMachine = setup({
     types: {
@@ -39,9 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
     },
   }).createMachine({
     id: 'toggle',
-    initial: initialState,
+    initial: Idp.SAML,
     context: () => ({
-      buttonText: $toggleBtn.innerHTML.trim(),
+      buttonText: $toggleBtn.textContent?.trim() ?? defaultToggleButtonText,
     }),
     states: {
       [Idp.SAML]: {
@@ -51,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
           },
         },
         exit: assign({
-          buttonText: 'Log in with TU AccessNet',
+          buttonText: defaultToggleButtonText,
         }),
       },
       [Idp.LOCAL]: {
@@ -63,13 +50,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         entry: [
           () => {
-            $passwordInput.disabled = false
+            $password.disabled = false
           },
         ],
 
         exit: [
           () => {
-            $passwordInput.disabled = true
+            $password.disabled = true
           },
           assign({
             buttonText: 'Use local account',
