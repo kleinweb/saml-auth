@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 use Kleinweb\Lib\Hooks\Attributes\Action;
 use Kleinweb\Lib\Hooks\Attributes\Filter;
+use Kleinweb\Lib\Hooks\Traits\Hookable;
 use Kleinweb\Lib\Support\CoreObjects;
 use Kleinweb\Auth\Support\UserField;
 use League\Uri\Uri;
@@ -35,7 +36,12 @@ use function wp_login_url;
  */
 final readonly class Login
 {
-    public function __construct(private OneLoginAuth $provider) {}
+    use Hookable;
+
+    public function __construct(private OneLoginAuth $provider)
+    {
+        $this->registerHooks();
+    }
 
     #[Action('login_form')]
     public static function renderLoginFormAdditions(): void

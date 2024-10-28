@@ -10,12 +10,18 @@ namespace Kleinweb\Auth;
 
 use Illuminate\Support\Facades\Config;
 use Kleinweb\Lib\Hooks\Attributes\Action;
+use Kleinweb\Lib\Hooks\Traits\Hookable;
 use OneLogin\Saml2\Error;
 use OneLogin\Saml2\Auth as OneLoginAuth;
 
 final class Logout
 {
-    public function __construct(private OneLoginAuth $provider) {}
+    use Hookable;
+
+    public function __construct(private OneLoginAuth $provider)
+    {
+        $this->registerHooks();
+    }
 
     /**
      * Log the user out of the SAML instance when they log out of WordPress.
