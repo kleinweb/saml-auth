@@ -13,7 +13,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\View;
-use Kleinweb\Auth\View\Composers\Login;
+use Kleinweb\Auth\View\Composers\Login as LoginComposer;
 use Kleinweb\Lib\Hooks\Attributes\Action;
 use Kleinweb\Lib\Package\Exceptions\InvalidPackage;
 use Kleinweb\Lib\Package\Package;
@@ -43,7 +43,7 @@ final class AuthServiceProvider extends PackageServiceProvider
             ->hasAssets()
             // FIXME: reimplement viewcomposer as component
             // ->hasViewComponent('kleinweb-auth', 'TODO')
-            ->hasViewComposer(Login::views(), Login::class);
+            ->hasViewComposer(LoginComposer::views(), LoginComposer::class);
     }
 
     /**
@@ -85,9 +85,9 @@ final class AuthServiceProvider extends PackageServiceProvider
         parent::boot();
 
         // TODO: remove?
-        $this->app->make(Login::class);
+        // $this->app->make(Login::class);
 
-        View::composer(Login::views(), Login::class);
+        View::composer(LoginComposer::views(), LoginComposer::class);
     }
 
     #[Action('login_enqueue_scripts')]
