@@ -84,8 +84,8 @@ final class AuthServiceProvider extends PackageServiceProvider
     {
         parent::boot();
 
-        // TODO: remove?
-        // $this->app->make(Login::class);
+        $this->app->make(Login::class);
+        $this->app->make(Logout::class);
 
         View::composer(LoginComposer::views(), LoginComposer::class);
     }
