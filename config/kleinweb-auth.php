@@ -6,6 +6,8 @@
 
 declare(strict_types=1);
 
+use Kleinweb\Lib\Support\Environment;
+
 return [
     // WARNING: Disabling local login will likely result in user lockouts!
     'allow_local_login' => true,
@@ -14,7 +16,7 @@ return [
     // subjects requesting access.  This should remain disabled.
     'auto_provision' => false,
 
-    'debug' => WP_DEBUG && WP_DEBUG_DISPLAY,
+    'debug' => WP_DEBUG && WP_DEBUG_DISPLAY && (wp_get_environment_type() === Environment::LOCAL),
 
     // Provisioned users will receive this role.
     'default_role' => \get_option('default_role'),

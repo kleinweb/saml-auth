@@ -14,13 +14,15 @@ use Args\wp_insert_user as InsertUserArgs;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Str;
 use Kleinweb\Lib\Hooks\Attributes\Action;
 use Kleinweb\Lib\Hooks\Attributes\Filter;
 use Kleinweb\Lib\Hooks\Traits\Hookable;
 use Kleinweb\Lib\Support\CoreObjects;
 use Kleinweb\Auth\Support\UserField;
+use League\Uri\Components\Path;
+use League\Uri\Components\Query;
 use League\Uri\Uri;
 use OneLogin\Saml2\Auth as OneLoginAuth;
 use OneLogin\Saml2\Error;
@@ -103,56 +105,22 @@ final readonly class Login
         return $user;
     }
 
-    /**
-     * Do the SAML authentication dance.
-     *
-     * @throws Error
-     */
-    public function doSamlAuthentication(): WP_Error|WP_User|null
+    protected function processResponse(): mixed
     {
-        if (Request::has('SAMLResponse')) {
-            // FIXME: verify this try-catch is what we want -- prevents "unreachable statement" screaming in IDE
-            try {
-                $this->provider->processResponse();
-            } catch (Error $e) {
-                Log::notice($e->getMessage());
-                // return new WP_Error('kleinweb_saml_auth_response_error', $e->getMessage());
-            } catch (ValidationError $e) {
-                Log::info($e->getMessage());
-                // return new WP_Error('kleinweb_saml_auth_validation_error', $e->getMessage());
-            }
+        try {
+            return $this->provider->processResponse();
+        } catch (Error $e) {
+            return new WP_Error('kleinweb_saml_auth_response_error', $e->getMessage());
+        } catch (ValidationError $_e) {
+            $reason = $this->provider->getLastErrorReason();
 
-            if (!$this->provider->isAuthenticated()) {
-                // Translators: Includes error reason from OneLogin.
-                return new WP_Error('kleinweb_saml_auth_unauthenticated', sprintf(__('User is not authenticated with SAML IdP. Reason: %s', 'kleinweb-auth'), $this->provider->getLastErrorReason()));
-            }
-
-            $attributes = $this->provider->getAttributes();
-            $redirectTo = filter_input(INPUT_POST, 'RelayState', FILTER_SANITIZE_URL);
-            $permitWpLogin = Auth::isLocalLoginAllowed();
-            if ($redirectTo) {
-                // When $permit_wp_login=true, we only care about accidentally triggering the redirect
-                // to the IdP.  However, when $permit_wp_login=false, hitting wp-login will always
-                // trigger the IdP redirect.
-                // FIXME: use Uri lib for sane parsing?
-                $loginUrlPath = parse_url(wp_login_url(), PHP_URL_PATH) ?: '';
-                if (($permitWpLogin && (stripos($redirectTo, 'action=kleinweb-auth') === false))
-                    || (!$permitWpLogin && (stripos($redirectTo, $loginUrlPath) === false))) {
-                    add_filter('login_redirect', static fn () => $redirectTo, priority: 1);
-                }
-            }
-        } else {
-            // FIXME: clean up
-            $redirectTo =
-                filter_input(INPUT_GET, 'redirect_to', FILTER_SANITIZE_URL)
-                    ?: (isset($_SERVER['REQUEST_URI'])
-                    ? sanitize_text_field($_SERVER['REQUEST_URI'])
-                    : null);
-
-            $this->provider->login($redirectTo);
+            return new WP_Error('kleinweb_saml_auth_validation_error', sprintf('Authentication failed: %s', $reason));
         }
+    }
 
-        $attributes = Collection::make($attributes);
+    protected function findOrCreateUser(): WP_Error|WP_User|int|null
+    {
+        $attributes = Collection::make($this->provider->getAttributes());
         if ($attributes->isEmpty()) {
             return new WP_Error(
                 'kleinweb_saml_auth_no_attributes',
@@ -228,5 +196,74 @@ final readonly class Login
         do_action('kleinweb_saml_auth_new_user_authenticated', $user, $attributes);
 
         return $user;
+    }
+
+    /**
+     * Do the SAML authentication dance.
+     *
+     * @throws Error
+     */
+    public function doSamlAuthentication(): mixed
+    {
+        $redirectTo = self::redirectUri()?->toString();
+
+        if (Request::has('SAMLResponse')) {
+            $response = $this->processResponse();
+
+            if ($response instanceof WP_Error) {
+                return $response;
+            }
+        } else {
+            $this->provider->login($redirectTo);
+        }
+
+        if (!$this->provider->isAuthenticated()) {
+            return                new WP_Error(
+                'kleinweb_saml_auth_unauthenticated',
+                // Translators: Includes error reason from OneLogin.
+                sprintf(
+                    __('User is not authenticated with SAML IdP. Reason: %s', 'kleinweb-auth'),
+                    $this->provider->getLastErrorReason(),
+                ),
+            );
+        }
+
+        if ($this->shouldRedirect()) {
+            add_filter('login_redirect', static fn () => $redirectTo, priority: 1);
+        }
+
+        return $this->findOrCreateUser();
+    }
+
+    public static function redirectUri(): ?Uri
+    {
+        $url = Request::has('SAMLResponse')
+            ? Request::post('RelayState')
+            : Request::get('redirect_to', Request::getRequestUri());
+
+        return $url ? Uri::new($url) : null;
+    }
+
+    /**
+     * Whether the client should redirect the user after authentication.
+     *
+     * When $permit_wp_login=true, we only care about accidentally triggering the redirect
+     * to the IdP.  However, when $permit_wp_login=false, hitting wp-login will always
+     * trigger the IdP redirect.
+     */
+    protected function shouldRedirect(): bool
+    {
+        $redirectTo = self::redirectUri();
+
+        if (!$redirectTo) {
+            return false;
+        }
+
+        $loginUrlPath = Path::new(wp_login_url());
+        $query = Query::fromUri($redirectTo);
+
+        return Auth::isLocalLoginAllowed()
+            ? ! $query->hasPair('action', 'kleinweb-auth')
+            : ! Str::contains($redirectTo->getPath(), $loginUrlPath->toString());
     }
 }
