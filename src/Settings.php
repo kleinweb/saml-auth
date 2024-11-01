@@ -16,20 +16,7 @@ use Kleinweb\Lib\Tenancy\Site;
 
 final class Settings
 {
-    final public const SECURITY_DEFAULTS = [
-        'authnRequestsSigned' => false,
-        // TODO: make this configurable
-        // FIXME: for testing only!  disabled temporarily by OIAM for
-        // the kleinforms staging environment.
-        // 'wantAssertionsSigned' => true,
-        // 'wantAssertionsEncrypted' => true,
-        'wantMessagesSigned' => true,
-        'wantNameId' => true,
-        'wantNameIdEncrypted' => false,
-        'wantXMLValidation' => true,
-    ];
-
-    final public const ORGANIZATION_DEFAULT = [
+    final public const DEFAULT_ORG_CONTACT = [
         'name' => 'Klein College of Media and Communication',
         'displayname' => 'Klein College of Media and Communication',
         'url' => 'https://klein.temple.edu',
@@ -66,31 +53,42 @@ final class Settings
      */
     public function collect(): Collection
     {
-        $settings = Collection::make(
+        return Collection::make(
             [
                 'strict' => true,
                 'debug' => Auth::isDebugEnabled(),
                 'baseurl' => Site::url()->toString(),
                 'sp' => SP::config(),
                 'idp' => IdP::config(),
-                'contactPerson' => $this->contactPerson(),
+                'contactPerson' => self::contactPerson(),
                 'organization' => [
                     'en-US' => self::organization(),
                 ],
+                'security' => self::security(),
             ],
         );
+    }
 
-        if (!Auth::isDangerouslyInsecure()) {
-            $settings->put('security', self::SECURITY_DEFAULTS);
-        }
-
-        return $settings;
+    /**
+     * @return array<string, bool>
+     */
+    public static function security(): array
+    {
+        return [
+            'authnRequestsSigned' => true,
+            'wantAssertionsSigned' => true,
+            'wantAssertionsEncrypted' => ! Auth::isDangerouslyInsecure(),
+            'wantMessagesSigned' => true,
+            'wantNameId' => true,
+            'wantNameIdEncrypted' => false,
+            'wantXMLValidation' => true,
+        ];
     }
 
     /**
      * @return array<string, array<string, string>>
      */
-    public function contactPerson(): array
+    public static function contactPerson(): array
     {
         $contact = Config::array(Auth::CONFIG_PREFIX . 'contact');
         $mapDefaultContact = static fn ($v): array => ($v === 'default')
@@ -108,6 +106,6 @@ final class Settings
      */
     public static function organization(): array
     {
-        return Config::array(Auth::CONFIG_PREFIX . 'organization', self::ORGANIZATION_DEFAULT);
+        return Config::array(Auth::CONFIG_PREFIX . 'organization', self::DEFAULT_ORG_CONTACT);
     }
 }
