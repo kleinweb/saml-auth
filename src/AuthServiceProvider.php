@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\View;
 use Kleinweb\Auth\View\Composers\Login as LoginComposer;
 use Kleinweb\Lib\Hooks\Attributes\Action;
+use Kleinweb\Lib\Hooks\Attributes\Filter;
 use Kleinweb\Lib\Package\Exceptions\InvalidPackage;
 use Kleinweb\Lib\Package\Package;
 use Kleinweb\Lib\Package\PackageServiceProvider;
@@ -59,23 +60,19 @@ final class AuthServiceProvider extends PackageServiceProvider
         $this->app->singleton(Auth::class);
         $this->app->singleton(Settings::class);
 
-        $this->app->singleton(Login::class);
-        $this->app->singleton(Logout::class);
-        $this->app->singleton(
-            OneLoginAuth::class,
-            static function (Application $app) {
-                $providerSettings = $app->make(Settings::class);
+        $this->app->singleton(SamlAuthPluginAdapter::class);
 
-                return new OneLoginAuth($providerSettings->make());
-            },
-        );
+        $this->app->bindIf(OneLoginAuth::class, SamlAuthPluginAdapter::saml(...));
 
         $this->app->singleton(
             'assets.kleinweb-auth',
+            // FIXME: make this less fussy
             fn (): ViteManifest => new ViteManifest(
                 $this->package->basePath('../resources/dist/manifest.json'),
-                // FIXME: make this less fussy
-                Site::url(path: '/vendor/kleinweb/saml-auth/resources/dist/')->toString(),
+                // FIXME: fatal error on subsites!!!  should not depend on
+                // absolute path because subsites usually use the first path
+                // level as identifier
+                Site::url(path: 'vendor/kleinweb/saml-auth/resources/dist/')->toString(),
             ),
         );
     }
@@ -84,8 +81,7 @@ final class AuthServiceProvider extends PackageServiceProvider
     {
         parent::boot();
 
-        $this->app->make(Login::class);
-        $this->app->make(Logout::class);
+        $this->app->make(SamlAuthPluginAdapter::class);
 
         View::composer(LoginComposer::views(), LoginComposer::class);
     }
@@ -104,5 +100,37 @@ final class AuthServiceProvider extends PackageServiceProvider
             'kleinweb-auth',
             $manifest->getEntrypoint('resources/js/kleinweb-auth-login.ts')['url'],
         );
+    }
+
+    #[Action('login_form')]
+    public static function renderLoginFormAdditions(): void
+    {
+        // phpcs:disable WordPress.Security.EscapeOutput -- False positive.
+        echo \view('kleinweb-auth::partials.login-form.cta');
+    }
+
+    #[Action('login_footer')]
+    public static function renderLoginFooterAdditions(): void
+    {
+        echo \view('kleinweb-auth::partials.login-form.idp-toggle');
+    }
+
+    /**
+     * Add body classes for our specific configuration attributes.
+     *
+     * @param string[] $classes body CSS classes
+     *
+     * @return string[]
+     */
+    #[Filter('login_body_class')]
+    public static function filterLoginBodyClass($classes): array
+    {
+        $classes[] = 'is-kleinweb-auth-enabled';
+        $classes[] = 'is-saml-authn';
+        $classes[] = Auth::isLocalLoginAllowed()
+            ? 'is-local-login-allowed'
+            : 'is-local-login-disallowed';
+
+        return $classes;
     }
 }

@@ -29,7 +29,6 @@
     "johnbillion/args": "^2.0",
     "kleinweb/lib": "dev-main",
     "league/uri-components": "^7.0",
-    "onelogin/php-saml": "^4.2",
     "symfony/http-foundation": "^7.1",
     "webmozart/assert": "^1.11"
   },

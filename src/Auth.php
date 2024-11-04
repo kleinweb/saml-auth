@@ -64,7 +64,7 @@ final class Auth
         $url = Uri::new(wp_login_url());
         $redirectTo = (string) filter_input(INPUT_GET, 'redirect_to', FILTER_SANITIZE_URL);
         $queryArgs = Query::fromUri($url)
-            ->withPair('action', 'kleinweb-auth')
+            ->withPair('action', 'wp-saml-auth')
             ->withPair('redirect_to', $redirectTo);
         $url = $url->withQuery($queryArgs);
 

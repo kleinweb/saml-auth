@@ -1,6 +1,2 @@
 parameters:
 	ignoreErrors:
-		-
-			message: "#^Method Kleinweb\\\\Auth\\\\Login\\:\\:findOrCreateUser\\(\\) never returns int so it can be removed from the return type\\.$#"
-			count: 1
-			path: src/Login.php
