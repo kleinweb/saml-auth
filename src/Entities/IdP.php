@@ -8,12 +8,13 @@ declare(strict_types=1);
 
 namespace Kleinweb\Auth\Entities;
 
+use Illuminate\Support\Facades\File;
 use Kleinweb\Auth\Auth;
 use OneLogin\Saml2\Constants as Saml;
 use Kleinweb\Lib\Support\Environment;
 use Illuminate\Support\Facades\Config;
 
-use function file_get_contents;
+use function sprintf;
 
 final class IdP extends Entity
 {
@@ -21,7 +22,7 @@ final class IdP extends Entity
     {
         return [
             'entityId' => self::entityId(),
-            'x509cert' => self::x509Certificate(),
+            'x509cert' => File::get(self::certPath()),
             'singleSignOnService' => [
                 'binding' => Saml::BINDING_HTTP_REDIRECT,
                 'url'  => self::loginUrl(),
@@ -50,12 +51,9 @@ final class IdP extends Entity
         return self::urlBase() . '/profile/Logout';
     }
 
-    protected static function readX509Certificate(): string
+    public static function certPath(): string
     {
-        $certPath = self::$x509Path . self::fqdn() . '.crt';
-        self::$x509Certificate = file_get_contents($certPath) ?: '';
-
-        return self::$x509Certificate;
+        return Auth::x509Path(sprintf('idp/%s.crt', self::fqdn()));
     }
 
     public static function fqdn(): string

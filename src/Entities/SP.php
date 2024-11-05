@@ -9,13 +9,12 @@ declare(strict_types=1);
 namespace Kleinweb\Auth\Entities;
 
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\File;
 use OneLogin\Saml2\Constants as Saml;
 use Kleinweb\Auth\Auth;
 use Kleinweb\Lib\Support\Environment;
 use Kleinweb\Lib\Tenancy\Site;
 use Webmozart\Assert\Assert;
-
-use function file_get_contents;
 
 final class SP extends Entity
 {
@@ -47,8 +46,8 @@ final class SP extends Entity
     {
         return [
             'entityId' => self::entityId(),
-            'x509cert' => self::x509Certificate(),
-            'privateKey' => self::readX509PrivateKey(),
+            'x509cert' => File::get(self::certPath()),
+            'privateKey' => File::get(self::keyPath()),
             'assertionConsumerService' => [
                 'binding' => Saml::BINDING_HTTP_POST,
                 'url'  => self::loginUrl(),
@@ -67,14 +66,14 @@ final class SP extends Entity
         return '';
     }
 
-    protected static function readX509Certificate(): string
+    public static function certPath(): string
     {
-        return file_get_contents(ABSPATH . '/.config/sso/sp.crt') ?: '';
+        return Auth::x509Path('sp.crt');
     }
 
-    public static function readX509PrivateKey(): string
+    protected static function keyPath(): string
     {
-        return file_get_contents(ABSPATH . '/.config/sso/sp.key.pem') ?: '';
+        return Auth::x509Path('sp.key.pem');
     }
 
     public static function name(): string

@@ -18,5 +18,5 @@ interface Metadata
 
     public static function logoutUrl(): string;
 
-    public static function x509Certificate(): string;
+    public static function certPath(): string;
 }

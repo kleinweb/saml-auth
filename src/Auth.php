@@ -16,6 +16,8 @@ use League\Uri\Uri;
 use OneLogin\Saml2\Auth as OneLoginAuth;
 use OneLogin\Saml2\Error as OneLoginError;
 
+use function Illuminate\Filesystem\join_paths;
+
 use const FILTER_SANITIZE_URL;
 
 final class Auth
@@ -57,6 +59,11 @@ final class Auth
             self::CONFIG_PREFIX . 'allow_local_login',
             true,
         );
+    }
+
+    public static function x509Path(?string $path = null): string
+    {
+        return join_paths(ABSPATH, '.config/sso', $path ?? '');
     }
 
     public static function loginUrl(): string
