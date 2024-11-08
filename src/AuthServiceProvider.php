@@ -19,7 +19,7 @@ use Kleinweb\Lib\Hooks\Attributes\Filter;
 use Kleinweb\Lib\Package\Exceptions\InvalidPackage;
 use Kleinweb\Lib\Package\Package;
 use Kleinweb\Lib\Package\PackageServiceProvider;
-use Kleinweb\Lib\Tenancy\Site;
+use Kleinweb\Lib\Support\Url;
 use OneLogin\Saml2\Auth as OneLoginAuth;
 use ReflectionException;
 use Webmozart\Assert\Assert;
@@ -66,14 +66,14 @@ final class AuthServiceProvider extends PackageServiceProvider
 
         $this->app->singleton(
             'assets.kleinweb-auth',
-            // FIXME: make this less fussy
-            fn (): ViteManifest => new ViteManifest(
-                $this->package->basePath('../resources/dist/manifest.json'),
-                // FIXME: fatal error on subsites!!!  should not depend on
-                // absolute path because subsites usually use the first path
-                // level as identifier
-                Site::url(path: 'vendor/kleinweb/saml-auth/resources/dist/')->toString(),
-            ),
+            function (): ViteManifest {
+                $manifestFile = $this->package->basePath('../resources/dist/manifest.json');
+
+                return new ViteManifest(
+                    $manifestFile,
+                    Url::fromFilesystemPath(dirname($manifestFile))->toString() . '/',
+                );
+            },
         );
     }
 
