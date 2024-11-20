@@ -81,7 +81,10 @@ final class SamlAuthPluginAdapter
 
             'auto_provision' => Config::boolean('kleinweb-auth.auto_provision', false),
             'permit_wp_login' => Config::boolean('kleinweb-auth.allow_local_login', true),
-            'default_role' => Config::string('kleinweb-auth.default_role', \get_option('default_role')),
+            'default_role' => Config::string(
+                'kleinweb-auth.default_role',
+                \get_option('default_role'),
+            ),
 
             'get_user_by' => 'login',
             'user_login_attribute' => UserField::LOGIN->samlAttribute(),
