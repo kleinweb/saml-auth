@@ -12,6 +12,7 @@ auth.json
 .env.*
 !.env.example
 .ssh
+*.key
 *.pem
 
 # Dependencies

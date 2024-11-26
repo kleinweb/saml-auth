@@ -9,6 +9,7 @@ declare(strict_types=1);
 use Kleinweb\Lib\Support\Environment;
 
 return [
+
     // WARNING: Disabling local login will likely result in user lockouts!
     'allow_local_login' => true,
 
@@ -52,4 +53,6 @@ return [
         'displayname' => 'Klein College of Media and Communication',
         'url' => 'https://klein.temple.edu',
     ],
+
+    'x509_directory' => constant('PRJ_ROOT_DIR') . '/.config/x509',
 ];

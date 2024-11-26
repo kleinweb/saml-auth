@@ -68,12 +68,12 @@ final class SP extends Entity
 
     public static function certPath(): string
     {
-        return Auth::x509Path('sp.crt');
+        return Auth::certPath('sp');
     }
 
     protected static function keyPath(): string
     {
-        return Auth::x509Path('sp.key.pem');
+        return Auth::keyPath('sp');
     }
 
     public static function name(): string

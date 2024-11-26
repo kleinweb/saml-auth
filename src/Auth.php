@@ -61,9 +61,21 @@ final class Auth
         );
     }
 
-    public static function x509Path(?string $path = null): string
+    public static function keyPath(string $name): string
     {
-        return join_paths(ABSPATH, '.config/sso', $path ?? '');
+        return self::x509Path("keys/{$name}.key");
+    }
+
+    public static function certPath(string $name): string
+    {
+        return self::x509Path("certs/{$name}.crt");
+    }
+
+    public static function x509Path(string $path = ''): string
+    {
+        $default = constant('PRJ_ROOT_DIR') . '/.config/x509';
+
+        return join_paths(Config::string('kleinweb-auth.x509_directory', $default), $path);
     }
 
     public static function loginUrl(): string

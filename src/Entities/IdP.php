@@ -14,8 +14,6 @@ use OneLogin\Saml2\Constants as Saml;
 use Kleinweb\Lib\Support\Environment;
 use Illuminate\Support\Facades\Config;
 
-use function sprintf;
-
 final class IdP extends Entity
 {
     public static function config(): array
@@ -53,7 +51,7 @@ final class IdP extends Entity
 
     public static function certPath(): string
     {
-        return Auth::x509Path(sprintf('idp/%s.crt', self::fqdn()));
+        return Auth::certPath(self::fqdn());
     }
 
     public static function fqdn(): string
