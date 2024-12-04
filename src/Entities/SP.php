@@ -35,9 +35,8 @@ final class SP extends Entity
 
     public static function entityId(): string
     {
-        $override = Config::string('kleinweb-auth.sp.entity_id');
-        if ($override) {
-            return $override;
+        if (Config::has('kleinweb-auth.sp.entity_id')) {
+            return Config::string('kleinweb-auth.sp.entity_id');
         }
 
         $uri = Uri::new('https://edu.temple.klein.' . self::domainName());
