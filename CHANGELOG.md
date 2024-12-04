@@ -2,6 +2,16 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [2.0.0-alpha.1](https://github.com/kleinweb/saml-auth/compare/d68012df6455ef56e94764515851d8c39f97b27f..2.0.0-alpha.1) - 2024-12-04
+#### Bug Fixes
+- **(dev:release)** support args override - ([fe729e7](https://github.com/kleinweb/saml-auth/commit/fe729e7f59f28e78a26776bfb8102a1e89f68b9d)) - [@montchr](https://github.com/montchr)
+#### Features
+- rework entity uri handling to support out-of-band overrides - ([878184e](https://github.com/kleinweb/saml-auth/commit/878184e03bd8c61a6900b865d3bccc09deac7c6a)) - [@montchr](https://github.com/montchr)
+#### Miscellaneous Chores
+- bump lib to 0.2.3 - ([d68012d](https://github.com/kleinweb/saml-auth/commit/d68012df6455ef56e94764515851d8c39f97b27f)) - [@montchr](https://github.com/montchr)
+
+- - -
+
 ## [1.0.0](https://github.com/kleinweb/saml-auth/compare/1.0.0-rc.1..1.0.0) - 2024-11-26
 #### Bug Fixes
 - pin lib to 0.2.2 - ([e6de741](https://github.com/kleinweb/saml-auth/commit/e6de74149191936b5db120afcb892c9c5c7ba5c3)) - [@montchr](https://github.com/montchr)
