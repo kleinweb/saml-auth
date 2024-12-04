@@ -23,10 +23,6 @@ return [
     'default_role' => \get_option('default_role'),
 
     'sp' => [
-        // Recommended for testing on lower environments.
-        // NOTE: The `constant()` function is used to appease PHPStan.
-        // 'domain_fallback' => constant('KLEINWEB_PROJECT_DOMAIN'),
-
         // Manual override for the entity ID.
         // 'entity_id' => 'https://iknowwhatiamdoing.edu'
     ],

@@ -10,38 +10,16 @@ namespace Kleinweb\Auth\Entities;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
+use League\Uri\Components\Domain;
+use League\Uri\Components\Path;
+use League\Uri\Uri;
 use OneLogin\Saml2\Constants as Saml;
 use Kleinweb\Auth\Auth;
 use Kleinweb\Lib\Support\Environment;
 use Kleinweb\Lib\Tenancy\Site;
-use Webmozart\Assert\Assert;
 
 final class SP extends Entity
 {
-    public static function entityId(?int $siteId = null): string
-    {
-        $path = '/' . (Environment::isProduction() ? 'sp' : 'np-sp');
-        $id = 'https://edu.temple.klein.' . self::fqdn($siteId) . $path;
-
-        return Config::string(Auth::CONFIG_PREFIX . 'sp.entityId', $id);
-    }
-
-    public static function fqdn(?int $siteId = null): string
-    {
-        $host = Site::host($siteId);
-        Assert::notNull($host);
-
-        if (Environment::isProduction()) {
-            return $host;
-        }
-
-        $key = Auth::CONFIG_PREFIX . 'sp.domain_fallback';
-        $fallback = Config::string($key, $host);
-        Assert::stringNotEmpty($fallback);
-
-        return $fallback;
-    }
-
     public static function config(): array
     {
         return [
@@ -50,20 +28,69 @@ final class SP extends Entity
             'privateKey' => File::get(self::keyPath()),
             'assertionConsumerService' => [
                 'binding' => Saml::BINDING_HTTP_POST,
-                'url'  => self::loginUrl(),
+                'url'  => self::acsUrl(),
             ],
         ];
     }
 
+    public static function entityId(): string
+    {
+        $override = Config::string('kleinweb-auth.sp.entity_id');
+        if ($override) {
+            return $override;
+        }
+
+        $uri = Uri::new('https://edu.temple.klein.' . self::domainName());
+        $path = Path::new(Environment::isProduction() ? 'sp' : 'np-sp')
+            ->withLeadingSlash();
+
+        return $uri->withPath($path)->toString();
+    }
+
+    public static function acsUrl(): string
+    {
+        return Uri::new(self::loginUrl())
+            ->withHost(self::domainName())
+            ->toString();
+    }
+
     public static function loginUrl(): string
     {
-        // FIXME: this might be incorrect logic!?!
-        return Site::isPrimaryHost() ? network_home_url('wp-login.php') : wp_login_url();
+        return wp_login_url();
     }
 
     public static function logoutUrl(): string
     {
         return '';
+    }
+
+    public static function domainName(): string
+    {
+        if (self::domainOverride()) {
+            return Domain::new(self::domainOverride())->toString();
+        }
+
+        if (Environment::isProduction()) {
+            // The domain of the login URL can be different from the actual
+            // site domain.
+            $loginUrl = Uri::new(self::loginUrl());
+
+            return Domain::fromUri($loginUrl)->toString();
+        }
+
+        return Domain::new(self::domainFallback())->toString();
+    }
+
+    public static function domainOverride(): ?string
+    {
+        return (defined('KLEINWEB_AUTH_SAML_SP_DOMAIN'))
+            ? constant('KLEINWEB_AUTH_SAML_SP_DOMAIN')
+            : null;
+    }
+
+    public static function domainFallback(): string
+    {
+        return constant('KLEINWEB_PROJECT_DOMAIN');
     }
 
     public static function certPath(): string

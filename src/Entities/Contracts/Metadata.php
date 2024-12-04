@@ -12,7 +12,7 @@ interface Metadata
 {
     public static function entityId(): string;
 
-    public static function fqdn(): string;
+    public static function domainName(): string;
 
     public static function loginUrl(): string;
 
