@@ -36,27 +36,27 @@ final class IdP extends Entity
 
     public static function entityId(): string
     {
-        $default = self::urlBase() . '/shibboleth';
+        $default = 'https://' . self::entityDomain() . '/idp/shibboleth';
 
         return Config::string('kleinweb-auth.idp.entity_id', $default);
     }
 
     public static function loginUrl(): string
     {
-        return self::urlBase() . '/profile/SAML2/Redirect/SSO';
+        return self::serviceUrlBase() . '/profile/SAML2/Redirect/SSO';
     }
 
     public static function logoutUrl(): string
     {
-        return self::urlBase() . '/profile/Logout';
+        return self::serviceUrlBase() . '/profile/Logout';
     }
 
     public static function certPath(): string
     {
-        return Auth::certPath(self::domainName());
+        return Auth::certPath(self::entityDomain());
     }
 
-    public static function domainName(): string
+    public static function entityDomain(): string
     {
         $subdomain = match (self::targetEnv()) {
             IdpEnvironment::PRODUCTION => 'fim',
@@ -66,9 +66,14 @@ final class IdP extends Entity
         return $subdomain . '.temple.edu';
     }
 
-    protected static function urlBase(): string
+    public static function serviceDomain(): string
     {
-        return 'https://' . self::domainName() . '/idp';
+        return self::entityDomain();
+    }
+
+    protected static function serviceUrlBase(): string
+    {
+        return 'https://' . self::serviceDomain() . '/idp';
     }
 
     public static function targetEnvOverride(): ?string

@@ -39,17 +39,24 @@ final class SP extends Entity
             return Config::string('kleinweb-auth.sp.entity_id');
         }
 
-        $uri = Uri::new('https://edu.temple.klein.' . self::domainName());
+        $uri = Uri::new('https://edu.temple.klein.' . self::entityDomain());
         $path = Path::new(Environment::isProduction() ? 'sp' : 'np-sp')
             ->withLeadingSlash();
 
         return $uri->withPath($path)->toString();
     }
 
+    public static function entityDomain(): string
+    {
+        $domain = self::domainOverride() ?: constant('KLEINWEB_PROJECT_DOMAIN');
+
+        return Domain::new($domain)->toString();
+    }
+
     public static function acsUrl(): string
     {
         return Uri::new(self::loginUrl())
-            ->withHost(self::domainName())
+            ->withHost(self::serviceDomain())
             ->toString();
     }
 
@@ -63,21 +70,18 @@ final class SP extends Entity
         return '';
     }
 
-    public static function domainName(): string
+    public static function serviceDomain(): string
     {
         if (self::domainOverride()) {
             return Domain::new(self::domainOverride())->toString();
         }
 
-        if (Environment::isProduction()) {
-            // The domain of the login URL can be different from the actual
-            // site domain.
-            $loginUrl = Uri::new(self::loginUrl());
+        // The domain of the login URL can be different from the actual
+        // site domain.
+        $loginUrl = Uri::new(self::loginUrl());
 
-            return Domain::fromUri($loginUrl)->toString();
-        }
+        return Domain::fromUri($loginUrl)->toString();
 
-        return Domain::new(self::domainFallback())->toString();
     }
 
     public static function domainOverride(): ?string
@@ -85,11 +89,6 @@ final class SP extends Entity
         return (defined('KLEINWEB_AUTH_SAML_SP_DOMAIN'))
             ? constant('KLEINWEB_AUTH_SAML_SP_DOMAIN')
             : null;
-    }
-
-    public static function domainFallback(): string
-    {
-        return constant('KLEINWEB_PROJECT_DOMAIN');
     }
 
     public static function certPath(): string
