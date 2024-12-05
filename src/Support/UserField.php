@@ -8,17 +8,28 @@ declare(strict_types=1);
 
 namespace Kleinweb\Auth\Support;
 
+use ArchTech\Enums\InvokableCases;
+
 enum UserField: string
 {
+    use InvokableCases;
+
     case LOGIN = 'login';
     case EMAIL = 'email';
     case DISPLAY_NAME = 'display_name';
     case FIRST_NAME = 'first_name';
     case LAST_NAME = 'last_name';
 
-    public function name(): string
+    /**
+     * @return UserField[]
+     */
+    public static function managed(): array
     {
-        return $this->value;
+        return [
+            UserField::EMAIL,
+            UserField::FIRST_NAME,
+            UserField::LAST_NAME,
+        ];
     }
 
     /**
