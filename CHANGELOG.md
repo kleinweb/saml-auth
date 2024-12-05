@@ -2,6 +2,32 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [2.0.0-beta.1](https://github.com/kleinweb/saml-auth/compare/2.0.0-alpha.2..2.0.0-beta.1) - 2024-12-05
+#### Bug Fixes
+- restore usage of primary site login url on same-domain subsites - ([7360df6](https://github.com/kleinweb/saml-auth/commit/7360df655cd0652e9069b4d222f27dee82e68172)) - [@montchr](https://github.com/montchr)
+
+- - -
+
+## [2.0.0-alpha.2](https://github.com/kleinweb/saml-auth/compare/2.0.0-alpha.1..2.0.0-alpha.2) - 2024-12-05
+#### Bug Fixes
+- **(config|sp)** allow undefined entity id override - ([08ecd9a](https://github.com/kleinweb/saml-auth/commit/08ecd9ad16341da4cdf8ec266fa0f951f33d4339)) - [@montchr](https://github.com/montchr)
+- **(sp|idp)** decouple entity and service domains - ([93eceac](https://github.com/kleinweb/saml-auth/commit/93eceace882937de9ac3e2ec502a0d286d62dac9)) - [@montchr](https://github.com/montchr)
+#### Miscellaneous Chores
+- **(version)** 2.0.0-alpha.2 - ([4cccba5](https://github.com/kleinweb/saml-auth/commit/4cccba51bb1d675091ee91ce016a73f474a32ed5)) - [@montchr](https://github.com/montchr)
+
+- - -
+
+## [2.0.0-alpha.1](https://github.com/kleinweb/saml-auth/compare/d68012df6455ef56e94764515851d8c39f97b27f..2.0.0-alpha.1) - 2024-12-05
+#### Bug Fixes
+- **(dev:release)** support args override - ([fe729e7](https://github.com/kleinweb/saml-auth/commit/fe729e7f59f28e78a26776bfb8102a1e89f68b9d)) - [@montchr](https://github.com/montchr)
+#### Features
+- rework entity uri handling to support out-of-band overrides - ([878184e](https://github.com/kleinweb/saml-auth/commit/878184e03bd8c61a6900b865d3bccc09deac7c6a)) - [@montchr](https://github.com/montchr)
+#### Miscellaneous Chores
+- **(version)** 2.0.0-alpha.1 - ([d2b4f71](https://github.com/kleinweb/saml-auth/commit/d2b4f71e17b89f1974550105ae35f4f60421e411)) - [@montchr](https://github.com/montchr)
+- bump lib to 0.2.3 - ([d68012d](https://github.com/kleinweb/saml-auth/commit/d68012df6455ef56e94764515851d8c39f97b27f)) - [@montchr](https://github.com/montchr)
+
+- - -
+
 ## [2.0.0-alpha.2](https://github.com/kleinweb/saml-auth/compare/2.0.0-alpha.1..2.0.0-alpha.2) - 2024-12-04
 #### Bug Fixes
 - **(config|sp)** allow undefined entity id override - ([08ecd9a](https://github.com/kleinweb/saml-auth/commit/08ecd9ad16341da4cdf8ec266fa0f951f33d4339)) - [@montchr](https://github.com/montchr)
