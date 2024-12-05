@@ -50,8 +50,8 @@ enum UserField: string
             UserField::LOGIN => SamlAttribute::uid,
             UserField::EMAIL => SamlAttribute::mail,
             UserField::DISPLAY_NAME => SamlAttribute::displayName,
-            UserField::FIRST_NAME => SamlAttribute::templeEduSn,
-            UserField::LAST_NAME => SamlAttribute::templeEduGivenName,
+            UserField::FIRST_NAME => SamlAttribute::templeEduGivenName,
+            UserField::LAST_NAME => SamlAttribute::templeEduSn,
         };
     }
 }
