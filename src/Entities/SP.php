@@ -18,6 +18,10 @@ use Kleinweb\Auth\Auth;
 use Kleinweb\Lib\Support\Environment;
 use Kleinweb\Lib\Tenancy\Site;
 
+use function is_multisite;
+use function network_site_url;
+use function wp_login_url;
+
 final class SP extends Entity
 {
     public static function config(): array
@@ -46,6 +50,12 @@ final class SP extends Entity
         return $uri->withPath($path)->toString();
     }
 
+    /**
+     * Fully-qualified domain name for generating the entity ID.
+     *
+     * This should match the FQDN of the live site as provided by
+     * {@link KLEINWEB_PROJECT_DOMAIN}.
+     */
     public static function entityDomain(): string
     {
         $domain = self::domainOverride() ?: constant('KLEINWEB_PROJECT_DOMAIN');
@@ -53,6 +63,9 @@ final class SP extends Entity
         return Domain::new($domain)->toString();
     }
 
+    /**
+     * Get the URL to the SAML `AssertionConsumerService` endpoint.
+     */
     public static function acsUrl(): string
     {
         return Uri::new(self::loginUrl())
@@ -60,9 +73,22 @@ final class SP extends Entity
             ->toString();
     }
 
+    /**
+     * Get the WordPress login URL appropriate for the current SAML SP.
+     *
+     * We need to reduce the proliferation of per-site login URLs as much as
+     * possible to avoid generating different `AssertionConsumerService`
+     * endpoints for each non-domain-mapped subsite in a subdirectory-based
+     * multisite instance.  The actual ACS endpoint must match the ACS endpoint
+     * in the SP metadata provided to the IdP.
+     */
     public static function loginUrl(): string
     {
-        return wp_login_url();
+        if (!is_multisite()) {
+            return wp_login_url();
+        }
+
+        return Site::isPrimaryHost() ? network_site_url('wp-login.php') : wp_login_url();
     }
 
     public static function logoutUrl(): string
@@ -81,7 +107,6 @@ final class SP extends Entity
         $loginUrl = Uri::new(self::loginUrl());
 
         return Domain::fromUri($loginUrl)->toString();
-
     }
 
     public static function domainOverride(): ?string
