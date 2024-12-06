@@ -24,6 +24,7 @@ export default defineConfig({
       input: [
         'resources/css/kleinweb-auth-login.css',
         'resources/js/kleinweb-auth-login.ts',
+        'resources/js/user-profile.ts',
       ],
       refresh: true,
     }),

@@ -1,0 +1,2 @@
+document.addEventListener("DOMContentLoaded",()=>{const e=document.querySelector(".form-table"),t=document.createElement("div"),n=document.createElement("p");t.className="updated fade",t.appendChild(n),n.textContent="Some profile fields cannot be changed from WordPress.",e==null||e.before(t);const o=document.querySelector("#first_name"),d=document.querySelector("#last_name"),c=document.querySelector("#email"),a=document.querySelector("#email-description");o.disabled=!0,d.disabled=!0,c.disabled=!0,a.hidden=!0});
+//# sourceMappingURL=user-profile-CVFpsMNR.js.map

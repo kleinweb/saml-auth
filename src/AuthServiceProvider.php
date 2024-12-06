@@ -61,8 +61,9 @@ final class AuthServiceProvider extends PackageServiceProvider
         $this->app->singleton(Settings::class);
 
         $this->app->singleton(SamlAuthPluginAdapter::class);
-
         $this->app->bindIf(OneLoginAuth::class, SamlAuthPluginAdapter::saml(...));
+
+        $this->app->singleton(ManagedUser::class);
 
         $this->app->singleton(
             'assets.kleinweb-auth',
@@ -82,6 +83,9 @@ final class AuthServiceProvider extends PackageServiceProvider
         parent::boot();
 
         $this->app->make(SamlAuthPluginAdapter::class);
+
+        $this->app->make(ManagedUser::class)
+            ->boot();
 
         View::composer(LoginComposer::views(), LoginComposer::class);
     }

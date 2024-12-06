@@ -17,9 +17,7 @@ use Kleinweb\Lib\Hooks\Traits\Hookable;
 use OneLogin\Saml2\Auth as OneLoginAuth;
 use Webmozart\Assert\Assert;
 use WP_SAML_Auth;
-use WP_User;
 
-use function collect;
 use function remove_action;
 
 final class SamlAuthPluginAdapter
@@ -95,22 +93,5 @@ final class SamlAuthPluginAdapter
             'first_name_attribute' => UserField::FIRST_NAME->samlAttribute(),
             'last_name_attribute' => UserField::LAST_NAME->samlAttribute(),
         ]);
-    }
-
-    /**
-     * @param array<string, array<int, mixed>> $samlAttrs
-     */
-    #[Action('wp_saml_auth_existing_user_authenticated')]
-    public function updateExistingUserOnAuthn(WP_User $user, array $samlAttrs): void
-    {
-        $userArgs = ['ID' => $user->ID];
-        $attrs = collect($samlAttrs);
-
-        foreach (UserField::managed() as $userField) {
-            $attr = $attrs->get($userField->samlAttribute());
-            $userArgs[$userField()] = $attr[0] ?? '';
-        }
-
-        wp_update_user($userArgs);
     }
 }

@@ -11,5 +11,12 @@
     "src": "resources/js/kleinweb-auth-login.ts",
     "isEntry": true,
     "integrity": "sha384-c6t59n5AIkkp12zhNCBYtHa2qmweaTIpyjRmItjiHovvtAsy+irE39wt08Txj2U/"
+  },
+  "resources/js/user-profile.ts": {
+    "file": "user-profile-CVFpsMNR.js",
+    "name": "user-profile",
+    "src": "resources/js/user-profile.ts",
+    "isEntry": true,
+    "integrity": "sha384-X9wXppiI3+4ZwH+mqCoAJq1Pvyy1uKz8ypLteEU/qePhVenkJzIPhXZGbz1W7I2R"
   }
 }
