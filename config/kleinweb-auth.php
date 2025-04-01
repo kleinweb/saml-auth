@@ -10,6 +10,8 @@ use Kleinweb\Lib\Support\Environment;
 
 return [
 
+    'enable' => false,
+
     // WARNING: Disabling local login will likely result in user lockouts!
     'allow_local_login' => true,
 

@@ -82,6 +82,10 @@ final class AuthServiceProvider extends PackageServiceProvider
     {
         parent::boot();
 
+        if (!Auth::isEnabled()) {
+            return;
+        }
+
         $this->app->make(SamlAuthPluginAdapter::class);
 
         $this->app->make(ManagedUser::class)

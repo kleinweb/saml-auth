@@ -37,6 +37,11 @@ final class Auth
         protected OneLoginAuth $provider,
     ) {}
 
+    public static function isEnabled(): bool
+    {
+        return Config::boolean('kleinweb-auth.enable', false);
+    }
+
     public static function isDangerouslyInsecure(): bool
     {
         return Config::boolean(
