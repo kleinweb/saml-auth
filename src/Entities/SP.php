@@ -52,13 +52,10 @@ final class SP extends Entity
 
     /**
      * Fully-qualified domain name for generating the entity ID.
-     *
-     * This should match the FQDN of the live site as provided by
-     * {@link KLEINWEB_PROJECT_DOMAIN}.
      */
     public static function entityDomain(): string
     {
-        $domain = self::domainOverride() ?: constant('KLEINWEB_PROJECT_DOMAIN');
+        $domain = self::domainOverride() ?: self::serviceDomain();
 
         return Domain::new($domain)->toString();
     }
