@@ -55,7 +55,10 @@ final class SP extends Entity
      */
     public static function entityDomain(): string
     {
-        $domain = self::domainOverride() ?: self::serviceDomain();
+        $id = get_current_blog_id();
+        $domain = self::domainOverride()
+            ?: (get_site_meta($id, 'orig_host', single: true)
+                ?: self::serviceDomain());
 
         return Domain::new($domain)->toString();
     }
