@@ -11,7 +11,7 @@ use Kleinweb\Auth\Http\Controllers\SamlAuthController;
 
 Route::group([
     'middleware' => 'web',
-    'prefix' => '/sp',
+    'prefix' => (get_blog_details()->path ?? '/') . 'sp',
 ], static function () {
     Route::get('/metadata', [SamlAuthController::class, 'metadata']);
 });
