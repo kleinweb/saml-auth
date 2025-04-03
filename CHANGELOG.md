@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [4.0.0](https://github.com/kleinweb/saml-auth/compare/49e2ce9f1765c0439bf5670b43ac0d36e615e64a..4.0.0) - 2025-04-03
+#### Bug Fixes
+- fallback to project domain as entity domain - ([49e2ce9](https://github.com/kleinweb/saml-auth/commit/49e2ce9f1765c0439bf5670b43ac0d36e615e64a)) - [@montchr](https://github.com/montchr)
+
+- - -
+
 ## [3.1.0](https://github.com/kleinweb/saml-auth/compare/893b71bb7764827eb524ccf479af4ffd45f915e1..3.1.0) - 2025-04-03
 #### Bug Fixes
 - serve per-site SP metadata - ([0dbe13c](https://github.com/kleinweb/saml-auth/commit/0dbe13ce3b155dc4a238f96712974a9a5d971e0c)) - [@montchr](https://github.com/montchr)
