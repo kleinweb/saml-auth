@@ -58,7 +58,7 @@ final class SP extends Entity
         $id = get_current_blog_id();
         $domain = self::domainOverride()
             ?: (get_site_meta($id, 'orig_host', single: true)
-                ?: self::serviceDomain());
+                ?: self::domainFallback());
 
         return Domain::new($domain)->toString();
     }
@@ -114,6 +114,11 @@ final class SP extends Entity
         return (defined('KLEINWEB_AUTH_SAML_SP_DOMAIN'))
             ? constant('KLEINWEB_AUTH_SAML_SP_DOMAIN')
             : null;
+    }
+
+    public static function domainFallback(): string
+    {
+        return constant('KLEINWEB_PROJECT_DOMAIN');
     }
 
     public static function certPath(): string
