@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [4.1.0](https://github.com/kleinweb/saml-auth/compare/2ca8059c6a04c2bc14dd824c88586433ef6dfaa4..4.1.0) - 2025-04-10
+#### Features
+- set metadata `validUntil` to X.509 certificate expiry datetime - ([2ca8059](https://github.com/kleinweb/saml-auth/commit/2ca8059c6a04c2bc14dd824c88586433ef6dfaa4)) - [@montchr](https://github.com/montchr)
+
+- - -
+
 ## [4.0.0](https://github.com/kleinweb/saml-auth/compare/49e2ce9f1765c0439bf5670b43ac0d36e615e64a..4.0.0) - 2025-04-03
 #### Bug Fixes
 - fallback to project domain as entity domain - ([49e2ce9](https://github.com/kleinweb/saml-auth/commit/49e2ce9f1765c0439bf5670b43ac0d36e615e64a)) - [@montchr](https://github.com/montchr)
