@@ -96,9 +96,14 @@ final class Auth
     public function metadata(): string
     {
         $settings = $this->provider->getSettings();
-        $metadata = $settings->getSPMetadata();
-        $errors = $settings->validateMetadata($metadata);
 
+        $cert = openssl_x509_parse($settings->getSPcert());
+        $certExpiryTimestamp = $cert['validTo_time_t'] ?? null;
+        $certExpiryTimestamp ??= (int) $certExpiryTimestamp;
+
+        $metadata = $settings->getSPMetadata(validUntil: $certExpiryTimestamp);
+
+        $errors = $settings->validateMetadata($metadata);
         if (count($errors)) {
             $message = 'Invalid SP metadata: ' . implode(', ', $errors);
             // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
