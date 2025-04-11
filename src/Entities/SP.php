@@ -56,9 +56,8 @@ final class SP extends Entity
     public static function entityDomain(): string
     {
         $id = get_current_blog_id();
-        $domain = self::domainOverride()
-            ?: (get_site_meta($id, 'orig_host', single: true)
-                ?: self::domainFallback());
+        $domain = get_site_meta($id, 'orig_host', single: true)
+            ?: self::domainFallback();
 
         return Domain::new($domain)->toString();
     }
@@ -98,22 +97,11 @@ final class SP extends Entity
 
     public static function serviceDomain(): string
     {
-        if (self::domainOverride()) {
-            return Domain::new(self::domainOverride())->toString();
-        }
-
         // The domain of the login URL can be different from the actual
         // site domain.
         $loginUrl = Uri::new(self::loginUrl());
 
         return Domain::fromUri($loginUrl)->toString();
-    }
-
-    public static function domainOverride(): ?string
-    {
-        return (defined('KLEINWEB_AUTH_SAML_SP_DOMAIN'))
-            ? constant('KLEINWEB_AUTH_SAML_SP_DOMAIN')
-            : null;
     }
 
     public static function domainFallback(): string
