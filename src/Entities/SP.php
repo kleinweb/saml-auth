@@ -16,7 +16,6 @@ use OneLogin\Saml2\Constants as Saml;
 use Kleinweb\Auth\Auth;
 use Kleinweb\Lib\Support\Environment;
 use Kleinweb\Lib\Tenancy\Site;
-use Webmozart\Assert\Assert;
 
 use function is_multisite;
 use function network_site_url;
