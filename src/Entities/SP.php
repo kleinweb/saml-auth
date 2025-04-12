@@ -1,8 +1,7 @@
 <?php
 
-// SPDX-FileCopyrightText: (C) 2024 Temple University <kleinweb@temple.edu>
+// SPDX-FileCopyrightText: (C) 2024-2025 Temple University <kleinweb@temple.edu>
 // SPDX-License-Identifier: GPL-3.0-or-later
-
 
 declare(strict_types=1);
 
@@ -17,6 +16,7 @@ use OneLogin\Saml2\Constants as Saml;
 use Kleinweb\Auth\Auth;
 use Kleinweb\Lib\Support\Environment;
 use Kleinweb\Lib\Tenancy\Site;
+use Webmozart\Assert\Assert;
 
 use function is_multisite;
 use function network_site_url;
@@ -44,7 +44,8 @@ final class SP extends Entity
         }
 
         $uri = Uri::new('https://edu.temple.klein.' . self::entityDomain());
-        $path = Path::new(Environment::isProduction() ? 'sp' : 'np-sp')
+        $isProd = (Environment::isProduction() || Environment::isMigration());
+        $path = Path::new($isProd ? 'sp' : 'np-sp')
             ->withLeadingSlash();
 
         return $uri->withPath($path)->toString();
@@ -55,11 +56,36 @@ final class SP extends Entity
      */
     public static function entityDomain(): string
     {
-        $id = get_current_blog_id();
-        $domain = get_site_meta($id, 'orig_host', single: true)
-            ?: self::domainFallback();
+        $domain = match (constant('WP_ENV')) {
+            Environment::PRODUCTION => self::serviceDomain(),
+            default => self::migratedDomain() ?? self::domainFallback(),
+        };
 
         return Domain::new($domain)->toString();
+    }
+
+    public static function migratedDomain(): ?string
+    {
+        if (!is_multisite()) {
+            return null;
+        }
+
+        $id = get_current_blog_id();
+        $domain = get_site_meta($id, 'orig_host', single: true);
+
+        return $domain ? Domain::new($domain)->toString() : null;
+    }
+
+    public static function serviceDomain(): string
+    {
+        $loginUrl = Uri::new(self::loginUrl());
+
+        return Domain::fromUri($loginUrl)->toString();
+    }
+
+    public static function domainFallback(): string
+    {
+        return constant('KLEINWEB_PROJECT_DOMAIN');
     }
 
     /**
@@ -67,9 +93,14 @@ final class SP extends Entity
      */
     public static function acsUrl(): string
     {
-        return Uri::new(self::loginUrl())
-            ->withHost(self::serviceDomain())
-            ->toString();
+        $loginUri = Uri::new(self::loginUrl());
+
+        if (Environment::isMigration()) {
+            $host = self::migratedDomain() ?? self::domainFallback();
+            $loginUri = $loginUri->withHost($host);
+        }
+
+        return $loginUri->toString();
     }
 
     /**
@@ -87,26 +118,14 @@ final class SP extends Entity
             return wp_login_url();
         }
 
-        return Site::isPrimaryHost() ? network_site_url('wp-login.php') : wp_login_url();
+        return Site::isPrimaryHost()
+            ? network_site_url('wp-login.php')
+            : wp_login_url();
     }
 
     public static function logoutUrl(): string
     {
         return '';
-    }
-
-    public static function serviceDomain(): string
-    {
-        // The domain of the login URL can be different from the actual
-        // site domain.
-        $loginUrl = Uri::new(self::loginUrl());
-
-        return Domain::fromUri($loginUrl)->toString();
-    }
-
-    public static function domainFallback(): string
-    {
-        return constant('KLEINWEB_PROJECT_DOMAIN');
     }
 
     public static function certPath(): string
