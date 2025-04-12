@@ -2,6 +2,16 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [5.0.0-beta.1](https://github.com/kleinweb/saml-auth/compare/0661bb0b4bae1f5e5b70b7ed4dc8a9e089c3aa0f..5.0.0-beta.1) - 2025-04-12
+#### Bug Fixes
+- **(sp)** rework domain logic for migration environment support - ([7821644](https://github.com/kleinweb/saml-auth/commit/782164492f220c247e3cd3fc352fd933f9e6742d)) - [@montchr](https://github.com/montchr)
+- **(sp)** remove support for domain override - ([0661bb0](https://github.com/kleinweb/saml-auth/commit/0661bb0b4bae1f5e5b70b7ed4dc8a9e089c3aa0f)) - [@montchr](https://github.com/montchr)
+#### Miscellaneous Chores
+- **(deps)** require lib v0.6.0 minimum - ([057ffd5](https://github.com/kleinweb/saml-auth/commit/057ffd54d81753590e1a40563270280f2884dc01)) - [@montchr](https://github.com/montchr)
+- fmt - ([e3dd28d](https://github.com/kleinweb/saml-auth/commit/e3dd28d2847d94457c4e85813537b1945a5f0094)) - [@montchr](https://github.com/montchr)
+
+- - -
+
 ## [4.1.0](https://github.com/kleinweb/saml-auth/compare/2ca8059c6a04c2bc14dd824c88586433ef6dfaa4..4.1.0) - 2025-04-10
 #### Features
 - set metadata `validUntil` to X.509 certificate expiry datetime - ([2ca8059](https://github.com/kleinweb/saml-auth/commit/2ca8059c6a04c2bc14dd824c88586433ef6dfaa4)) - [@montchr](https://github.com/montchr)
