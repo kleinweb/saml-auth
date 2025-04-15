@@ -2,6 +2,31 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [5.0.0-beta.3](https://github.com/kleinweb/saml-auth/compare/5.0.0-beta.2..5.0.0-beta.3) - 2025-04-15
+#### Bug Fixes
+- **(sp)** use project domain for staging entity domain - ([609192b](https://github.com/kleinweb/saml-auth/commit/609192b7253bb693401c7a5faada12f2a8eb9d3a)) - [@montchr](https://github.com/montchr)
+
+- - -
+
+## [5.0.0-beta.2](https://github.com/kleinweb/saml-auth/compare/5.0.0-beta.1..5.0.0-beta.2) - 2025-04-15
+#### Bug Fixes
+- **(sp)** use service domain for entity domain in staging - ([f197cef](https://github.com/kleinweb/saml-auth/commit/f197cef9737686f71809b02c288e2801022b7ea0)) - [@montchr](https://github.com/montchr)
+#### Miscellaneous Chores
+- **(version)** 5.0.0-beta.2 - ([1aab083](https://github.com/kleinweb/saml-auth/commit/1aab0837cc539b15bf429835d04c587298cfbc1b)) - [@montchr](https://github.com/montchr)
+
+- - -
+
+## [5.0.0-beta.1](https://github.com/kleinweb/saml-auth/compare/0661bb0b4bae1f5e5b70b7ed4dc8a9e089c3aa0f..5.0.0-beta.1) - 2025-04-15
+#### Bug Fixes
+- **(sp)** rework domain logic for migration environment support - ([7821644](https://github.com/kleinweb/saml-auth/commit/782164492f220c247e3cd3fc352fd933f9e6742d)) - [@montchr](https://github.com/montchr)
+- **(sp)** remove support for domain override - ([0661bb0](https://github.com/kleinweb/saml-auth/commit/0661bb0b4bae1f5e5b70b7ed4dc8a9e089c3aa0f)) - [@montchr](https://github.com/montchr)
+#### Miscellaneous Chores
+- **(deps)** require lib v0.6.0 minimum - ([057ffd5](https://github.com/kleinweb/saml-auth/commit/057ffd54d81753590e1a40563270280f2884dc01)) - [@montchr](https://github.com/montchr)
+- **(version)** 5.0.0-beta.1 - ([a933db5](https://github.com/kleinweb/saml-auth/commit/a933db5b230a2017cdcb5b628603548f7f852962)) - [@montchr](https://github.com/montchr)
+- fmt - ([e3dd28d](https://github.com/kleinweb/saml-auth/commit/e3dd28d2847d94457c4e85813537b1945a5f0094)) - [@montchr](https://github.com/montchr)
+
+- - -
+
 ## [5.0.0-beta.2](https://github.com/kleinweb/saml-auth/compare/5.0.0-beta.1..5.0.0-beta.2) - 2025-04-15
 #### Bug Fixes
 - **(sp)** use service domain for entity domain in staging - ([f197cef](https://github.com/kleinweb/saml-auth/commit/f197cef9737686f71809b02c288e2801022b7ea0)) - [@montchr](https://github.com/montchr)
