@@ -10,7 +10,7 @@ use Kleinweb\Auth\Http\Controllers\SamlAuthController;
 
 Route::group([
     'middleware' => 'web',
-    'prefix' => (get_site()->path ?? '/') . 'sp',
+    'prefix' => (is_multisite() ? (get_site()->path ?? '/') : '/') . 'sp',
 ], static function () {
     Route::get('/metadata', [SamlAuthController::class, 'metadata']);
 });
