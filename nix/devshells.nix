@@ -47,7 +47,7 @@
           pkgs.nixfmt # pkgs.nixfmt-rfc-style via overlay
           pkgs.nodePackages.prettier
           pkgs.taplo
-          pkgs.treefmt # pkgs.treefmt2 via overlay
+          pkgs.treefmt
 
           # pre-commit helper tool to simplify file matching.  For example,
           # the `yml` and `yaml` extensions share the same "type" of `yaml`.
