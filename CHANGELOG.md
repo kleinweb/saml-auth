@@ -2,6 +2,18 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [5.0.1](https://github.com/kleinweb/saml-auth/compare/c86e178d4ba5d022f985de890d6e3d7d29b6e6c8..5.0.1) - 2025-04-25
+#### Bug Fixes
+- **(prj:git-hooks)** prevent treefmt cache failure - ([51e51fd](https://github.com/kleinweb/saml-auth/commit/51e51fde04acb282f232a34cd911e47fa2ac169a)) - [@montchr](https://github.com/montchr)
+- **(prj:phpactor)** remove unavailable stub paths - ([a9c426c](https://github.com/kleinweb/saml-auth/commit/a9c426c804398e8778f026435412bca49cd76f6d)) - [@montchr](https://github.com/montchr)
+- **(routes|metadata)** replace usage of deprecated `get_blog_details()` - ([c86e178](https://github.com/kleinweb/saml-auth/commit/c86e178d4ba5d022f985de890d6e3d7d29b6e6c8)) - [@montchr](https://github.com/montchr)
+#### Miscellaneous Chores
+- update flake inputs - ([7b06835](https://github.com/kleinweb/saml-auth/commit/7b06835c4fa2fa3ebad894fab63e7ebd9be55b42)) - [@montchr](https://github.com/montchr)
+- bump copyright years - ([fd82937](https://github.com/kleinweb/saml-auth/commit/fd82937b16dbb7d87fe23f2aae6c46be78181def)) - [@montchr](https://github.com/montchr)
+- update auto-installed nix-direnv - ([8e3db39](https://github.com/kleinweb/saml-auth/commit/8e3db394f4c2b347e5d7e60a7cf62c7509566f0f)) - [@montchr](https://github.com/montchr)
+
+- - -
+
 ## [5.0.0](https://github.com/kleinweb/saml-auth/compare/5.0.0-beta.2..5.0.0) - 2025-04-15
 #### Bug Fixes
 - **(sp)** use project domain for staging entity domain - ([609192b](https://github.com/kleinweb/saml-auth/commit/609192b7253bb693401c7a5faada12f2a8eb9d3a)) - [@montchr](https://github.com/montchr)
