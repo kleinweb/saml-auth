@@ -43,6 +43,7 @@
             stages = [ "pre-push" ];
           };
           treefmt.enable = true;
+          treefmt.entry = "treefmt --no-cache";
           yamllint.enable = true;
         };
 
