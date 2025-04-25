@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [5.0.2](https://github.com/kleinweb/saml-auth/compare/422110aa55eab34e99346c82543a77ac23f6d6de..5.0.2) - 2025-04-25
+#### Bug Fixes
+- **(routes|metadata)** check for multisite before invoking `get_site()` - ([422110a](https://github.com/kleinweb/saml-auth/commit/422110aa55eab34e99346c82543a77ac23f6d6de)) - [@montchr](https://github.com/montchr)
+
+- - -
+
 ## [5.0.1](https://github.com/kleinweb/saml-auth/compare/c86e178d4ba5d022f985de890d6e3d7d29b6e6c8..5.0.1) - 2025-04-25
 #### Bug Fixes
 - **(prj:git-hooks)** prevent treefmt cache failure - ([51e51fd](https://github.com/kleinweb/saml-auth/commit/51e51fde04acb282f232a34cd911e47fa2ac169a)) - [@montchr](https://github.com/montchr)
