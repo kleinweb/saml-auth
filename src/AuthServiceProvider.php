@@ -7,10 +7,8 @@ declare(strict_types=1);
 
 namespace Kleinweb\Auth;
 
-use Idleberg\ViteManifest\Manifest as ViteManifest;
-use Illuminate\Contracts\Foundation\Application;
+use Idleberg\WordPress\ViteAssets\Assets;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\View;
 use Kleinweb\Auth\View\Composers\Login as LoginComposer;
 use Kleinweb\Lib\Hooks\Attributes\Action;
@@ -21,7 +19,6 @@ use Kleinweb\Lib\Package\PackageServiceProvider;
 use Kleinweb\Lib\Support\Url;
 use OneLogin\Saml2\Auth as OneLoginAuth;
 use ReflectionException;
-use Webmozart\Assert\Assert;
 
 /**
  * Kleinweb SAML Auth service provider.
@@ -66,13 +63,11 @@ final class AuthServiceProvider extends PackageServiceProvider
 
         $this->app->singleton(
             'assets.kleinweb-auth',
-            function (): ViteManifest {
+            function (): Assets {
                 $manifestFile = $this->package->basePath('../resources/dist/manifest.json');
+                $basePath = Url::fromFilesystemPath(dirname($manifestFile))->toString() . '/';
 
-                return new ViteManifest(
-                    $manifestFile,
-                    Url::fromFilesystemPath(dirname($manifestFile))->toString() . '/',
-                );
+                return new Assets($manifestFile, $basePath, algorithm: ':manifest:');
             },
         );
     }
@@ -82,27 +77,24 @@ final class AuthServiceProvider extends PackageServiceProvider
         parent::boot();
 
         $this->app->make(SamlAuthPluginAdapter::class);
+        $this->app->make(ManagedUser::class)->boot();
 
-        $this->app->make(ManagedUser::class)
-            ->boot();
+        $this->injectAssets();
 
         View::composer(LoginComposer::views(), LoginComposer::class);
     }
 
-    #[Action('login_enqueue_scripts')]
-    public static function enqueueLoginStyles(): void
+    private function injectAssets(): void
     {
-        $manifest = App::make('assets.kleinweb-auth');
-        Assert::isInstanceOf($manifest, ViteManifest::class);
+        $assets = $this->app->make('assets.kleinweb-auth');
+        //        Assert::isInstanceOf($manifest, Assets::class);
 
-        wp_enqueue_style(
-            'kleinweb-auth',
-            $manifest->getEntrypoint('resources/css/kleinweb-auth-login.css')['url'],
-        );
-        wp_enqueue_script(
-            'kleinweb-auth',
-            $manifest->getEntrypoint('resources/js/kleinweb-auth-login.ts')['url'],
-        );
+        $assets->inject([
+            'resources/css/kleinweb-auth-login.css',
+            'resources/js/kleinweb-auth-login.ts',
+        ], [
+            'action' => 'login_head',
+        ]);
     }
 
     #[Action('login_form')]
