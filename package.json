@@ -1,8 +1,6 @@
 {
   "name": "@kleinweb/saml-auth",
   "type": "module",
-  "private": true,
-  "version": "1.0.0",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
