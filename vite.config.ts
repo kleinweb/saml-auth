@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: (C) 2024-2025 Temple University <kleinweb@temple.edu>
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import {wordpressPlugin} from '@roots/vite-plugin'
 import laravel from 'laravel-vite-plugin'
 import {defineConfig} from 'vite'
 import manifestSRI from 'vite-plugin-manifest-sri'
@@ -14,8 +15,7 @@ export default defineConfig({
   build: {
     assetsDir: '',
     sourcemap: true,
-    manifest: 'manifest.json',
-    outDir: 'resources/dist',
+    outDir: 'resources/dist/',
   },
 
   plugins: [
@@ -28,6 +28,8 @@ export default defineConfig({
       ],
       refresh: true,
     }),
+
+    wordpressPlugin(),
   ],
 
   // DDEV compatibility

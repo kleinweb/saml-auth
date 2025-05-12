@@ -1,4 +1,9 @@
 {
+  "editor.deps.json": {
+    "file": "editor.deps-BqrDAOEV.json",
+    "src": "editor.deps.json",
+    "integrity": "sha384-ViEJsFTLRCj8U2B7EHwKzfkd5DS5kKApX1Fu8qrXnvyQIjiUTnbULyG89xC/pMVU"
+  },
   "resources/css/kleinweb-auth-login.css": {
     "file": "kleinweb-auth-login-B_dK2Mr0.css",
     "src": "resources/css/kleinweb-auth-login.css",

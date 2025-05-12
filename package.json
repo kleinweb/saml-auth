@@ -19,6 +19,7 @@
   "description": "",
   "devDependencies": {
     "@playwright/test": "^1.47.2",
+    "@roots/vite-plugin": "^1.0.4",
     "@types/node": "^22.7.5",
     "laravel-vite-plugin": "^1.0.5",
     "playwright-core": "^1.47.2",
