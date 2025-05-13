@@ -1,0 +1,25 @@
+<?php
+
+// SPDX-FileCopyrightText: (C) 2025 Temple University <kleinweb@temple.edu>
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+declare(strict_types=1);
+
+namespace Kleinweb\Auth\View\Components;
+
+use Illuminate\Support\Facades\View;
+use Illuminate\View\Component;
+use Kleinweb\Auth\ImportUsers\ImportUsers as ImportUsersFeature;
+
+final class ImportUsers extends Component
+{
+    public string $action = ImportUsersFeature::ACTION;
+
+    /**
+     * Render the component.
+     */
+    public function render(): View
+    {
+        return view('kleinweb-auth::components.import-users');
+    }
+}

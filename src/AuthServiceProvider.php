@@ -9,7 +9,9 @@ namespace Kleinweb\Auth;
 
 use Idleberg\WordPress\ViteAssets\Assets;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
+use Kleinweb\Auth\ImportUsers\ImportUsers as ImportUsersFeature;
 use Kleinweb\Auth\View\Composers\Login as LoginComposer;
 use Kleinweb\Lib\Hooks\Attributes\Action;
 use Kleinweb\Lib\Hooks\Attributes\Filter;
@@ -39,7 +41,6 @@ final class AuthServiceProvider extends PackageServiceProvider
             ->hasRoute('routes')
             ->hasAssets()
             // FIXME: reimplement viewcomposer as component
-            // ->hasViewComponent('kleinweb-auth', 'TODO')
             ->hasViewComposer(LoginComposer::views(), LoginComposer::class);
     }
 
@@ -54,6 +55,7 @@ final class AuthServiceProvider extends PackageServiceProvider
         parent::register();
 
         $this->app->singleton(Auth::class);
+        $this->app->singleton(ImportUsersFeature::class);
         $this->app->singleton(Settings::class);
 
         $this->app->singleton(SamlAuthPluginAdapter::class);
@@ -77,18 +79,21 @@ final class AuthServiceProvider extends PackageServiceProvider
         parent::boot();
 
         $this->app->make(SamlAuthPluginAdapter::class);
+        $this->app->make(ImportUsersFeature::class)->boot();
         $this->app->make(ManagedUser::class)->boot();
 
         $this->injectAssets();
 
+        // FIXME: the configurePackage functionality does not handle this properly.
+        Blade::componentNamespace('Kleinweb\\Auth\\View\\Components', 'kleinweb-auth');
+
+        // TODO: probably redundant (see configurePackage)
         View::composer(LoginComposer::views(), LoginComposer::class);
     }
 
     private function injectAssets(): void
     {
         $assets = $this->app->make('assets.kleinweb-auth');
-        //        Assert::isInstanceOf($manifest, Assets::class);
-
         $assets->inject([
             'resources/css/kleinweb-auth-login.css',
             'resources/js/kleinweb-auth-login.ts',
