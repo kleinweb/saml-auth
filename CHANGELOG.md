@@ -2,6 +2,15 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [5.1.0-beta.1](https://github.com/kleinweb/saml-auth/compare/25e8b0eae089828d8bb1321c906b8e47266f15bd..5.1.0-beta.1) - 2025-05-15
+#### Bug Fixes
+- package.json meta - ([25e8b0e](https://github.com/kleinweb/saml-auth/commit/25e8b0eae089828d8bb1321c906b8e47266f15bd)) - [@montchr](https://github.com/montchr)
+#### Features
+- use wp vite asset manager injection - ([decef2b](https://github.com/kleinweb/saml-auth/commit/decef2b1258e22bedeeb4b4c2585022a11d3e552)) - [@montchr](https://github.com/montchr)
+- use roots vite-plugin - ([ad0c605](https://github.com/kleinweb/saml-auth/commit/ad0c605a3eb2561f8c370f0bbf455ba476812e9c)) - [@montchr](https://github.com/montchr)
+
+- - -
+
 ## [5.0.2](https://github.com/kleinweb/saml-auth/compare/422110aa55eab34e99346c82543a77ac23f6d6de..5.0.2) - 2025-04-25
 #### Bug Fixes
 - **(routes|metadata)** check for multisite before invoking `get_site()` - ([422110a](https://github.com/kleinweb/saml-auth/commit/422110aa55eab34e99346c82543a77ac23f6d6de)) - [@montchr](https://github.com/montchr)
