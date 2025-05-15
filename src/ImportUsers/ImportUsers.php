@@ -137,7 +137,6 @@ final class ImportUsers
 
         foreach ($records as $record) {
             ['display_name' => $displayName, 'username' => $username] = $record;
-            var_dump($record);
 
             if (!Org::isUid($username)) {
                 $results->errors[] = new WP_Error(
