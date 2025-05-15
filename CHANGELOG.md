@@ -2,6 +2,25 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [5.1.0-beta.3](https://github.com/kleinweb/saml-auth/compare/5.1.0-beta.2..5.1.0-beta.3) - 2025-05-15
+#### Bug Fixes
+- remove `var_dump()` - ([3de5970](https://github.com/kleinweb/saml-auth/commit/3de59704f68391b4df8df7e95a30db5debaeddae)) - [@montchr](https://github.com/montchr)
+
+- - -
+
+## [5.1.0-beta.2](https://github.com/kleinweb/saml-auth/compare/25e8b0eae089828d8bb1321c906b8e47266f15bd..5.1.0-beta.2) - 2025-05-15
+#### Bug Fixes
+- package.json meta - ([25e8b0e](https://github.com/kleinweb/saml-auth/commit/25e8b0eae089828d8bb1321c906b8e47266f15bd)) - [@montchr](https://github.com/montchr)
+#### Features
+- **(importer)** import users from csv file - ([3e0f83c](https://github.com/kleinweb/saml-auth/commit/3e0f83cc4715c7a622b5f8d99e68d3c4ada542ce)) - [@montchr](https://github.com/montchr)
+- use wp vite asset manager injection - ([decef2b](https://github.com/kleinweb/saml-auth/commit/decef2b1258e22bedeeb4b4c2585022a11d3e552)) - [@montchr](https://github.com/montchr)
+- use roots vite-plugin - ([ad0c605](https://github.com/kleinweb/saml-auth/commit/ad0c605a3eb2561f8c370f0bbf455ba476812e9c)) - [@montchr](https://github.com/montchr)
+#### Miscellaneous Chores
+- **(version)** 5.1.0-beta.2 - ([8d7c07d](https://github.com/kleinweb/saml-auth/commit/8d7c07d00d9f13b8216831a8d828d0503c6a88a1)) - [@montchr](https://github.com/montchr)
+- **(version)** 5.1.0-beta.1 - ([469cec2](https://github.com/kleinweb/saml-auth/commit/469cec23ddda85cb2fd9fa5a58d28ad87f096db9)) - [@montchr](https://github.com/montchr)
+
+- - -
+
 ## [5.1.0-beta.2](https://github.com/kleinweb/saml-auth/compare/25e8b0eae089828d8bb1321c906b8e47266f15bd..5.1.0-beta.2) - 2025-05-15
 #### Bug Fixes
 - package.json meta - ([25e8b0e](https://github.com/kleinweb/saml-auth/commit/25e8b0eae089828d8bb1321c906b8e47266f15bd)) - [@montchr](https://github.com/montchr)
