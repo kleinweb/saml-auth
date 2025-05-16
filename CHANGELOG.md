@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [5.1.1](https://github.com/kleinweb/saml-auth/compare/c8f3065346c26bc70ccbee6b19dc4b23220ea92a..5.1.1) - 2025-05-16
+#### Bug Fixes
+- **(import-users)** consider existing users pre-authorized on non-multisite - ([c8f3065](https://github.com/kleinweb/saml-auth/commit/c8f3065346c26bc70ccbee6b19dc4b23220ea92a)) - [@montchr](https://github.com/montchr)
+#### Miscellaneous Chores
+- **(import-users)** update example csv - ([db68c68](https://github.com/kleinweb/saml-auth/commit/db68c68198a8cd44f78245dda525f147783bd6e7)) - [@montchr](https://github.com/montchr)
+
+- - -
+
 ## [5.1.0](https://github.com/kleinweb/saml-auth/compare/5.1.0-beta.2..5.1.0) - 2025-05-16
 #### Bug Fixes
 - remove `var_dump()` - ([3de5970](https://github.com/kleinweb/saml-auth/commit/3de59704f68391b4df8df7e95a30db5debaeddae)) - [@montchr](https://github.com/montchr)
