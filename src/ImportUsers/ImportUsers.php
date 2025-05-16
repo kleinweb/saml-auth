@@ -164,11 +164,13 @@ final class ImportUsers
                     /*
                      * NOTE: This does not necessarily imply that the
                      * existing user has a *role* on the current site.
-                     * The user is considered a 'member' of a site
-                     * when they have any roles or capabilities on
-                     * that site. While users *should* be assigned
-                     * roles rather than primitive capabilities, that
-                     * may not be the case in reality.
+                     * The user is considered a "member" of a site
+                     * when capabilities have been initialized for the
+                     * user on that site, regardless of actual access
+                     * levels granted by those capabilities.  While
+                     * users *should* be assigned roles rather than
+                     * primitive capabilities, that may not be the
+                     * case in some edge cases.
                      *
                      * @see is_user_member_of_blog()
                      */
@@ -179,6 +181,8 @@ final class ImportUsers
                     } else {
                         add_user_to_blog($siteId, $user->ID, $role);
                     }
+                } else {
+                    $result->hasAuthz = true;
                 }
             } else {
                 $userArgs = new wpInsertUserArgs();
