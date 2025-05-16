@@ -1,5 +1,6 @@
 Student,ID,SIS User ID,SIS Login ID,Integration ID,Section,Assignments Current Score,Assignments Unposted Current Score,Assignments Final Score,Assignments Unposted Final Score,Current Score,Unposted Current Score,Final Score,Unposted Final Score
     Points Possible,,,,,,(read only),(read only),(read only),(read only),(read only),(read only),(read only),(read only)
 ,,,,,Default,,,,,,,,
-"Smith, Alice",11607,tua12345,tua12345,987654321,Default,,,,,,,,
+"Montgomery, Chris",12543,tuc26080,tuc26080,999999999,Default,,,,,,,,
 "Robertson, Bob",12345,tub23456,tub34567,123456789,Default,,,,,,,,
+"Smith, Alice",11607,tua12345,tua12345,111111111,Default,,,,,,,,
