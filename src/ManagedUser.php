@@ -7,19 +7,17 @@ declare(strict_types=1);
 
 namespace Kleinweb\Auth;
 
-use Idleberg\ViteManifest\Manifest as ViteManifest;
-use Illuminate\Support\Facades\App;
 use Kleinweb\Auth\Support\UserField;
 use Kleinweb\Lib\Hooks\Attributes\Action;
 use Kleinweb\Lib\Hooks\Attributes\Filter;
 use Kleinweb\Lib\Hooks\Traits\Hookable;
+use Roots\Acorn\Application;
 use Webmozart\Assert\Assert;
 use WP_User;
 use Kleinweb\Lib\Support\CoreObjects;
 
 use function get_user_meta;
 use function update_user_meta;
-use function wp_enqueue_script;
 use function wp_get_current_user;
 
 final class ManagedUser
@@ -35,9 +33,26 @@ final class ManagedUser
         UserField::LAST_NAME,
     ];
 
+    public function __construct(private Application $app) {}
+
     public function boot(): void
     {
         $this->registerHooks();
+        $this->injectAssets();
+    }
+
+    private function injectAssets(): void
+    {
+        global $pagenow;
+
+        if ($pagenow !== 'profile.php') {
+            return;
+        }
+
+        $assets = $this->app->make('assets.kleinweb-auth');
+        $assets->inject([
+            'resources/js/user-profile.ts',
+        ]);
     }
 
     public static function isManagedUser(int $id): bool
@@ -49,22 +64,6 @@ final class ManagedUser
     public static function canChangePassword(): bool
     {
         return ! self::isManagedUser(wp_get_current_user()->ID);
-    }
-
-    #[Action('admin_enqueue_scripts')]
-    public static function enqueueAdminScripts(string $hook): void
-    {
-        if ($hook !== 'profile.php') {
-            return;
-        }
-
-        $manifest = App::make('assets.kleinweb-auth');
-        Assert::isInstanceOf($manifest, ViteManifest::class);
-
-        wp_enqueue_script(
-            'kleinweb-auth-user-profile',
-            $manifest->getEntrypoint('resources/js/user-profile.ts')['url'],
-        );
     }
 
     #[Action('wp_saml_auth_existing_user_authenticated')]
