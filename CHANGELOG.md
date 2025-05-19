@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [5.1.2](https://github.com/kleinweb/saml-auth/compare/36c35ff5dca67886a12e77af9c352979c74f36d1..5.1.2) - 2025-05-19
+#### Bug Fixes
+- **(profile|assets)** prevent fatal error loading assets for user profile - ([36c35ff](https://github.com/kleinweb/saml-auth/commit/36c35ff5dca67886a12e77af9c352979c74f36d1)) - [@montchr](https://github.com/montchr)
+
+- - -
+
 ## [5.1.1](https://github.com/kleinweb/saml-auth/compare/c8f3065346c26bc70ccbee6b19dc4b23220ea92a..5.1.1) - 2025-05-16
 #### Bug Fixes
 - **(import-users)** consider existing users pre-authorized on non-multisite - ([c8f3065](https://github.com/kleinweb/saml-auth/commit/c8f3065346c26bc70ccbee6b19dc4b23220ea92a)) - [@montchr](https://github.com/montchr)
