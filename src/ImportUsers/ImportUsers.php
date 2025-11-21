@@ -138,6 +138,15 @@ final class ImportUsers
         foreach ($records as $record) {
             ['display_name' => $displayName, 'username' => $username] = $record;
 
+            // Canvas usually will format the display name as
+            // `<LastName>, <FirstName>`.  This is not at all what we
+            // want, so we normalize to `<FirstName> <LastName>` if a
+            // comma is found in the parsed string.
+            if (Str::contains($displayName, ', ')) {
+                [$lastName, $firstName] = explode(', ', $displayName);
+                $displayName = "{$firstName} {$lastName}";
+            }
+
             if (!Org::isUid($username)) {
                 $results->errors[] = new WP_Error(
                     'invalid_org_username',
