@@ -4,10 +4,8 @@
   description = "Kleinweb SAML Auth";
   inputs = {
     beams.url = "github:kleinweb/beams";
-
     flake-parts.url = "github:hercules-ci/flake-parts";
-    pre-commit-hooks.follows = "beams/pre-commit-hooks";
-
+    git-hooks.url = "github:cachix/git-hooks.nix";
     nixos-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-trunk.url = "github:NixOS/nixpkgs/master";
     nixpkgs.follows = "nixos-unstable";
@@ -23,7 +21,7 @@
       ];
 
       imports = [
-        inputs.pre-commit-hooks.flakeModule
+        inputs.git-hooks.flakeModule
 
         ./nix/devshells.nix
         ./nix/git-hooks.nix
@@ -37,7 +35,6 @@
             overlays = [
               (_final: prev: {
                 just = inputs'.nixpkgs-trunk.legacyPackages.just;
-                nixfmt = prev.nixfmt-rfc-style;
                 php = prev.php82;
               })
             ];
