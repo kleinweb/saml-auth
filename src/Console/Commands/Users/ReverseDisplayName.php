@@ -51,23 +51,22 @@ final class ReverseDisplayName extends Command
                 $this->info("Condition check: offset ({$offset}) < total ({$total})? " . ($offset < $total ? 'yes' : 'no'));
             }
 
-            $ids = $wpdb->get_col($wpdb->prepare(
-                "SELECT ID FROM {$wpdb->users} ORDER BY ID LIMIT %d OFFSET %d",
-                $batchSize, $offset,
+            $users = $wpdb->get_results($wpdb->prepare(
+                "SELECT ID, display_name FROM {$wpdb->users} ORDER BY ID LIMIT %d OFFSET %d",
+                $batchSize,
+                $offset
             ));
 
             if ($verbose) {
-                $this->info("Retrieved " . count($ids) . " user IDs from database");
+                $this->info("Retrieved " . count($users) . " users from database");
             }
 
-            if (!$ids) {
+            if (!$users) {
                 if ($verbose) {
-                    $this->info('No user IDs returned. Quitting.');
+                    $this->info('No users returned. Quitting.');
                 }
                 break;
             }
-
-            $users = get_users(['include' => $ids]);
 
             foreach ($users as $user) {
                 $displayName = $user->display_name;
@@ -80,13 +79,13 @@ final class ReverseDisplayName extends Command
                     $this->line(sprintf(
                         'User %d: Replacing display name "%s" with "%s"',
                         $user->ID,
-                        $newDisplayName,
                         $displayName,
+                        $newDisplayName,
                     ));
 
                     if (!$dryRun) {
                         wp_update_user([
-                            'ID' => $user->id,
+                            'ID' => $user->ID,
                             'display_name' => $newDisplayName,
                         ]);
                     }
