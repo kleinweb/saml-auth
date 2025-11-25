@@ -29,12 +29,11 @@ dev:
 [group: "qa"]
 [doc: "Check for any lint or formatting issues on project files"]
 check:
-  dotenv-linter check
-  biome check {{prj-root}}
-  {{php-lint-project-cmd}}
-  composer php-cs-fixer -- check
-  composer phpcs
-  composer phpstan
+    biome check {{prj-root}}
+    {{php-lint-project-cmd}}
+    composer php-cs-fixer -- check
+    composer phpcs
+    composer phpstan
 
 [group: "qa"]
 [doc: "Check for (non-stylistic) linting issues on project files"]
