@@ -97,17 +97,18 @@ final class ReverseDisplayName extends Command
                 $processed += 1;
 
                 $this->info("Processed {$processed} users, updated {$updated}...");
+            }
 
-                if ($verbose) {
-                    $this->info("After processing: processed={$processed}, updated={$updated}");
-                    $this->info("About to increment offset from {$offset} to " . ($offset + $batchSize));
-                }
 
-                $offset += $batchSize;
+            if ($verbose) {
+                $this->info("After processing: processed={$processed}, updated={$updated}");
+                $this->info("About to increment offset from {$offset} to " . ($offset + $batchSize));
+            }
 
-                if ($verbose) {
-                    $this->info("New offset: {$offset}");
-                }
+            $offset += $batchSize;
+
+            if ($verbose) {
+                $this->info("New offset: {$offset}");
             }
         }
 
