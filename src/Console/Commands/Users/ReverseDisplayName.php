@@ -10,17 +10,15 @@ final class ReverseDisplayName extends Command
 {
     /**
      * The name and signature of the console command.
-     *
-     * @var string
      */
+    // phpcs:ignore SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
     protected $signature = 'auth:users:reverse-display-name {--batch-size=500} {--dry-run}';
 
     /**
      * The console command description.
-     *
-     * @var string
      */
     // phpcs:ignore SlevomatCodingStandard.Files.LineLength.LineTooLong
+    // phpcs:ignore SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
     protected $description = 'Replace "LastName, FirstName" display name with "FirstName LastName"';
 
     public function handle(): void
@@ -28,37 +26,40 @@ final class ReverseDisplayName extends Command
         global $wpdb;
 
         $dryRun = $this->option('dry-run');
-        $batchSize = $this->option('batch-size');
+        $batchSize = (int) $this->option('batch-size');
         $verbose = $this->option('verbose');
 
         $offset = 0;
         $processed = 0;
         $updated = 0;
 
+        // phpcs:ignore WordPressVIPMinimum.Variables.RestrictedVariables.user_meta__wpdb__users
         $total = $wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->users}");
 
         $this->info("Found {$total} total users to process");
 
         $iterations = 0;
         while ($offset < $total) {
-            $iterations += 1;
+            $iterations++;
 
             if ($verbose) {
                 $this->info("--- Iteration {$iterations} ---");
                 $this->info("Current offset: {$offset}");
-                $this->info("Batch size: {$batchSize}");
+                $this->info(sprintf('Batch size: %d', $batchSize));
                 $this->info("Total: {$total}");
+                // phpcs:ignore SlevomatCodingStandard.Files.LineLength.LineTooLong
                 $this->info("Condition check: offset ({$offset}) < total ({$total})? " . ($offset < $total ? 'yes' : 'no'));
             }
 
             $users = $wpdb->get_results($wpdb->prepare(
+                // phpcs:ignore WordPressVIPMinimum.Variables.RestrictedVariables.user_meta__wpdb__users
                 "SELECT ID, display_name FROM {$wpdb->users} ORDER BY ID LIMIT %d OFFSET %d",
                 $batchSize,
-                $offset
+                $offset,
             ));
 
             if ($verbose) {
-                $this->info("Retrieved " . count($users) . " users from database");
+                $this->info('Retrieved ' . count($users) . ' users from database');
             }
 
             if (!$users) {
@@ -90,10 +91,10 @@ final class ReverseDisplayName extends Command
                         ]);
                     }
 
-                    $updated += 1;
+                    $updated++;
                 }
 
-                $processed += 1;
+                $processed++;
 
                 $this->info("Processed {$processed} users, updated {$updated}...");
             }
@@ -101,6 +102,7 @@ final class ReverseDisplayName extends Command
 
             if ($verbose) {
                 $this->info("After processing: processed={$processed}, updated={$updated}");
+                // phpcs:ignore SlevomatCodingStandard.Files.LineLength.LineTooLong
                 $this->info("About to increment offset from {$offset} to " . ($offset + $batchSize));
             }
 

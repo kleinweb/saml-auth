@@ -5,7 +5,7 @@
       "**",
       "!**/composer.lock",
       "!**/*.min.*",
-      "!**/resources/dist/**",
+      "!**/resources/dist",
       "!**/CHANGELOG.md"
     ]
   },

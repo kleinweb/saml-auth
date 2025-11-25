@@ -18,6 +18,7 @@ return $config
         '@PER-CS' => true,
         'function_declaration' => ['closure_fn_spacing' => 'one'],
         'global_namespace_import' => true,
+        'increment_style' => ['style' => 'post'],
         'multiline_whitespace_before_semicolons' => true,
         'yoda_style' => [
             'equal' => false,

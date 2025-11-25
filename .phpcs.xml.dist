@@ -11,6 +11,7 @@ SPDX-License-Identifier: CC0-1.0
     <file>./src</file>
 
     <rule ref="Kleinweb">
-        <!-- TODO: Configure overrides -->
+        <exclude
+                name="SlevomatCodingStandard.Operators.DisallowIncrementAndDecrementOperators.DisallowedPostIncrementOperator" />
     </rule>
 </ruleset>
