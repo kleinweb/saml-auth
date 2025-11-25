@@ -13,7 +13,7 @@ final class ReverseDisplayName extends Command
      *
      * @var string
      */
-    protected $signature = 'auth:users:reverse-display-name {--batch-size=500} {--dry-run} {--verbose}';
+    protected $signature = 'auth:users:reverse-display-name {--batch-size=500} {--dry-run}';
 
     /**
      * The console command description.
