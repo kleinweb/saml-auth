@@ -25,23 +25,30 @@ final class ReverseDisplayName extends Command
 
     public function handle(): void
     {
+        global $wpdb;
+
         $dryRun = $this->option('dry-run');
         $batchSize = $this->option('batch-size');
+
         $offset = 0;
         $processed = 0;
         $updated = 0;
 
-        while (true) {
-            $users = \get_users([
-                // All multisite users.
-                'blog_id' => 0,
-                'offset' => $offset,
-                'number' => $batchSize,
-            ]);
+        $total = $wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->users}");
 
-            if (!$users) {
+        $this->info("Found {$total} total users to process");
+
+        while ($offset < $total) {
+            $ids = $wpdb->get_col($wpdb->prepare(
+                "SELECT ID FROM {$wpdb->users} ORDER BY ID LIMIT %d OFFSET %d",
+                $batchSize, $offset,
+            ));
+
+            if (!$ids) {
                 break;
             }
+
+            $users = get_users(['include' => $ids]);
 
             foreach ($users as $user) {
                 $displayName = $user->display_name;
