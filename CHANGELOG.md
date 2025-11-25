@@ -2,6 +2,28 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [5.2.0](https://github.com/kleinweb/saml-auth/compare/1d68e30db8d05b02625cb85a4d021c288f1ecc99..5.2.0) - 2025-11-25
+#### Features
+- (**import-users**) reverse lastname-firstname from parsed display name - ([5ba566a](https://github.com/kleinweb/saml-auth/commit/5ba566a0dc8c2edf83dee7971d33cf52ec964859)) - [@montchr](https://github.com/montchr)
+- add cli command to reverse display names - ([cce4571](https://github.com/kleinweb/saml-auth/commit/cce4571626db4776cc94546e8155607c7fbe217a)) - [@montchr](https://github.com/montchr)
+#### Bug Fixes
+- (**dev**) update biome.json schema - ([9b9358b](https://github.com/kleinweb/saml-auth/commit/9b9358b2c5b5a933feaf473658150a248b37ff86)) - [@montchr](https://github.com/montchr)
+- (**dev**) remove dotenv-linter check - ([1022433](https://github.com/kleinweb/saml-auth/commit/1022433972be9256c6e8d12c99db6d3b8d35818b)) - [@montchr](https://github.com/montchr)
+- (**users**) make it work - ([c28be26](https://github.com/kleinweb/saml-auth/commit/c28be2658f34b792be0166131de605a8122dd3d6)) - [@montchr](https://github.com/montchr)
+- (**users**) another try - ([ed42718](https://github.com/kleinweb/saml-auth/commit/ed42718d616d057f809d325f17917ad8bc4c26fd)) - [@montchr](https://github.com/montchr)
+- (**users**) update offset outside users loop - ([902b816](https://github.com/kleinweb/saml-auth/commit/902b8166fdbe9bd823f977f89f4133882b0af02c)) - [@montchr](https://github.com/montchr)
+- (**users**) bypass wp functions entirely in reverse display name - ([3e7faf7](https://github.com/kleinweb/saml-auth/commit/3e7faf73fe5278d788919e8ee4f6658cbf51f087)) - [@montchr](https://github.com/montchr)
+- (**users**) remove duplicate `verbose` option - ([0ee20de](https://github.com/kleinweb/saml-auth/commit/0ee20de10737c6063a138727521f40093e98f9af)) - [@montchr](https://github.com/montchr)
+- (**users**) reverse display name with verbose logging - ([c9b00cf](https://github.com/kleinweb/saml-auth/commit/c9b00cfbab1c1508d476c01e6de8a3cf0e06176f)) - [@montchr](https://github.com/montchr)
+- (**users**) reverse display-name with db queries - ([494bca5](https://github.com/kleinweb/saml-auth/commit/494bca51ca13fb7dd02762320e77c4758e40940c)) - [@montchr](https://github.com/montchr)
+- (**users**) simplify reverse-name cli loop - ([0e6370e](https://github.com/kleinweb/saml-auth/commit/0e6370e5629ba579714b2a47021169883a70c70a)) - [@montchr](https://github.com/montchr)
+- lint - ([fb40757](https://github.com/kleinweb/saml-auth/commit/fb40757d3914035f28907e5d5b9e9513a004ccae)) - [@montchr](https://github.com/montchr)
+#### Miscellaneous Chores
+- update flake - ([6352392](https://github.com/kleinweb/saml-auth/commit/6352392ea2478b3a02aa47cb85e0992fcddb9f49)) - [@montchr](https://github.com/montchr)
+- remove `nixConfig` - ([1d68e30](https://github.com/kleinweb/saml-auth/commit/1d68e30db8d05b02625cb85a4d021c288f1ecc99)) - [@montchr](https://github.com/montchr)
+
+- - -
+
 ## [5.1.2](https://github.com/kleinweb/saml-auth/compare/36c35ff5dca67886a12e77af9c352979c74f36d1..5.1.2) - 2025-05-19
 #### Bug Fixes
 - **(profile|assets)** prevent fatal error loading assets for user profile - ([36c35ff](https://github.com/kleinweb/saml-auth/commit/36c35ff5dca67886a12e77af9c352979c74f36d1)) - [@montchr](https://github.com/montchr)
