@@ -31,13 +31,17 @@ final class ReverseDisplayName extends Command
         $processed = 0;
         $updated = 0;
 
-        do {
+        while (true) {
             $users = \get_users([
                 // All multisite users.
                 'blog_id' => 0,
                 'offset' => $offset,
                 'number' => $batchSize,
             ]);
+
+            if (!$users) {
+                break;
+            }
 
             foreach ($users as $user) {
                 $displayName = $user->display_name;
@@ -70,7 +74,7 @@ final class ReverseDisplayName extends Command
 
                 $offset += $batchSize;
             }
-        } while (count($users) === $batchSize);
+        }
 
         $this->info("Complete. Processed {$processed} users, updated {$updated}.");
     }
