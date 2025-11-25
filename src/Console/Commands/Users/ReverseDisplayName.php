@@ -51,23 +51,23 @@ final class ReverseDisplayName extends Command
                 $this->info("Condition check: offset ({$offset}) < total ({$total})? " . ($offset < $total ? 'yes' : 'no'));
             }
 
-            $ids = $wpdb->get_col($wpdb->prepare(
-                "SELECT ID FROM {$wpdb->users} ORDER BY ID LIMIT %d OFFSET %d",
-                $batchSize, $offset,
+            $users = $wpdb->get_results($wpdb->prepare(
+                "SELECT ID, display_name FROM {$wpdb->users} ORDER BY ID LIMIT %d OFFSET %d",
+                $batchSize,
+                $offset
             ));
 
+
             if ($verbose) {
-                $this->info("Retrieved " . count($ids) . " user IDs from database");
+                $this->info("Retrieved " . count($users) . " users from database");
             }
 
-            if (!$ids) {
+            if (!$users) {
                 if ($verbose) {
                     $this->info('No user IDs returned. Quitting.');
                 }
                 break;
             }
-
-            $users = get_users(['include' => $ids]);
 
             foreach ($users as $user) {
                 $displayName = $user->display_name;
@@ -85,10 +85,13 @@ final class ReverseDisplayName extends Command
                     ));
 
                     if (!$dryRun) {
-                        wp_update_user([
-                            'ID' => $user->id,
-                            'display_name' => $newDisplayName,
-                        ]);
+                        $wpdb->update(
+                            $wpdb->users,
+                            ['display_name' => $newDisplayName],
+                            ['ID' => $user->ID],
+                            ['%s'],
+                            ['%d']
+                        );
                     }
 
                     $updated += 1;
@@ -96,7 +99,7 @@ final class ReverseDisplayName extends Command
 
                 $processed += 1;
 
-                $this->info("Processed {$processed} users, updated {$updated}...");
+                $this->info("Processed {$processed}/{$total} users, updated {$updated}...");
 
                 if ($verbose) {
                     $this->info("After processing: processed={$processed}, updated={$updated}");
