@@ -13,7 +13,7 @@ final class ReverseDisplayName extends Command
      *
      * @var string
      */
-    protected $signature = 'auth:users:reverse-display-name {--batch-size=500} {--dry-run}';
+    protected $signature = 'auth:users:reverse-display-name {--batch-size=500} {--dry-run} {--verbose}';
 
     /**
      * The console command description.
@@ -29,6 +29,7 @@ final class ReverseDisplayName extends Command
 
         $dryRun = $this->option('dry-run');
         $batchSize = $this->option('batch-size');
+        $verbose = $this->option('verbose');
 
         $offset = 0;
         $processed = 0;
@@ -38,13 +39,31 @@ final class ReverseDisplayName extends Command
 
         $this->info("Found {$total} total users to process");
 
+        $iterations = 0;
         while ($offset < $total) {
+            $iterations += 1;
+
+            if ($verbose) {
+                $this->info("--- Iteration {$iterations} ---");
+                $this->info("Current offset: {$offset}");
+                $this->info("Batch size: {$batchSize}");
+                $this->info("Total: {$total}");
+                $this->info("Condition check: offset ({$offset}) < total ({$total})? " . ($offset < $total ? 'yes' : 'no'));
+            }
+
             $ids = $wpdb->get_col($wpdb->prepare(
                 "SELECT ID FROM {$wpdb->users} ORDER BY ID LIMIT %d OFFSET %d",
                 $batchSize, $offset,
             ));
 
+            if ($verbose) {
+                $this->info("Retrieved " . count($ids) . " user IDs from database");
+            }
+
             if (!$ids) {
+                if ($verbose) {
+                    $this->info('No user IDs returned. Quitting.');
+                }
                 break;
             }
 
@@ -79,8 +98,21 @@ final class ReverseDisplayName extends Command
 
                 $this->info("Processed {$processed} users, updated {$updated}...");
 
+                if ($verbose) {
+                    $this->info("After processing: processed={$processed}, updated={$updated}");
+                    $this->info("About to increment offset from {$offset} to " . ($offset + $batchSize));
+                }
+
                 $offset += $batchSize;
+
+                if ($verbose) {
+                    $this->info("New offset: {$offset}");
+                }
             }
+        }
+
+        if ($verbose) {
+            $this->info("Loop ended. Reason: offset ({$offset}) >= total ({$total})");
         }
 
         $this->info("Complete. Processed {$processed} users, updated {$updated}.");
