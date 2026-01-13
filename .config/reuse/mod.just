@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: (C) 2022-2024 Temple University <kleinweb@temple.edu>
+# SPDX-FileCopyrightText: (C) 2022-2026 Temple University <kleinweb@temple.edu>
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import '../vars.just'
@@ -48,3 +48,14 @@ commons +FILES: (annotate 'CC-BY-NC-SA-4.0' FILES)
 
 [doc: "Release the specified files into the public domain (CC0-1.0)"]
 cc0 +FILES: (annotate 'CC0-1.0' FILES)
+
+year := datetime('%Y')
+
+[doc: "Update copyright years to include the current year"]
+bump-year:
+  fd --hidden --type f \
+    | xargs -r grep -l '{{owner-name}}' \
+    | xargs -r sed -i -E 's/([0-9]{4})-[0-9]{4} {{owner-name}}/\1-{{year}} {{owner-name}}/g'
+  fd --hidden --type f \
+    | xargs -r grep -l '{{owner-name}}' \
+    | xargs -r sed -i -E 's/([^0-9-])([0-9]{4}) {{owner-name}}/\1\2-{{year}} {{owner-name}}/g'

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-// SPDX-FileCopyrightText: 2024 Temple University <kleinweb@temple.edu>
+// SPDX-FileCopyrightText: 2024-2026 Temple University <kleinweb@temple.edu>
 // SPDX-License-Identifier: CC0-1.0
 
 /*
