@@ -114,7 +114,7 @@ final class ImportUsers
         $results = new Results();
         $role = 'contributor';
 
-        $csv = Reader::createFromPath($file->path(), open_mode: 'r');
+        $csv = Reader::from($file->path());
 
         /*
          * Column-header string indexing requires unique string values
