@@ -67,7 +67,7 @@ excludes = []
 command = "prettier"
 options = ["--write"]
 includes = ["*.md", "*.mdx", "*.scss", "*.yaml", "*.yml"]
-excludes = ["CHANGELOG.md"]
+excludes = ["CHANGELOG.md", "CLAUDE.md"]
 
 [formatter.taplo]
 command = "taplo"

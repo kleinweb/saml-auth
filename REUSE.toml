@@ -23,6 +23,7 @@ path = [
   "**/.gitattributes",
   "**/.gitignore",
   "**/.gitkeep",
+  "**/.markdownlintignore",
   ".config/org_id",
   "resources/**.map",
 ]
