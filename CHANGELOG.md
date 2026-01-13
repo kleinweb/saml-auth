@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [6.0.1](https://github.com/kleinweb/saml-auth/compare/acd0150c9ad2637223749b44df0f00afe19fdfe8..6.0.1) - 2026-01-13
+#### Bug Fixes
+- rebuild static assets - ([acd0150](https://github.com/kleinweb/saml-auth/commit/acd0150c9ad2637223749b44df0f00afe19fdfe8)) - chris montgomery
+
+- - -
+
 ## [6.0.0](https://github.com/kleinweb/saml-auth/compare/f6f16f7a632cf5e76c0c1e5055889a02ba52e0c5..6.0.0) - 2026-01-13
 #### Features
 - update `kleinweb/lib` to 1.0.0 - ([d501797](https://github.com/kleinweb/saml-auth/commit/d50179708044863ea13fc53607f507af4d6a6cd7)) - chris montgomery
