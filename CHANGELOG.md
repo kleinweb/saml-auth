@@ -2,6 +2,22 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [6.0.0](https://github.com/kleinweb/saml-auth/compare/f6f16f7a632cf5e76c0c1e5055889a02ba52e0c5..6.0.0) - 2026-01-13
+#### Features
+- update `kleinweb/lib` to 1.0.0 - ([d501797](https://github.com/kleinweb/saml-auth/commit/d50179708044863ea13fc53607f507af4d6a6cd7)) - chris montgomery
+- ![BREAKING](https://img.shields.io/badge/BREAKING-red) drop support for PHP 8.2 - ([f6f16f7](https://github.com/kleinweb/saml-auth/commit/f6f16f7a632cf5e76c0c1e5055889a02ba52e0c5)) - chris montgomery
+#### Bug Fixes
+- (**css**) resolve descending specificity warning in login styles - ([4142aa8](https://github.com/kleinweb/saml-auth/commit/4142aa8704d08bba99c7ae035810ab0d5a287eff)) - chris montgomery
+- (**import**) replace deprecated Reader::createFromPath() - ([c69df11](https://github.com/kleinweb/saml-auth/commit/c69df1137b31784871d5ccf2e9b9de5679135776)) - chris montgomery
+#### Documentation
+- add project summary to README and create CLAUDE.md - ([23c4e1b](https://github.com/kleinweb/saml-auth/commit/23c4e1bce4ae282ff1aaab3bd5fe4aedc97aae1f)) - chris montgomery
+#### Miscellaneous Chores
+- (**licensing**) update copyright years to 2026 - ([3b75cca](https://github.com/kleinweb/saml-auth/commit/3b75cca2518488d200618e49d773aae4087da9bd)) - chris montgomery
+- (**licensing**) annotate files with missing header - ([89c5923](https://github.com/kleinweb/saml-auth/commit/89c592362c41d46ac7ae3a65f4e8cff6dc9674d8)) - chris montgomery
+- fmt - ([db10fd9](https://github.com/kleinweb/saml-auth/commit/db10fd96a400180030e540b14409a73f98cce7f4)) - chris montgomery
+
+- - -
+
 ## [5.2.0](https://github.com/kleinweb/saml-auth/compare/1d68e30db8d05b02625cb85a4d021c288f1ecc99..5.2.0) - 2025-11-25
 #### Features
 - (**import-users**) reverse lastname-firstname from parsed display name - ([5ba566a](https://github.com/kleinweb/saml-auth/commit/5ba566a0dc8c2edf83dee7971d33cf52ec964859)) - [@montchr](https://github.com/montchr)
