@@ -36,6 +36,11 @@ body.login {
   }
 }
 
+.kleinweb-auth-saml-cta {
+  margin-top: 0;
+  text-align: center;
+}
+
 /* Local
    ================================================================== */
 
@@ -69,11 +74,6 @@ body.has-saml-password-reset-url,
 /* ==========================================================================
    Appearance
    ========================================================================== */
-
-.kleinweb-auth-saml-cta {
-  margin-top: 0;
-  text-align: center;
-}
 
 /**
  * HACK: High-specificity to override core styles (`.wp-core-ui .button`).
