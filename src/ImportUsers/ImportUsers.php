@@ -126,8 +126,8 @@ final class ImportUsers
          *
          * @link https://github.com/thephpleague/csv/issues/380#issuecomment-589569092
          */
-        $records =
-            $csv->slice(offset: 1)
+        $records
+            = $csv->slice(offset: 1)
                 ->select(0, 2)
                 ->mapHeader(['display_name', 'username'])
                 // Work around common Canvas CSV export oddities.
@@ -156,8 +156,8 @@ final class ImportUsers
             }
 
             $inferredEmailAddress = Org::emailAddressify($username);
-            $user =
-                CoreObjects::getUserBy('login', $username)
+            $user
+                = CoreObjects::getUserBy('login', $username)
                 ?? CoreObjects::getUserBy('email', $inferredEmailAddress);
 
             if ($user) {
