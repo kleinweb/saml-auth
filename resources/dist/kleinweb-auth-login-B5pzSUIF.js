@@ -4,4 +4,4 @@ ${h.message}`)}if(d){i.push(...c.actions),r=c;break}}return r?[r]:void 0}get eve
  * SPDX-FileCopyrightText: (C) 2024-2026 Temple University <kleinweb@temple.edu>
  * SPDX-License-Identifier: GPL-3.0-or-later
  */const yt="Log in with TU AccessNet";document.addEventListener("DOMContentLoaded",()=>{const e=document.querySelector("#user_pass"),t=document.querySelector(".js-kleinweb-auth-idp-toggle-button"),n=ze({types:{context:{}}}).createMachine({id:"toggle",initial:"saml",context:()=>{var i;return{buttonText:((i=t.textContent)==null?void 0:i.trim())??yt}},states:{saml:{on:{TOGGLE:{target:"local"}},exit:P({buttonText:yt})},local:{on:{TOGGLE:{target:"saml"}},entry:[()=>{e.disabled=!1}],exit:[()=>{e.disabled=!0},P({buttonText:"Use local account"})]}}}),s=j(n);s.subscribe(i=>{const{context:r}=i;document.body.dataset.kleinwebAuthIdp=i.value,t.textContent=r.buttonText}),s.start(),t.addEventListener("click",i=>{const r=s.getSnapshot();i.preventDefault(),s.send({type:"TOGGLE",prevContext:r.context})})});
-//# sourceMappingURL=kleinweb-auth-login-BAlhgLB_.js.map
+//# sourceMappingURL=kleinweb-auth-login-B5pzSUIF.js.map
