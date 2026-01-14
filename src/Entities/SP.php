@@ -57,6 +57,7 @@ final class SP extends Entity
     {
         $domain = match (constant('WP_ENV')) {
             Environment::PRODUCTION => self::serviceDomain(),
+            Environment::PREPROD,
             Environment::STAGING => self::domainFallback(),
             default => self::migratedDomain() ?? self::domainFallback(),
         };
