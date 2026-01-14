@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [6.0.2](https://github.com/kleinweb/saml-auth/compare/823f4dd880c62cc4bbc0be4b91468adabfb31c02..6.0.2) - 2026-01-14
+#### Bug Fixes
+- support preprod environments - ([823f4dd](https://github.com/kleinweb/saml-auth/commit/823f4dd880c62cc4bbc0be4b91468adabfb31c02)) - chris montgomery
+
+- - -
+
 ## [6.0.1](https://github.com/kleinweb/saml-auth/compare/acd0150c9ad2637223749b44df0f00afe19fdfe8..6.0.1) - 2026-01-13
 #### Bug Fixes
 - rebuild static assets - ([acd0150](https://github.com/kleinweb/saml-auth/commit/acd0150c9ad2637223749b44df0f00afe19fdfe8)) - chris montgomery
