@@ -24,8 +24,3 @@ authors = [
   { signature = "Chris Montgomery", username = "montchr" },
   { signature = "Bella Pezzati", username = "bpizzle" },
 ]
-
-[git_hooks]
-[commit_types]
-[bump_profiles]
-[packages]
