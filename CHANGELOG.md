@@ -2,6 +2,17 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [6.0.3](https://github.com/kleinweb/saml-auth/compare/7294f5b5620a3cd1eada67461cce547469984ed7..6.0.3) - 2026-05-05
+#### Bug Fixes
+- (**deps**) tune version constraints - ([7294f5b](https://github.com/kleinweb/saml-auth/commit/7294f5b5620a3cd1eada67461cce547469984ed7)) - chris montgomery
+- (**dev**) declare `release` module - ([b050047](https://github.com/kleinweb/saml-auth/commit/b0500479d3634e1c07c720c170deaf4fa15b783d)) - chris montgomery
+- (**release**) remove unused cog.toml sections - ([cde5471](https://github.com/kleinweb/saml-auth/commit/cde54718944a95a3de30b1f5961bcf41057b05fa)) - chris montgomery
+#### Miscellaneous Chores
+- fmt - ([7ac0816](https://github.com/kleinweb/saml-auth/commit/7ac08162b90465836d69d31a2352972c4ab01c69)) - chris montgomery
+- update from configs-template - ([fe69c2c](https://github.com/kleinweb/saml-auth/commit/fe69c2c80d1941e126386b80083c991008f13b09)) - chris montgomery
+
+- - -
+
 ## [6.0.2](https://github.com/kleinweb/saml-auth/compare/823f4dd880c62cc4bbc0be4b91468adabfb31c02..6.0.2) - 2026-01-14
 #### Bug Fixes
 - support preprod environments - ([823f4dd](https://github.com/kleinweb/saml-auth/commit/823f4dd880c62cc4bbc0be4b91468adabfb31c02)) - chris montgomery
