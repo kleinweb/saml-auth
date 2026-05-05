@@ -2,9 +2,10 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 {
   description = "Kleinweb SAML Auth";
+
   inputs = {
-    beams.url = "github:kleinweb/beams";
     flake-parts.url = "github:hercules-ci/flake-parts";
+    beams.url = "github:kleinweb/beams";
     git-hooks.url = "github:cachix/git-hooks.nix";
     nixos-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-trunk.url = "github:NixOS/nixpkgs/master";
@@ -23,8 +24,8 @@
       imports = [
         inputs.git-hooks.flakeModule
 
-        ./nix/devshells.nix
-        ./nix/git-hooks.nix
+        ./.config/devshells.nix
+        ./.config/git-hooks.nix
       ];
 
       perSystem =
@@ -34,7 +35,6 @@
             inherit system;
             overlays = [
               (_final: prev: {
-                just = inputs'.nixpkgs-trunk.legacyPackages.just;
                 php = prev.php83;
               })
             ];

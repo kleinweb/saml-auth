@@ -3,7 +3,7 @@
 
 # Data/logs
 .data
-*.log
+*.log*
 *.sql
 
 # Secrets
@@ -21,13 +21,13 @@ vendor
 wp-content
 
 # Context-specific
-.cache
+*.cache
+*.local
+*.local.*
 .direnv
 .idea
-.local
 .php-cs-fixer.cache
 .pre-commit-config.yaml
-wp-cli.local.yml
 
 # Build artifacts
 result
