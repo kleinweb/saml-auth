@@ -6,6 +6,7 @@
 import ".config/common.vars.just"
 
 mod qa ".config/qa.just"
+mod release ".config/release.just"
 mod reuse ".config/reuse.just"
 
 alias check := qa::check
