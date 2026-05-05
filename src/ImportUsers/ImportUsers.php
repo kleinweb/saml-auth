@@ -33,9 +33,9 @@ final class ImportUsers
 {
     use Hookable;
 
-    public const ACTION = 'kleinweb-auth-import-users';
+    public const string ACTION = 'kleinweb-auth-import-users';
 
-    public const CAPABILITY = 'create_users';
+    public const string CAPABILITY = 'create_users';
 
     public function boot(): void
     {

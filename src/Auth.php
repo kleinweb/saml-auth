@@ -23,13 +23,13 @@ final class Auth
 {
     use Hookable;
 
-    final public const NAME = 'kleinweb-auth';
+    final public const string NAME = 'kleinweb-auth';
 
-    final public const SHORT_NAME = 'kleinweb-auth';
+    final public const string SHORT_NAME = 'kleinweb-auth';
 
-    final public const CONFIG_PREFIX = self::SHORT_NAME . '.';
+    final public const string CONFIG_PREFIX = self::SHORT_NAME . '.';
 
-    final public const VIEW_PREFIX = self::SHORT_NAME . '::';
+    final public const string VIEW_PREFIX = self::SHORT_NAME . '::';
 
     public function __construct(
         protected Application $app,

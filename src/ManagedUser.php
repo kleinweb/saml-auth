@@ -24,7 +24,7 @@ final class ManagedUser
 {
     use Hookable;
 
-    public const USER_META_KEY = 'is_saml_managed';
+    public const string USER_META_KEY = 'is_saml_managed';
 
     /** @var UserField[] */
     public static array $managedFields = [

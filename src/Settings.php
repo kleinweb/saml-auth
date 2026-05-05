@@ -15,7 +15,7 @@ use Kleinweb\Lib\Tenancy\Site;
 
 final class Settings
 {
-    final public const DEFAULT_ORG_CONTACT = [
+    final public const array DEFAULT_ORG_CONTACT = [
         'name' => 'Klein College of Media and Communication',
         'displayname' => 'Klein College of Media and Communication',
         'url' => 'https://klein.temple.edu',

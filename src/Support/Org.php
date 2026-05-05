@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 
 final class Org
 {
-    public const DOMAIN = 'temple.edu';
+    public const string DOMAIN = 'temple.edu';
 
     public static function isUid(string $uid): bool
     {
